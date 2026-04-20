@@ -7,6 +7,8 @@ import { MetricCard } from '@/components/dashboard/MetricCard'
 import { AdTable } from '@/components/dashboard/AdTable'
 import { SpendChart } from '@/components/dashboard/SpendChart'
 import { FunnelViz } from '@/components/dashboard/FunnelViz'
+import { CompetitorTab } from '@/components/dashboard/CompetitorTab'
+import { AnglesTab } from '@/components/dashboard/AnglesTab'
 import { Card, CardHeader, CardBody } from '@/components/ui/Card'
 import {
   getRoas, getPurchases, getLeads, getATC, getCheckouts, getLPV, adVerdict
@@ -14,9 +16,11 @@ import {
 import { fmtCurrency, fmtPct, fmtX, fmtInt, fmt } from '@/lib/utils'
 
 type DatePreset = 'last_7d' | 'last_14d' | 'last_30d' | 'last_90d'
+type Tab = 'overview' | 'competitors' | 'angles'
 
 export function ClientReport({ client }: { client: Client }) {
   const [datePreset, setDatePreset] = useState<DatePreset>('last_7d')
+  const [activeTab, setActiveTab] = useState<Tab>('overview')
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -94,20 +98,46 @@ export function ClientReport({ client }: { client: Client }) {
               <p className="text-xs text-gray-400">{client.accountId}</p>
             </div>
           </div>
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
-            {presets.map(p => (
-              <button
-                key={p.value}
-                onClick={() => setDatePreset(p.value)}
-                className="px-3 py-1.5 rounded-md text-xs font-medium transition-all"
-                style={datePreset === p.value
-                  ? { background: 'white', color: '#111827', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }
-                  : { color: '#6B7280' }
-                }
-              >
-                {p.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-3">
+            {/* Tab Navigation */}
+            <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+              {([
+                { label: 'Overview', value: 'overview' },
+                { label: 'Similar Brands', value: 'competitors' },
+                { label: 'Ad Angles', value: 'angles' },
+              ] as { label: string; value: Tab }[]).map(t => (
+                <button
+                  key={t.value}
+                  onClick={() => setActiveTab(t.value)}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium transition-all"
+                  style={activeTab === t.value
+                    ? { background: 'white', color: '#111827', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }
+                    : { color: '#6B7280' }
+                  }
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Date Presets — only show on overview */}
+            {activeTab === 'overview' && (
+              <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+                {presets.map(p => (
+                  <button
+                    key={p.value}
+                    onClick={() => setDatePreset(p.value)}
+                    className="px-3 py-1.5 rounded-md text-xs font-medium transition-all"
+                    style={datePreset === p.value
+                      ? { background: 'white', color: '#111827', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }
+                      : { color: '#6B7280' }
+                    }
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -126,7 +156,15 @@ export function ClientReport({ client }: { client: Client }) {
           <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-600 text-sm">{error}</div>
         )}
 
-        {!loading && !error && (
+        {!loading && !error && activeTab === 'competitors' && (
+          <CompetitorTab clientId={client.id} />
+        )}
+
+        {!loading && !error && activeTab === 'angles' && (
+          <AnglesTab clientId={client.id} ads={ads} />
+        )}
+
+        {!loading && !error && activeTab === 'overview' && (
           <>
             {/* Action Alerts */}
             {(kills.length > 0 || scales.length > 0 || tests.length > 0) && (
@@ -247,6 +285,7 @@ export function ClientReport({ client }: { client: Client }) {
             </Card>
           </>
         )}
+
       </main>
     </div>
   )
