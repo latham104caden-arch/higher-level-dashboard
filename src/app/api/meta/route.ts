@@ -6,6 +6,7 @@ import {
   getAccountInsights,
   getCampaignInsights,
   getAdInsights,
+  getAdStatuses,
   getDailyInsights,
   DatePreset,
 } from '@/lib/meta'
@@ -22,7 +23,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid client' }, { status: 400 })
   }
 
-  // Clients can only see their own data
   if (session.role === 'client' && session.clientId !== clientId) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -31,15 +31,50 @@ export async function GET(req: NextRequest) {
   const accountId = client.accountId
 
   try {
-    const [campaigns, accountInsights, campaignInsights, adInsights, dailyInsights] = await Promise.all([
+    const [campaigns, accountInsights, campaignInsights, adInsights, adStatuses, dailyInsights] = await Promise.all([
       getCampaigns(accountId),
       getAccountInsights(accountId, datePreset),
       getCampaignInsights(accountId, datePreset),
       getAdInsights(accountId, datePreset),
+      getAdStatuses(accountId),
       getDailyInsights(accountId, datePreset),
     ])
 
-    return NextResponse.json({ campaigns, accountInsights, campaignInsights, adInsights, dailyInsights })
+    // Build status map: ad_id -> effective_status
+    const statusMap: Record<string, string> = {}
+    for (const ad of adStatuses) {
+      statusMap[ad.id] = ad.effective_status
+    }
+
+    // Merge status into each ad insight
+    const adInsightsWithStatus = adInsights.map((ad: any) => ({
+      ...ad,
+      effective_status: statusMap[ad.ad_id] || 'UNKNOWN',
+    }))
+
+    // Also include OFF ads that had no impressions in this period
+    const insightIds = new Set(adInsights.map((a: any) => a.ad_id))
+    const offAds = adStatuses
+      .filter((ad: any) => !insightIds.has(ad.id) && ad.effective_status !== 'ACTIVE')
+      .map((ad: any) => ({
+        ad_id: ad.id,
+        ad_name: ad.name,
+        effective_status: ad.effective_status,
+        spend: '0',
+        impressions: '0',
+        clicks: '0',
+        ctr: '0',
+        cpc: '0',
+        cpm: '0',
+      }))
+
+    return NextResponse.json({
+      campaigns,
+      accountInsights,
+      campaignInsights,
+      adInsights: [...adInsightsWithStatus, ...offAds],
+      dailyInsights,
+    })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })
   }

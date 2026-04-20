@@ -9,8 +9,15 @@ interface AdTableProps {
   clientType: string
 }
 
+function isLive(ad: any) {
+  return ad.effective_status === 'ACTIVE'
+}
+
 export function AdTable({ ads, clientType }: AdTableProps) {
-  const sorted = [...ads].sort((a, b) => parseFloat(b.spend) - parseFloat(a.spend))
+  // Live ads first (sorted by spend), then off ads (sorted by spend)
+  const live = [...ads].filter(isLive).sort((a, b) => parseFloat(b.spend) - parseFloat(a.spend))
+  const off = [...ads].filter(a => !isLive(a)).sort((a, b) => parseFloat(b.spend) - parseFloat(a.spend))
+  const sorted = [...live, ...off]
 
   return (
     <div className="overflow-x-auto">
@@ -48,7 +55,10 @@ export function AdTable({ ads, clientType }: AdTableProps) {
               <tr
                 key={i}
                 className="transition-colors"
-                style={{ borderBottom: '1px solid rgba(168, 174, 210, 0.05)' }}
+                style={{
+                  borderBottom: '1px solid rgba(168, 174, 210, 0.05)',
+                  opacity: isLive(ad) ? 1 : 0.45,
+                }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(72,77,109,0.15)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
@@ -72,7 +82,16 @@ export function AdTable({ ads, clientType }: AdTableProps) {
                   <td className="py-3 px-4 text-right font-semibold" style={{ color: '#D8DDEF' }}>{fmtInt(leads)}</td>
                 )}
                 <td className="py-3 px-4 text-center">
-                  <Badge label={verdict.label} color={verdict.color} />
+                  {!isLive(ad) ? (
+                    <span
+                      className="text-xs font-bold px-2.5 py-1 rounded-full"
+                      style={{ background: 'rgba(72,77,109,0.3)', color: '#484D6D', border: '1px solid rgba(168,174,210,0.1)' }}
+                    >
+                      OFF
+                    </span>
+                  ) : (
+                    <Badge label={verdict.label} color={verdict.color} />
+                  )}
                 </td>
               </tr>
             )

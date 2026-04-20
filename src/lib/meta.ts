@@ -45,6 +45,12 @@ export async function getAdInsights(accountId: string, datePreset: DatePreset = 
   return data.data || []
 }
 
+export async function getAdStatuses(accountId: string) {
+  const url = `${BASE}/${accountId}/ads?fields=id,name,effective_status&limit=200&access_token=${TOKEN}`
+  const data = await metaFetch(url)
+  return data.data || []
+}
+
 export async function getDailyInsights(accountId: string, datePreset: DatePreset = 'last_30d') {
   const fields = 'spend,impressions,clicks,ctr,cpc,cpm,actions,action_values,purchase_roas'
   const url = `${BASE}/${accountId}/insights?date_preset=${datePreset}&time_increment=1&fields=${fields}&access_token=${TOKEN}`
