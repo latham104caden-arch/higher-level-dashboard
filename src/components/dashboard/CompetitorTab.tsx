@@ -87,27 +87,34 @@ export function CompetitorTab({ clientId }: { clientId: string }) {
   const market = MARKET_DATA[clientId]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Market Overview */}
       {market && (
-        <div className="bg-gray-900 rounded-xl p-6 text-white">
-          <h3 className="font-bold text-lg mb-4">Market Overview</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          className="rounded-2xl p-6"
+          style={{
+            background: 'linear-gradient(135deg, rgba(72,77,109,0.4), rgba(20,23,40,0.8))',
+            border: '1px solid rgba(168,174,210,0.1)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: '#21D19F' }}>Market Overview</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Market Size</p>
-              <p className="text-sm text-gray-200">{market.marketSize}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Market Size</p>
+              <p className="text-sm" style={{ color: '#D8DDEF' }}>{market.marketSize}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Trend</p>
-              <p className="text-sm text-gray-200">{market.trend}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Trend</p>
+              <p className="text-sm" style={{ color: '#D8DDEF' }}>{market.trend}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">White Space</p>
-              <p className="text-sm text-emerald-400 font-medium">{market.whitespace}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>White Space</p>
+              <p className="text-sm font-medium" style={{ color: '#21D19F' }}>{market.whitespace}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Biggest Gap to Exploit</p>
-              <p className="text-sm text-yellow-400 font-medium">{market.targetGap}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Biggest Gap to Exploit</p>
+              <p className="text-sm font-medium" style={{ color: '#45B69C' }}>{market.targetGap}</p>
             </div>
           </div>
         </div>
@@ -116,23 +123,34 @@ export function CompetitorTab({ clientId }: { clientId: string }) {
       {/* Competitor Cards */}
       <div className="space-y-4">
         {competitors.map((comp, i) => (
-          <div key={i} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div
+            key={i}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: 'rgba(20,23,40,0.8)',
+              border: '1px solid rgba(168,174,210,0.08)',
+              backdropFilter: 'blur(12px)',
+            }}
+          >
+            <div
+              className="px-6 py-4 flex items-center justify-between"
+              style={{ borderBottom: '1px solid rgba(168,174,210,0.07)' }}
+            >
               <div>
-                <h3 className="font-bold text-gray-900">{comp.name}</h3>
-                <p className="text-xs text-gray-400">{comp.url} · {comp.price}</p>
+                <h3 className="font-bold" style={{ color: '#D8DDEF' }}>{comp.name}</h3>
+                <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>{comp.url} · {comp.price}</p>
               </div>
-              <span className="text-xs text-gray-500 max-w-xs text-right italic">"{comp.positioning}"</span>
+              <span className="text-xs max-w-xs text-right italic" style={{ color: '#A0A4B8' }}>"{comp.positioning}"</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x" style={{ borderColor: 'rgba(168,174,210,0.07)' }}>
               {/* Strengths */}
               <div className="px-6 py-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Strengths</p>
-                <ul className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#484D6D' }}>Strengths</p>
+                <ul className="space-y-2">
                   {comp.strengths.map((s: string, j: number) => (
-                    <li key={j} className="text-sm text-gray-700 flex items-start gap-2">
-                      <span className="text-gray-300 mt-0.5">•</span>{s}
+                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#A0A4B8' }}>
+                      <span style={{ color: '#484D6D' }}>•</span>{s}
                     </li>
                   ))}
                 </ul>
@@ -140,25 +158,34 @@ export function CompetitorTab({ clientId }: { clientId: string }) {
 
               {/* Weaknesses */}
               <div className="px-6 py-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Weaknesses</p>
-                <ul className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#484D6D' }}>Weaknesses</p>
+                <ul className="space-y-2">
                   {comp.weaknesses.map((w: string, j: number) => (
-                    <li key={j} className="text-sm text-red-600 flex items-start gap-2">
-                      <span className="text-red-300 mt-0.5">•</span>{w}
+                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#EF4444' }}>
+                      <span style={{ color: 'rgba(239,68,68,0.4)' }}>•</span>{w}
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Opportunity */}
-              <div className="px-6 py-4 bg-emerald-50">
-                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-2">Our Opportunity</p>
-                <p className="text-sm text-emerald-800 font-medium">{comp.opportunity}</p>
-                <div className="mt-3">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Their Ad Angles</p>
-                  <div className="flex flex-wrap gap-1">
+              <div
+                className="px-6 py-4"
+                style={{ background: 'rgba(33,209,159,0.04)' }}
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#21D19F' }}>Our Opportunity</p>
+                <p className="text-sm font-medium mb-4" style={{ color: '#45B69C' }}>{comp.opportunity}</p>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#484D6D' }}>Their Ad Angles</p>
+                  <div className="flex flex-wrap gap-1.5">
                     {comp.adAngles.map((a: string, j: number) => (
-                      <span key={j} className="text-xs px-2 py-0.5 bg-white border border-gray-200 rounded-full text-gray-600">{a}</span>
+                      <span
+                        key={j}
+                        className="text-xs px-2.5 py-0.5 rounded-full"
+                        style={{ background: 'rgba(72,77,109,0.4)', color: '#A0A4B8', border: '1px solid rgba(168,174,210,0.1)' }}
+                      >
+                        {a}
+                      </span>
                     ))}
                   </div>
                 </div>
