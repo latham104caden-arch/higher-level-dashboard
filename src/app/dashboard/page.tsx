@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth'
 import { CLIENTS } from '@/lib/clients'
 import Link from 'next/link'
 import { ClientCards } from './ClientCards'
+import { MiniGame } from './MiniGame'
 
 export default async function DashboardPage() {
   const session = await getSession()
@@ -74,6 +75,7 @@ export default async function DashboardPage() {
           </div>
 
           <ClientCards clients={Object.values(CLIENTS)} />
+          <MiniGame />
         </main>
       </div>
     </div>
