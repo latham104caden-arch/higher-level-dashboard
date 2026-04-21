@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { CLIENTS } from '@/lib/clients'
-import { getAdInsights, getCampaignInsights, adVerdict, getRoas, getPurchases, getLeads } from '@/lib/meta'
-import { fmtCurrency, fmtPct, fmtX, fmtInt } from '@/lib/utils'
-import { Badge } from '@/components/ui/Badge'
+import { getCampaignInsights, getRoas, getLeads } from '@/lib/meta'
+import { fmtCurrency, fmtX, fmtInt } from '@/lib/utils'
 import Link from 'next/link'
 
 export default async function ClientPerformancePage() {
@@ -14,151 +13,140 @@ export default async function ClientPerformancePage() {
   const client = CLIENTS[session.clientId as keyof typeof CLIENTS]
   if (!client) redirect('/')
 
-  let ads: any[] = []
   let campaigns: any[] = []
-  try {
-    ;[ads, campaigns] = await Promise.all([
-      getAdInsights(client.accountId, 'last_30d'),
-      getCampaignInsights(client.accountId, 'last_30d'),
-    ])
-  } catch {}
-
-  const sorted = [...ads].sort((a, b) => parseFloat(b.spend) - parseFloat(a.spend))
+  try { campaigns = await getCampaignInsights(client.accountId, 'last_30d') } catch {}
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
-      <header className="bg-white border-b border-gray-100 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xs" style={{ background: client.color }}>
-              {client.name.charAt(0)}
+    <div className="min-h-screen" style={{ background: '#080B14' }}>
+      <div className="bg-grid" />
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+
+      <div className="page-content">
+        {/* Header */}
+        <header
+          className="px-6 py-4 sticky top-0 z-10"
+          style={{
+            background: 'rgba(8,11,20,0.85)',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
+          <div className="max-w-5xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
+                style={{ background: `linear-gradient(135deg, ${client.color}33, ${client.color}55)`, border: `1px solid ${client.color}44`, color: client.color }}
+              >
+                {client.name.charAt(0)}
+              </div>
+              <div>
+                <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{client.name}</p>
+                <p className="text-xs" style={{ color: '#484D6D' }}>Campaign Portal</p>
+              </div>
             </div>
-            <p className="font-bold text-gray-900 text-sm">{client.name}</p>
+            <nav className="flex items-center gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              {[
+                { href: '/client', label: 'Overview', active: false },
+                { href: '/client/performance', label: 'Performance', active: true },
+                { href: '/client/learn', label: 'Learn', active: false },
+              ].map(n => (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
+                  style={n.active
+                    ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
+                    : { color: '#7B82A0', border: '1px solid transparent' }
+                  }
+                >
+                  {n.label}
+                </Link>
+              ))}
+              <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>
+                Sign out
+              </Link>
+            </nav>
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link href="/client" className="text-gray-400 hover:text-gray-700">Overview</Link>
-            <Link href="/client/performance" className="font-semibold" style={{ color: '#6366F1' }}>Performance</Link>
-            <Link href="/client/learn" className="text-gray-400 hover:text-gray-700">Learn</Link>
-            <Link href="/logout" className="text-gray-400 hover:text-gray-600">Sign out</Link>
-          </nav>
-        </div>
-      </header>
+        </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10 space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Campaign Performance</h1>
-          <p className="text-gray-400 text-sm mt-1">Last 30 days · All active ads</p>
-        </div>
-
-        {/* Campaign Summary */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <p className="font-semibold text-gray-900 text-sm">Campaigns</p>
+        <main className="max-w-5xl mx-auto px-8 py-12 space-y-8">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
+            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Campaign Performance</h1>
+            <p className="text-base" style={{ color: '#7B82A0' }}>How your budget is working for you.</p>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-50">
-                <th className="text-left py-3 px-6 text-xs font-semibold text-gray-400 uppercase tracking-wider">Campaign</th>
-                <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Spend</th>
-                <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                  {client.type === 'ecommerce' ? 'ROAS' : 'Leads'}
-                </th>
-                <th className="text-center py-3 px-6 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {campaigns.map((c: any, i: number) => {
-                const roas = getRoas(c)
-                const leads = getLeads(c)
-                return (
-                  <tr key={i} className="hover:bg-gray-50">
-                    <td className="py-3 px-6 font-medium text-gray-900">{c.campaign_name}</td>
-                    <td className="py-3 px-4 text-right text-gray-700">{fmtCurrency(parseFloat(c.spend || 0))}</td>
-                    <td className="py-3 px-4 text-right font-bold text-gray-900">
-                      {client.type === 'ecommerce' ? fmtX(roas) : fmtInt(leads)}
-                    </td>
-                    <td className="py-3 px-6 text-center">
-                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Running</span>
-                    </td>
+
+          {/* Campaigns */}
+          <div
+            className="rounded-2xl overflow-hidden glass-accent"
+            style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <div className="px-7 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>Your Campaigns</p>
+              <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>All active campaigns and their results</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <th className="text-left py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Campaign</th>
+                    <th className="text-right py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Spend</th>
+                    <th className="text-right py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>
+                      {client.type === 'ecommerce' ? 'Return' : 'Leads'}
+                    </th>
+                    <th className="text-center py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Status</th>
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody>
+                  {campaigns.map((c: any, i: number) => {
+                    const roas = getRoas(c)
+                    const leads = getLeads(c)
+                    return (
+                      <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <td className="py-4 px-7 font-bold max-w-xs truncate" style={{ color: '#E8ECFF' }}>{c.campaign_name}</td>
+                        <td className="py-4 px-5 text-right" style={{ color: '#A0A4B8' }}>{fmtCurrency(parseFloat(c.spend || 0))}</td>
+                        <td className="py-4 px-5 text-right font-black" style={{ color: client.type === 'ecommerce' ? (roas >= 2 ? '#21D19F' : roas >= 1 ? '#F59E0B' : '#EF4444') : '#21D19F' }}>
+                          {client.type === 'ecommerce' ? fmtX(roas) : fmtInt(leads)}
+                        </td>
+                        <td className="py-4 px-7 text-center">
+                          <span
+                            className="text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto"
+                            style={{ background: 'rgba(33,209,159,0.08)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                            Running
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-        {/* Ad Performance — simplified for client */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <p className="font-semibold text-gray-900 text-sm">Individual Ads</p>
-            <p className="text-xs text-gray-400 mt-0.5">How each ad is performing for your budget</p>
+          {/* What these numbers mean */}
+          <div
+            className="rounded-2xl p-7 glass-accent"
+            style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)', backdropFilter: 'blur(20px)' }}
+          >
+            <p className="font-black text-sm mb-3" style={{ color: '#21D19F' }}>What does this mean?</p>
+            {client.type === 'ecommerce' ? (
+              <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
+                <span style={{ color: '#E8ECFF', fontWeight: 700 }}>Return (ROAS)</span> is the most important number — it tells you how many dollars come back for every dollar you spend on ads.
+                A <span style={{ color: '#21D19F', fontWeight: 700 }}>2x return</span> means you make $2 for every $1 spent. We're working to push this number higher every week.
+              </p>
+            ) : (
+              <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
+                <span style={{ color: '#E8ECFF', fontWeight: 700 }}>Leads</span> are people who saw your ad and asked for a quote or contacted you.
+                The goal is to keep your <span style={{ color: '#21D19F', fontWeight: 700 }}>cost per lead low</span> while bringing in the highest quality customers possible.
+              </p>
+            )}
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-50">
-                  <th className="text-left py-3 px-6 text-xs font-semibold text-gray-400 uppercase tracking-wider">Ad Name</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Budget Used</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">People Reached</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Click Rate</th>
-                  {client.type === 'ecommerce' ? (
-                    <>
-                      <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Sales</th>
-                      <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Return</th>
-                    </>
-                  ) : (
-                    <th className="text-right py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Leads</th>
-                  )}
-                  <th className="text-center py-3 px-6 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {sorted.map((ad: any, i: number) => {
-                  const verdict = adVerdict(ad, client.type)
-                  const roas = getRoas(ad)
-                  const purchases = getPurchases(ad)
-                  const leads = getLeads(ad)
-                  const clientLabels: Record<string, string> = {
-                    KILL: 'Underperforming',
-                    SCALE: 'Top Performer',
-                    KEEP: 'Performing',
-                    WATCH: 'Monitoring',
-                    TEST: 'In Testing',
-                  }
-                  const clientColors: Record<string, string> = {
-                    KILL: '#EF4444',
-                    SCALE: '#22C55E',
-                    KEEP: '#3B82F6',
-                    WATCH: '#F59E0B',
-                    TEST: '#8B5CF6',
-                  }
-                  return (
-                    <tr key={i} className="hover:bg-gray-50">
-                      <td className="py-3 px-6 font-medium text-gray-900 max-w-[180px] truncate">{ad.ad_name}</td>
-                      <td className="py-3 px-4 text-right text-gray-700">{fmtCurrency(parseFloat(ad.spend || 0))}</td>
-                      <td className="py-3 px-4 text-right text-gray-500">{fmtInt(parseFloat(ad.impressions || 0))}</td>
-                      <td className="py-3 px-4 text-right text-gray-700">{fmtPct(parseFloat(ad.ctr || 0))}</td>
-                      {client.type === 'ecommerce' ? (
-                        <>
-                          <td className="py-3 px-4 text-right font-semibold text-gray-900">{fmtInt(purchases)}</td>
-                          <td className="py-3 px-4 text-right font-bold" style={{ color: roas >= 2 ? '#22C55E' : roas > 0 ? '#F59E0B' : '#9CA3AF' }}>
-                            {fmtX(roas)}
-                          </td>
-                        </>
-                      ) : (
-                        <td className="py-3 px-4 text-right font-semibold text-gray-900">{fmtInt(leads)}</td>
-                      )}
-                      <td className="py-3 px-6 text-center">
-                        <Badge label={clientLabels[verdict.label] || verdict.label} color={clientColors[verdict.label] || verdict.color} />
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }
