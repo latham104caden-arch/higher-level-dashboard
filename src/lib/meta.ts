@@ -12,7 +12,7 @@ export type DatePreset =
   | 'maximum'
 
 async function metaFetch(url: string) {
-  const res = await fetch(url, { next: { revalidate: 300 } })
+  const res = await fetch(url, { cache: 'no-store' })
   const data = await res.json()
   if (data.error) throw new Error(data.error.message)
   return data

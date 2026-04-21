@@ -33,19 +33,44 @@ const PRESETS: { label: string; value: DatePreset }[] = [
   { label: '90D', value: 'last_90d' },
 ]
 
+const POLL_INTERVAL = 60_000 // 60 seconds
+
 export function ClientReport({ client }: { client: Client }) {
   const [datePreset, setDatePreset] = useState<DatePreset>('last_7d')
   const [activeTab, setActiveTab] = useState<Tab>('overview')
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState('')
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  useEffect(() => {
-    setLoading(true)
-    fetch(`/api/meta?clientId=${client.id}&datePreset=${datePreset}`)
+  function fetchData(silent = false) {
+    if (!silent) setLoading(true)
+    else setRefreshing(true)
+    fetch(`/api/meta?clientId=${client.id}&datePreset=${datePreset}&t=${Date.now()}`)
       .then(r => r.json())
-      .then(d => { setData(d); setLoading(false) })
-      .catch(() => { setError('Failed to load data'); setLoading(false) })
+      .then(d => {
+        setData(d)
+        setLastUpdated(new Date())
+        setLoading(false)
+        setRefreshing(false)
+      })
+      .catch(() => {
+        setError('Failed to load data')
+        setLoading(false)
+        setRefreshing(false)
+      })
+  }
+
+  // Initial load + reload on preset change
+  useEffect(() => {
+    fetchData(false)
+  }, [client.id, datePreset])
+
+  // Auto-refresh every 60s (silent — no full loading spinner)
+  useEffect(() => {
+    const interval = setInterval(() => fetchData(true), POLL_INTERVAL)
+    return () => clearInterval(interval)
   }, [client.id, datePreset])
 
   const ai = data?.accountInsights
@@ -135,6 +160,30 @@ export function ClientReport({ client }: { client: Client }) {
             </div>
 
             <div className="flex items-center gap-3 flex-wrap">
+              {/* Last updated + refresh */}
+              <div className="flex items-center gap-2">
+                {lastUpdated && (
+                  <span className="text-xs" style={{ color: '#484D6D' }}>
+                    {refreshing ? 'Refreshing…' : `Updated ${lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
+                  </span>
+                )}
+                <button
+                  onClick={() => fetchData(true)}
+                  disabled={refreshing}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: refreshing ? '#484D6D' : '#7B82A0' }}
+                  title="Refresh data"
+                >
+                  <svg
+                    width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    style={{ transform: refreshing ? 'rotate(360deg)' : 'none', transition: refreshing ? 'transform 1s linear' : 'none' }}
+                  >
+                    <path d="M10 6A4 4 0 1 1 6 2a4 4 0 0 1 2.83 1.17L10 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                    <path d="M10 2v2H8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
               {/* Tabs */}
               <div
                 className="flex gap-1 p-1 rounded-xl"

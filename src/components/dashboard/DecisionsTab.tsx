@@ -3,7 +3,18 @@
 import { getRoas, getLeads, getPurchases, adVerdict } from '@/lib/meta'
 import { fmtCurrency, fmtX, fmtPct, fmtInt } from '@/lib/utils'
 
+const PENDING_STATUSES = ['PENDING_REVIEW', 'IN_PROCESS', 'PENDING_BILLING_INFO']
+
 function getDecisionReason(ad: any, clientType: string): { action: string; reason: string; metric: string } {
+  // Don't make kill/scale calls on ads still in review
+  if (PENDING_STATUSES.includes(ad.effective_status)) {
+    return {
+      action: 'PENDING',
+      reason: 'This ad is currently in review with Meta. Wait for approval before evaluating performance.',
+      metric: `Status: ${ad.effective_status.replace(/_/g, ' ')}`,
+    }
+  }
+
   const spend = parseFloat(ad.spend || 0)
   const roas = getRoas(ad)
   const purchases = getPurchases(ad)
@@ -46,15 +57,16 @@ function getDecisionReason(ad: any, clientType: string): { action: string; reaso
 }
 
 const VERDICT_CONFIG: Record<string, { bg: string; border: string; color: string; icon: string; budgetNote: string }> = {
-  KILL:  { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444', icon: '🔴', budgetNote: 'Pause immediately' },
-  SCALE: { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',   color: '#21D19F', icon: '🟢', budgetNote: 'Increase budget 20–30%' },
-  KEEP:  { bg: 'rgba(59,130,246,0.06)',  border: 'rgba(59,130,246,0.2)',   color: '#60A5FA', icon: '🔵', budgetNote: 'Hold current budget' },
-  WATCH: { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',   color: '#F59E0B', icon: '🟡', budgetNote: 'Monitor for 2–3 days' },
-  TEST:  { bg: 'rgba(139,92,246,0.06)',  border: 'rgba(139,92,246,0.2)',   color: '#A78BFA', icon: '🟣', budgetNote: 'Let it breathe — more data needed' },
+  KILL:    { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444', icon: '🔴', budgetNote: 'Pause immediately' },
+  SCALE:   { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',   color: '#21D19F', icon: '🟢', budgetNote: 'Increase budget 20–30%' },
+  KEEP:    { bg: 'rgba(59,130,246,0.06)',  border: 'rgba(59,130,246,0.2)',   color: '#60A5FA', icon: '🔵', budgetNote: 'Hold current budget' },
+  WATCH:   { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',   color: '#F59E0B', icon: '🟡', budgetNote: 'Monitor for 2–3 days' },
+  TEST:    { bg: 'rgba(139,92,246,0.06)',  border: 'rgba(139,92,246,0.2)',   color: '#A78BFA', icon: '🟣', budgetNote: 'Let it breathe — more data needed' },
+  PENDING: { bg: 'rgba(167,139,250,0.06)', border: 'rgba(167,139,250,0.2)', color: '#A78BFA', icon: '⏳', budgetNote: 'Waiting on Meta review' },
 }
 
 function priorityOrder(label: string) {
-  return { KILL: 0, SCALE: 1, KEEP: 2, WATCH: 3, TEST: 4 }[label] ?? 5
+  return { KILL: 0, SCALE: 1, KEEP: 2, WATCH: 3, TEST: 4, PENDING: 5 }[label] ?? 6
 }
 
 export function DecisionsTab({ ads, clientType }: { ads: any[]; clientType: string }) {
@@ -70,11 +82,12 @@ export function DecisionsTab({ ads, clientType }: { ads: any[]; clientType: stri
     .map(ad => ({ ad, ...getDecisionReason(ad, clientType), verdict: adVerdict(ad, clientType) }))
     .sort((a, b) => priorityOrder(a.action) - priorityOrder(b.action))
 
-  const kills  = decisions.filter(d => d.action === 'KILL')
-  const scales = decisions.filter(d => d.action === 'SCALE')
-  const keeps  = decisions.filter(d => d.action === 'KEEP')
+  const kills   = decisions.filter(d => d.action === 'KILL')
+  const scales  = decisions.filter(d => d.action === 'SCALE')
+  const keeps   = decisions.filter(d => d.action === 'KEEP')
   const watches = decisions.filter(d => d.action === 'WATCH')
-  const tests  = decisions.filter(d => d.action === 'TEST')
+  const tests   = decisions.filter(d => d.action === 'TEST')
+  const pending = decisions.filter(d => d.action === 'PENDING')
 
   const totalSpend = ads.reduce((s, a) => s + parseFloat(a.spend || 0), 0)
   const killSpend  = kills.reduce((s, d) => s + parseFloat(d.ad.spend || 0), 0)
@@ -104,6 +117,13 @@ export function DecisionsTab({ ads, clientType }: { ads: any[]; clientType: stri
           <p className="text-2xl font-black" style={{ color: '#F59E0B' }}>{watches.length + tests.length}</p>
           <p className="text-xs mt-1" style={{ color: 'rgba(245,158,11,0.4)' }}>Needs more data</p>
         </div>
+        {pending.length > 0 && (
+          <div className="rounded-2xl p-5" style={{ background: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.2)' }}>
+            <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#A78BFA' }}>In Review</p>
+            <p className="text-2xl font-black" style={{ color: '#A78BFA' }}>{pending.length}</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(167,139,250,0.5)' }}>Awaiting Meta approval</p>
+          </div>
+        )}
       </div>
 
       {/* Priority action callout */}
