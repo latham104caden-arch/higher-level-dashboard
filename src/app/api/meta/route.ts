@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       getAccountInsights(accountId, datePreset),
       getCampaignInsights(accountId, datePreset),
       getAdInsights(accountId, datePreset),
-      getAdStatuses(accountId),
+      getAdStatuses(accountId).catch(() => []),
       getDailyInsights(accountId, datePreset),
     ])
 
