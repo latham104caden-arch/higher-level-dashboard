@@ -9,56 +9,79 @@ export function ClientCards({ clients }: { clients: Client[] }) {
       {clients.map(client => (
         <Link key={client.id} href={`/dashboard/${client.id}`}>
           <div
-            className="rounded-2xl p-6 cursor-pointer group relative overflow-hidden transition-all duration-200"
+            className="relative rounded-2xl p-7 cursor-pointer overflow-hidden group transition-all duration-300 glass-accent"
             style={{
-              background: 'rgba(20, 23, 40, 0.8)',
-              border: '1px solid rgba(168, 174, 210, 0.08)',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+              background: 'rgba(255,255,255,0.04)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.08)',
             }}
             onMouseEnter={(e: any) => {
-              e.currentTarget.style.border = '1px solid rgba(33, 209, 159, 0.2)'
-              e.currentTarget.style.boxShadow = '0 8px 32px rgba(33, 209, 159, 0.08)'
+              e.currentTarget.style.border = '1px solid rgba(33,209,159,0.25)'
+              e.currentTarget.style.background = 'rgba(33,209,159,0.04)'
             }}
             onMouseLeave={(e: any) => {
-              e.currentTarget.style.border = '1px solid rgba(168, 174, 210, 0.08)'
-              e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)'
+              e.currentTarget.style.border = '1px solid rgba(255,255,255,0.08)'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
             }}
           >
-            {/* Background glow */}
+            {/* Large ghost initial */}
+            <span
+              className="ghost-text"
+              style={{ right: '-10px', bottom: '-40px', fontSize: '140px', opacity: 1 }}
+            >
+              {client.name.charAt(0)}
+            </span>
+
+            {/* Color glow */}
             <div
-              className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10 blur-2xl transition-opacity group-hover:opacity-20"
+              className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity duration-500"
               style={{ background: client.color }}
             />
 
-            <div className="flex items-start justify-between mb-5 relative">
-              <div>
+            <div className="relative">
+              <div className="flex items-start justify-between mb-6">
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 font-bold text-sm"
-                  style={{ background: client.color, color: 'white' }}
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg"
+                  style={{
+                    background: `linear-gradient(135deg, ${client.color}22, ${client.color}44)`,
+                    border: `1px solid ${client.color}44`,
+                    color: client.color,
+                  }}
                 >
                   {client.name.charAt(0)}
                 </div>
-                <h2 className="font-bold text-lg" style={{ color: '#D8DDEF' }}>{client.name}</h2>
-                <p className="text-sm capitalize" style={{ color: '#A0A4B8' }}>{client.type} · Meta Ads</p>
+                <span
+                  className="text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5"
+                  style={{
+                    background: 'rgba(33,209,159,0.08)',
+                    color: '#21D19F',
+                    border: '1px solid rgba(33,209,159,0.2)',
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                  LIVE
+                </span>
               </div>
-              <span
-                className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: 'rgba(33,209,159,0.1)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}
-              >
-                LIVE
-              </span>
-            </div>
 
-            <div className="flex items-center gap-2 text-xs mb-5" style={{ color: '#484D6D' }}>
-              <span>{client.accountId}</span>
-            </div>
+              <h2 className="font-black text-xl mb-1 tracking-tight" style={{ color: '#E8ECFF' }}>
+                {client.name}
+              </h2>
+              <p className="text-sm capitalize mb-6" style={{ color: '#7B82A0' }}>
+                {client.type} · Meta Ads
+              </p>
 
-            <div
-              className="flex items-center gap-1.5 text-sm font-semibold transition-all group-hover:gap-2"
-              style={{ color: '#21D19F' }}
-            >
-              View Report <span>→</span>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono" style={{ color: '#484D6D' }}>
+                  {client.accountId}
+                </span>
+                <span
+                  className="text-sm font-bold flex items-center gap-1 transition-all group-hover:gap-2"
+                  style={{ color: '#21D19F' }}
+                >
+                  View Report →
+                </span>
+              </div>
             </div>
           </div>
         </Link>

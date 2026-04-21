@@ -11,39 +11,37 @@ interface MetricCardProps {
 export function MetricCard({ label, value, sub, trend, alert }: MetricCardProps) {
   return (
     <div
-      className="rounded-2xl p-5 relative overflow-hidden"
+      className="relative overflow-hidden rounded-2xl p-5 glass-accent"
       style={{
-        background: alert
-          ? 'rgba(239, 68, 68, 0.08)'
-          : 'rgba(20, 23, 40, 0.8)',
-        border: alert
-          ? '1px solid rgba(239, 68, 68, 0.2)'
-          : '1px solid rgba(168, 174, 210, 0.08)',
-        backdropFilter: 'blur(12px)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+        background: alert ? 'rgba(239,68,68,0.06)' : 'rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: alert ? '1px solid rgba(239,68,68,0.15)' : '1px solid rgba(255,255,255,0.08)',
       }}
     >
-      {/* Glow accent top-right */}
-      {!alert && (
-        <div
-          className="absolute -top-4 -right-4 w-16 h-16 rounded-full opacity-20 blur-xl"
-          style={{ background: '#21D19F' }}
-        />
-      )}
-      <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#A0A4B8' }}>
+      {/* Corner glow */}
+      <div
+        className="absolute -top-6 -right-6 w-20 h-20 rounded-full blur-2xl opacity-30"
+        style={{ background: alert ? '#EF4444' : '#21D19F' }}
+      />
+
+      <p
+        className="text-xs font-semibold uppercase tracking-widest mb-2"
+        style={{ color: '#7B82A0' }}
+      >
         {label}
       </p>
       <p
-        className="text-2xl font-bold"
-        style={{ color: alert ? '#EF4444' : '#D8DDEF' }}
+        className="text-2xl font-bold tracking-tight"
+        style={{ color: alert ? '#EF4444' : '#E8ECFF' }}
       >
         {value}
       </p>
       {sub && (
-        <p className={cn('text-xs mt-1.5 font-medium')}>
-          <span style={{ color: trend === 'up' ? '#21D19F' : trend === 'down' ? '#EF4444' : '#A0A4B8' }}>
-            {trend === 'up' ? '↑' : trend === 'down' ? '↓' : ''} {sub}
-          </span>
+        <p className="text-xs mt-1.5 font-medium" style={{
+          color: trend === 'up' ? '#21D19F' : trend === 'down' ? '#EF4444' : '#7B82A0'
+        }}>
+          {trend === 'up' ? '↑' : trend === 'down' ? '↓' : ''} {sub}
         </p>
       )}
     </div>
