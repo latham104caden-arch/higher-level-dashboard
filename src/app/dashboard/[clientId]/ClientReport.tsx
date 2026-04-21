@@ -110,7 +110,7 @@ export function ClientReport({ client }: { client: Client }) {
             WebkitBackdropFilter: 'blur(24px)',
           }}
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <div className="max-w-7xl mx-auto px-2 flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-4">
               <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#484D6D' }}>
                 ← Back
@@ -178,7 +178,7 @@ export function ClientReport({ client }: { client: Client }) {
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-6 py-8 space-y-5">
+        <main className="max-w-7xl mx-auto px-8 py-10 space-y-6">
           {/* Loading */}
           {loading && (
             <div className="flex items-center justify-center py-32">
@@ -241,7 +241,7 @@ export function ClientReport({ client }: { client: Client }) {
               )}
 
               {/* Metrics */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                 <MetricCard label="Total Spend" value={fmtCurrency(spend)} />
                 <MetricCard label="Impressions" value={fmtInt(impressions)} />
                 <MetricCard label="CTR" value={fmtPct(ctr)} />
@@ -264,7 +264,7 @@ export function ClientReport({ client }: { client: Client }) {
               </div>
 
               {/* Charts */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
                   <Card>
                     <CardHeader>
@@ -296,10 +296,10 @@ export function ClientReport({ client }: { client: Client }) {
                   <table className="w-full text-sm">
                     <thead>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                        <th className="text-left py-3 px-6 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Campaign</th>
-                        <th className="text-left py-3 px-4 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Status</th>
-                        <th className="text-left py-3 px-4 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Objective</th>
-                        <th className="text-right py-3 px-6 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Budget</th>
+                        <th className="text-left py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Campaign</th>
+                        <th className="text-left py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Status</th>
+                        <th className="text-left py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Objective</th>
+                        <th className="text-right py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Budget</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -310,8 +310,8 @@ export function ClientReport({ client }: { client: Client }) {
                           onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                           onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                         >
-                          <td className="py-3 px-6 font-bold max-w-xs truncate" style={{ color: '#E8ECFF' }}>{c.name}</td>
-                          <td className="py-3 px-4">
+                          <td className="py-4 px-7 font-bold max-w-xs truncate" style={{ color: '#E8ECFF' }}>{c.name}</td>
+                          <td className="py-4 px-5">
                             <span
                               className="text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 w-fit"
                               style={c.effective_status === 'ACTIVE'
