@@ -30,6 +30,7 @@ interface Target {
   id: number
   x: number; y: number
   vx: number; vy: number
+  r: number
   good: boolean
   label: string
   pts: number
@@ -108,7 +109,7 @@ export function MiniGame() {
     vy = Math.sin(ang) * speed
 
     st.targets.push({
-      id: uid++, x, y, vx, vy,
+      id: uid++, x, y, vx, vy, r: R,
       good, label: src.label,
       pts: (src as any).pts || 0,
       dmg: (src as any).dmg || 0,
