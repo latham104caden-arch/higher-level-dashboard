@@ -145,15 +145,37 @@ const PRIORITY_STYLE: Record<string, { bg: string; color: string; border: string
 export function AnglesTab({ clientId, ads }: { clientId: string; ads: any[] }) {
   const angles = ANGLES[clientId] || []
 
-  const sorted = [...ads].sort((a, b) => parseFloat(b.ctr || 0) - parseFloat(a.ctr || 0))
+  const liveAds = ads.filter(a => a.effective_status === 'ACTIVE' || parseFloat(a.spend || 0) > 0)
+  const sorted = [...liveAds].sort((a, b) => parseFloat(b.ctr || 0) - parseFloat(a.ctr || 0))
   const topByCtr = sorted.slice(0, 3)
-  const topByRoas = [...ads]
+  const topByRoas = [...liveAds]
     .filter(a => getRoas(a) > 0)
     .sort((a, b) => getRoas(b) - getRoas(a))
     .slice(0, 3)
+  const toKill = liveAds.filter(a => adVerdict(a, clientId === 'hydra' ? 'ecommerce' : 'local').label === 'KILL')
+  const toScale = liveAds.filter(a => adVerdict(a, clientId === 'hydra' ? 'ecommerce' : 'local').label === 'SCALE')
 
   return (
     <div className="space-y-5">
+      {/* Live signal callout */}
+      {(toKill.length > 0 || toScale.length > 0) && (
+        <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#484D6D' }}>Live Signals — Act Now</p>
+          <div className="space-y-2">
+            {toScale.map((ad, i) => (
+              <p key={i} className="text-sm font-bold" style={{ color: '#21D19F' }}>
+                🟢 <span style={{ color: '#E8ECFF' }}>{ad.ad_name}</span> is proving its angle — {fmtX(getRoas(ad))} ROAS. Scale the budget before frequency kills it.
+              </p>
+            ))}
+            {toKill.map((ad, i) => (
+              <p key={i} className="text-sm font-bold" style={{ color: '#EF4444' }}>
+                🔴 <span style={{ color: '#E8ECFF' }}>{ad.ad_name}</span> has spent {fmtCurrency(parseFloat(ad.spend || 0))} with no return. The angle isn't landing — pull it.
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* What's Working */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
@@ -164,12 +186,14 @@ export function AnglesTab({ clientId, ads }: { clientId: string; ads: any[] }) {
             Top CTR — Angles Stopping the Scroll
           </p>
           <div className="space-y-3">
-            {topByCtr.map((ad, i) => (
+            {topByCtr.length > 0 ? topByCtr.map((ad, i) => (
               <div key={i} className="flex items-center justify-between">
                 <p className="text-sm font-medium truncate max-w-[200px]" style={{ color: '#D8DDEF' }}>{ad.ad_name}</p>
                 <span className="text-sm font-bold" style={{ color: '#45B69C' }}>{fmtPct(parseFloat(ad.ctr || 0))}</span>
               </div>
-            ))}
+            )) : (
+              <p className="text-sm" style={{ color: '#484D6D' }}>No data yet</p>
+            )}
           </div>
         </div>
 

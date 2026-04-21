@@ -9,6 +9,7 @@ import { SpendChart } from '@/components/dashboard/SpendChart'
 import { FunnelViz } from '@/components/dashboard/FunnelViz'
 import { CompetitorTab } from '@/components/dashboard/CompetitorTab'
 import { AnglesTab } from '@/components/dashboard/AnglesTab'
+import { DecisionsTab } from '@/components/dashboard/DecisionsTab'
 import { Card, CardHeader, CardBody } from '@/components/ui/Card'
 import {
   getRoas, getPurchases, getLeads, getATC, getCheckouts, getLPV, adVerdict
@@ -16,10 +17,11 @@ import {
 import { fmtCurrency, fmtPct, fmtX, fmtInt } from '@/lib/utils'
 
 type DatePreset = 'last_7d' | 'last_14d' | 'last_30d' | 'last_90d'
-type Tab = 'overview' | 'competitors' | 'angles'
+type Tab = 'overview' | 'decisions' | 'competitors' | 'angles'
 
 const TABS: { label: string; value: Tab }[] = [
   { label: 'Overview', value: 'overview' },
+  { label: 'Kill / Scale', value: 'decisions' },
   { label: 'Similar Brands', value: 'competitors' },
   { label: 'Ad Angles', value: 'angles' },
 ]
@@ -154,7 +156,7 @@ export function ClientReport({ client }: { client: Client }) {
               </div>
 
               {/* Date presets */}
-              {activeTab === 'overview' && (
+              {(activeTab === 'overview' || activeTab === 'decisions') && (
                 <div
                   className="flex gap-1 p-1 rounded-xl"
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
@@ -201,6 +203,11 @@ export function ClientReport({ client }: { client: Client }) {
             >
               {error}
             </div>
+          )}
+
+          {/* Kill / Scale Decisions */}
+          {!loading && !error && activeTab === 'decisions' && (
+            <DecisionsTab ads={ads} clientType={client.type} />
           )}
 
           {/* Competitors */}
