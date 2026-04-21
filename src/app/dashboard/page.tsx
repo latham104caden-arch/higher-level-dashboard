@@ -4,6 +4,7 @@ import { CLIENTS } from '@/lib/clients'
 import Link from 'next/link'
 import { ClientCards } from './ClientCards'
 import { MiniGame } from './MiniGame'
+import { UpcomingCampaigns } from './UpcomingCampaigns'
 
 export default async function DashboardPage() {
   const session = await getSession()
@@ -75,6 +76,7 @@ export default async function DashboardPage() {
           </div>
 
           <ClientCards clients={Object.values(CLIENTS)} />
+          <UpcomingCampaigns />
           <MiniGame />
         </main>
       </div>
