@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { UPCOMING_RESEARCH } from '@/lib/upcoming'
-import { UPCOMING_CLIENTS } from '@/app/dashboard/UpcomingCampaigns'
+import { UPCOMING_CLIENTS, type UpcomingClient } from '@/lib/upcoming-clients'
 
 type Tab = 'overview' | 'market' | 'competitors' | 'angles' | 'copy'
 
@@ -24,7 +24,7 @@ function OverviewTab({
   checked,
   toggle,
 }: {
-  client: typeof UPCOMING_CLIENTS[0]
+  client: UpcomingClient
   checked: Record<string, boolean>
   toggle: (clientId: string, itemId: string) => void
 }) {
@@ -280,7 +280,7 @@ function CopyTab({ data, policyNote }: {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function UpcomingReport({ client }: { client: typeof UPCOMING_CLIENTS[0] }) {
+export function UpcomingReport({ client }: { client: UpcomingClient }) {
   const [activeTab, setActiveTab] = useState<Tab>('overview')
   const [checked, setChecked] = useState<Record<string, boolean>>({})
   const [mounted, setMounted] = useState(false)

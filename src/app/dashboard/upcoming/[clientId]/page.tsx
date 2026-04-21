@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import { UPCOMING_CLIENTS } from '@/app/dashboard/UpcomingCampaigns'
+import { UPCOMING_CLIENTS } from '@/lib/upcoming-clients'
 import { UpcomingReport } from './UpcomingReport'
 
 export default async function UpcomingClientPage({ params }: { params: Promise<{ clientId: string }> }) {
