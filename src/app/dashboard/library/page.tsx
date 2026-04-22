@@ -63,7 +63,7 @@ export default async function AdLibraryPage() {
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Agency Tools</p>
             <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Ad Library</h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>
-              Search any brand and see every active Meta ad they're running — copy, reach, spend range, and how long each ad has been live. Long runners are proven angles.
+              Search any competitor and launch into Meta Ad Library with filters pre-built — active, video, image, inactive, multi-country. Plus one-click intel for every client.
             </p>
           </div>
 
