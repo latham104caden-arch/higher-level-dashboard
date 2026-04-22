@@ -20,19 +20,21 @@ const CLIENT_INTEL = [
 
 // ─── Filter presets ───────────────────────────────────────────────────────────
 type Country = 'US' | 'CA' | 'GB' | 'AU'
-type AdType = 'ALL' | 'IMAGE' | 'VIDEO' | 'MEME'
+// media_type controls image/video filter — ad_type must always be 'all' for commercial ads
+type MediaType = 'all' | 'image_and_meme' | 'video' | 'meme'
 type ActiveStatus = 'active' | 'inactive' | 'all'
 
 function buildUrl(
   brand: string,
   country: Country = 'US',
-  adType: AdType = 'ALL',
+  mediaType: MediaType = 'all',
   status: ActiveStatus = 'active',
 ) {
   const base = 'https://www.facebook.com/ads/library/'
   const params = new URLSearchParams({
     active_status: status,
-    ad_type: adType,
+    ad_type: 'all',          // always 'all' — controls commercial vs political, NOT media format
+    media_type: mediaType,   // controls image / video filter
     country,
     q: brand,
     search_type: 'keyword_unordered',
@@ -197,7 +199,7 @@ export default function AdLibraryTool() {
 
               {/* Primary CTA */}
               <a
-                href={buildUrl(trimmed, country, 'ALL', 'active')}
+                href={buildUrl(trimmed, country, 'all', 'active')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between w-full px-5 py-4 rounded-xl font-black text-sm transition-all"
@@ -210,22 +212,22 @@ export default function AdLibraryTool() {
               {/* Specific launch options */}
               <div className="grid grid-cols-2 gap-3">
                 <LaunchButton
-                  href={buildUrl(trimmed, country, 'VIDEO', 'active')}
+                  href={buildUrl(trimmed, country, 'video', 'active')}
                   label="Video Ads Only"
                   sub="See what video hooks are running"
                 />
                 <LaunchButton
-                  href={buildUrl(trimmed, country, 'IMAGE', 'active')}
+                  href={buildUrl(trimmed, country, 'image_and_meme', 'active')}
                   label="Image / Static Ads"
                   sub="Browse static creative"
                 />
                 <LaunchButton
-                  href={buildUrl(trimmed, country, 'ALL', 'inactive')}
+                  href={buildUrl(trimmed, country, 'all', 'inactive')}
                   label="Inactive / Past Ads"
                   sub="See what they killed"
                 />
                 <LaunchButton
-                  href={buildUrl(trimmed, country, 'ALL', 'all')}
+                  href={buildUrl(trimmed, country, 'all', 'all')}
                   label="All Ads (Active + Past)"
                   sub="Full history"
                 />
@@ -302,7 +304,7 @@ export default function AdLibraryTool() {
                     <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>{comp}</span>
                     <div className="flex gap-2">
                       <a
-                        href={buildUrl(comp, 'US', 'ALL', 'active')}
+                        href={buildUrl(comp, 'US', 'all', 'active')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs px-2.5 py-1 rounded-lg font-bold transition-all"
@@ -311,7 +313,7 @@ export default function AdLibraryTool() {
                         Active →
                       </a>
                       <a
-                        href={buildUrl(comp, 'US', 'VIDEO', 'active')}
+                        href={buildUrl(comp, 'US', 'video', 'active')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs px-2.5 py-1 rounded-lg font-bold transition-all"
