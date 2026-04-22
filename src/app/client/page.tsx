@@ -71,6 +71,7 @@ export default async function ClientPortalPage() {
               {[
                 { href: '/client', label: 'Overview', active: true },
                 { href: '/client/performance', label: 'Performance', active: false },
+                { href: '/client/grow', label: 'Grow', active: false },
                 { href: '/client/learn', label: 'Learn', active: false },
               ].map(n => (
                 <Link
