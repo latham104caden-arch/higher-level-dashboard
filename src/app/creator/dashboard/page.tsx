@@ -105,6 +105,8 @@ export default async function CreatorDashboardPage() {
             creatorId={session.creatorId!}
             creatorName={creator.name}
             clientName={client?.name || creator.clientId}
+            clientColor={client?.color || '#A78BFA'}
+            clientWebsite={client?.website || ''}
             ratePerVideo={creator.ratePerVideo}
             bonusPerPurchase={creator.bonusPerPurchase}
             niche={creator.niche}

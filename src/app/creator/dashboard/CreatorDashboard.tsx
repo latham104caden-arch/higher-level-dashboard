@@ -396,7 +396,7 @@ function ScriptLab() {
 }
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
-function EmptyAds() {
+function EmptyAds({ clientName, clientColor }: { clientName: string; clientColor: string }) {
   return (
     <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="flex justify-center mb-4" style={{ color: 'rgba(255,255,255,0.15)' }}>
@@ -404,10 +404,108 @@ function EmptyAds() {
           <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
         </svg>
       </div>
-      <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>No ads linked yet</p>
+      <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>No ads found for {clientName}</p>
       <p className="text-xs max-w-xs mx-auto" style={{ color: '#7B82A0' }}>
-        Once Higher Level links your ad IDs to your profile, your performance data will show up here automatically.
+        Ads with your name tag will appear here automatically once they go live in Meta.
       </p>
+    </div>
+  )
+}
+
+// ─── Brand folder ─────────────────────────────────────────────────────────────
+function BrandFolder({
+  clientName, clientColor, clientWebsite, ads,
+}: {
+  clientName: string
+  clientColor: string
+  clientWebsite: string
+  ads: CreatorAdStat[]
+}) {
+  const [open, setOpen] = useState(true)
+
+  const activeAds  = ads.filter(a => a.status === 'ACTIVE')
+  const totalSpend = ads.reduce((s, a) => s + a.spend, 0)
+  const totalRev   = ads.reduce((s, a) => s + a.revenue, 0)
+  const overallRoas = totalSpend > 0 ? totalRev / totalSpend : 0
+  const winners    = ads.filter(a => a.performance_tier === 'winner').length
+  const initial    = clientName.charAt(0).toUpperCase()
+
+  return (
+    <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${clientColor}22` }}>
+
+      {/* Folder header — click to expand/collapse */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full px-6 py-5 flex items-center gap-4 text-left transition-all"
+        style={{ background: open ? `${clientColor}06` : 'transparent' }}
+      >
+        {/* Brand avatar */}
+        <div
+          className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg flex-shrink-0"
+          style={{
+            background: `linear-gradient(135deg, ${clientColor}22, ${clientColor}44)`,
+            border: `1px solid ${clientColor}44`,
+            color: clientColor,
+          }}
+        >
+          {initial}
+        </div>
+
+        {/* Brand info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <p className="font-black text-base" style={{ color: '#E8ECFF' }}>{clientName}</p>
+            {clientWebsite && (
+              <span className="text-xs" style={{ color: '#484D6D' }}>{clientWebsite}</span>
+            )}
+          </div>
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="text-xs font-bold" style={{ color: clientColor }}>
+              {ads.length} {ads.length === 1 ? 'ad' : 'ads'} matched
+            </span>
+            <span className="text-xs" style={{ color: '#484D6D' }}>
+              {activeAds.length} active
+            </span>
+            {totalSpend > 0 && (
+              <span className="text-xs" style={{ color: '#484D6D' }}>
+                {fmt$(totalSpend)} spend · {fmtR(overallRoas)} ROAS
+              </span>
+            )}
+            {winners > 0 && (
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(33,209,159,0.1)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>
+                {winners} winner{winners > 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Chevron */}
+        <div
+          className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            transform: open ? 'rotate(90deg)' : 'none',
+            color: '#484D6D',
+          }}
+        >
+          {Icon.arrow}
+        </div>
+      </button>
+
+      {/* Divider */}
+      {open && <div style={{ height: '1px', background: `${clientColor}18` }} />}
+
+      {/* Ads inside the folder */}
+      {open && (
+        <div className="p-4 space-y-3">
+          {ads.length === 0 ? (
+            <EmptyAds clientName={clientName} clientColor={clientColor} />
+          ) : (
+            ads.map(ad => <AdCard key={ad.id} ad={ad} />)
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -419,12 +517,14 @@ interface Props {
   creatorId: string
   creatorName: string
   clientName: string
+  clientColor: string
+  clientWebsite: string
   ratePerVideo: number
   bonusPerPurchase: number
   niche: string
 }
 
-export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVideo, bonusPerPurchase, niche }: Props) {
+export function CreatorDashboard({ creatorId, creatorName, clientName, clientColor, clientWebsite, ratePerVideo, bonusPerPurchase, niche }: Props) {
   const [tab, setTab] = useState<Tab>('performance')
   const [data, setData] = useState<CreatorAdsResponse | null>(null)
   const [loading, setLoading] = useState(true)
@@ -508,10 +608,13 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
               <p className="text-xs font-bold" style={{ color: '#EF4444' }}>{error}</p>
             </div>
           )}
-          {!error && (!data || data.ads.length === 0) ? (
-            <EmptyAds />
-          ) : (
-            data?.ads.map(ad => <AdCard key={ad.id} ad={ad} />)
+          {!error && (
+            <BrandFolder
+              clientName={clientName}
+              clientColor={clientColor}
+              clientWebsite={clientWebsite}
+              ads={data?.ads || []}
+            />
           )}
         </div>
       )}
@@ -552,7 +655,7 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
         </div>
       )}
 
-      {!loading && tab === 'earnings' && !data && <EmptyAds />}
+      {!loading && tab === 'earnings' && !data && <EmptyAds clientName={clientName} clientColor={clientColor} />}
     </div>
   )
 }
