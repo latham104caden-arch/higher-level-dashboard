@@ -240,7 +240,7 @@ export default function AdLibraryTool() {
                   {COUNTRIES.filter(c => c !== country).map(c => (
                     <a
                       key={c}
-                      href={buildUrl(trimmed, c, 'ALL', 'active')}
+                      href={buildUrl(trimmed, c, 'all', 'active')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs px-3 py-1.5 rounded-lg font-bold transition-all"
