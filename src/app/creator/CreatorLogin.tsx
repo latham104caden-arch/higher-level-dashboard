@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export function CreatorLogin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -25,7 +23,8 @@ export function CreatorLogin() {
         return
       }
       if (data.role === 'creator') {
-        router.push('/creator/dashboard')
+        // Hard redirect — forces a fresh server request so the session cookie is read correctly
+        window.location.href = '/creator/dashboard'
       } else {
         setError('This portal is for UGC creators only.')
       }

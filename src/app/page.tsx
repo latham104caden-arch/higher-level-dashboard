@@ -1,14 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [focused, setFocused] = useState(false)
-  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -22,7 +20,7 @@ export default function LoginPage() {
     const data = await res.json()
     setLoading(false)
     if (!res.ok) { setError('Access denied. Invalid credentials.'); return }
-    router.push(data.role === 'agency' ? '/dashboard' : '/client')
+    window.location.href = data.role === 'agency' ? '/dashboard' : '/client'
   }
 
   return (
