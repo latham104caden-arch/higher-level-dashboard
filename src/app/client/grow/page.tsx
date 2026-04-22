@@ -338,6 +338,7 @@ export default async function GrowPage() {
     { href: '/client/performance', label: 'Performance', active: false },
     { href: '/client/grow', label: 'Grow', active: true },
     { href: '/client/learn', label: 'Learn', active: false },
+    { href: '/client/quiz', label: 'Quiz', active: false },
   ]
 
   return (

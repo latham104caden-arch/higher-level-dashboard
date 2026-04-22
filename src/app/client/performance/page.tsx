@@ -52,6 +52,7 @@ export default async function ClientPerformancePage() {
                 { href: '/client/performance', label: 'Performance', active: true },
                 { href: '/client/grow', label: 'Grow', active: false },
                 { href: '/client/learn', label: 'Learn', active: false },
+                { href: '/client/quiz', label: 'Quiz', active: false },
               ].map(n => (
                 <Link
                   key={n.href}

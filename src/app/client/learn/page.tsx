@@ -58,6 +58,7 @@ export default async function LearnPage() {
                 { href: '/client/performance', label: 'Performance', active: false },
                 { href: '/client/grow', label: 'Grow', active: false },
                 { href: '/client/learn', label: 'Learn', active: true },
+                { href: '/client/quiz', label: 'Quiz', active: false },
               ].map(n => (
                 <Link
                   key={n.href}
