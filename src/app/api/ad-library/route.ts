@@ -62,21 +62,27 @@ export async function POST(req: NextRequest) {
       'currency',
     ].join(',')
 
-    const params = new URLSearchParams({
-      access_token: TOKEN,
-      ad_reached_countries: "['US']",
-      search_terms: brand.trim(),
-      ad_active_status: 'ACTIVE',
-      ad_type: 'ALL',
-      fields,
-      limit: '100',
-    })
+    // Build URL manually to avoid double-encoding the JSON array
+    const base = `https://graph.facebook.com/${VERSION}/ads_archive`
+    const url =
+      `${base}` +
+      `?access_token=${encodeURIComponent(TOKEN)}` +
+      `&ad_reached_countries=["US"]` +
+      `&search_terms=${encodeURIComponent(brand.trim())}` +
+      `&ad_active_status=ACTIVE` +
+      `&ad_type=ALL` +
+      `&fields=${encodeURIComponent(fields)}` +
+      `&limit=100`
 
-    const url = `https://graph.facebook.com/${VERSION}/ads_archive?${params}`
     const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(15000) })
     const data = await res.json()
 
-    if (data.error) throw new Error(data.error.message)
+    if (data.error) {
+      const errMsg = data.error.message || 'Meta API error'
+      const errCode = data.error.code ? ` (code ${data.error.code})` : ''
+      const errType = data.error.type ? ` [${data.error.type}]` : ''
+      throw new Error(`${errMsg}${errCode}${errType}`)
+    }
 
     const raw: any[] = data.data || []
 
