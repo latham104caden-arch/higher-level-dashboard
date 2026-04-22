@@ -60,12 +60,11 @@ export default async function DashboardPage() {
               >
                 Clients
               </Link>
-              <Link
-                href="/dashboard/audit"
-                className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
-                style={{ color: '#7B82A0', border: '1px solid transparent' }}
-              >
+              <Link href="/dashboard/audit" className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ color: '#7B82A0', border: '1px solid transparent' }}>
                 Site Audit
+              </Link>
+              <Link href="/dashboard/library" className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ color: '#7B82A0', border: '1px solid transparent' }}>
+                Ad Library
               </Link>
               <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>
                 Sign out
