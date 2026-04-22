@@ -19,6 +19,46 @@ export interface CategoryResult {
   findings: Finding[]
 }
 
+export interface DetectedElements {
+  // shared
+  hasMetaPixel: boolean
+  hasForm: boolean
+  hasCTA: boolean
+  hasPhone: boolean
+  hasClickToCall: boolean
+  hasReviews: boolean
+  hasGuarantee: boolean
+  isHttps: boolean
+  hasAddress: boolean
+  hasVideo: boolean
+  // service
+  hasLicensed: boolean
+  hasYearsExp: boolean
+  hasTeamPhoto: boolean
+  hasLocalSignal: boolean
+  hasOnlineBooking: boolean
+  hasLiveChat: boolean
+  hasFastResponsePromise: boolean
+  formFieldCount: number
+  // ecommerce
+  hasATC: boolean
+  hasPrice: boolean
+  hasDiscount: boolean
+  hasUrgency: boolean
+  hasFreeShipping: boolean
+  hasBundleDeal: boolean
+  hasPaymentOptions: boolean
+  hasReturnPolicy: boolean
+  // saas
+  hasFreeTrial: boolean
+  hasNoCC: boolean
+  hasDemo: boolean
+  hasPricing: boolean
+  hasFeatureList: boolean
+  hasIntegrations: boolean
+  hasLogoWall: boolean
+}
+
 export interface AuditResult {
   url: string
   fetchTimeMs: number
@@ -26,6 +66,8 @@ export interface AuditResult {
   pageDescription: string
   businessType: BusinessType
   businessTypeConfidence: string
+  screenshotBase64: string | null
+  detectedElements: DetectedElements
   scores: {
     speed: number
     seo: number
@@ -1075,17 +1117,21 @@ export async function POST(req: NextRequest) {
     const title = extractText(html, 'title') || ''
     const metaDesc = extractMeta(html, 'description') || ''
 
-    // PageSpeed
+    // PageSpeed + screenshot
     let pageSpeedScore = -1
+    let screenshotBase64: string | null = null
     try {
       const psRes = await fetch(
         `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(normalizedUrl)}&strategy=mobile`,
-        { signal: AbortSignal.timeout(15000), cache: 'no-store' }
+        { signal: AbortSignal.timeout(20000), cache: 'no-store' }
       )
       if (psRes.ok) {
         const ps = await psRes.json()
         const s = ps?.lighthouseResult?.categories?.performance?.score
         if (s !== undefined && s !== null) pageSpeedScore = Math.round(s * 100)
+        // Extract screenshot from PageSpeed response
+        const shot = ps?.lighthouseResult?.audits?.['final-screenshot']?.details?.data
+        if (shot && typeof shot === 'string') screenshotBase64 = shot
       }
     } catch {}
 
@@ -1144,10 +1190,46 @@ export async function POST(req: NextRequest) {
 
     const { grade, color: gradeColor } = getGrade(overall)
 
-    // Build top fixes
+    // Build detected elements map
+    const h2 = html.toLowerCase()
     const hasMetaPixel = has(html, /(fbq\(|connect\.facebook\.net|facebook\.com\/tr)/i)
     const hasForm = has(html, /<form/i)
-    const hasCTA = has(html.toLowerCase(), /(get.a.quote|free.estimate|schedule|book.now|contact.us|get.started|call.now|add.to.cart|try.free|sign.up|start.now)/i)
+    const hasCTA = has(h2, /(get.a.quote|free.estimate|schedule|book.now|contact.us|get.started|call.now|add.to.cart|try.free|sign.up|start.now)/i)
+    const detectedElements: DetectedElements = {
+      hasMetaPixel,
+      hasForm,
+      hasCTA,
+      hasPhone: has(h2, /(\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4}|tel:|call.us)/i),
+      hasClickToCall: has(html, /href=["']tel:/i),
+      hasReviews: has(h2, /(review|testimonial|star.rating|rated \d|customer.said|verified.buyer)/i),
+      hasGuarantee: has(h2, /(money.back|satisfaction.guarantee|\d+.day.guarantee|hassle.free|risk.free|guarantee)/i),
+      isHttps,
+      hasAddress: has(h2, /(street|avenue|blvd|suite|\d{5}|our.location|find.us)/i),
+      hasVideo: has(html, /(<video|youtube|vimeo|demo.video)/i),
+      hasLicensed: has(h2, /(licensed|insured|bonded|certified)/i),
+      hasYearsExp: has(h2, /(\d+.years?.of.experience|\d+.years?.in.business|since \d{4})/i),
+      hasTeamPhoto: has(h2, /(our.team|meet.the.team|our.staff|our.technicians)/i),
+      hasLocalSignal: has(h2, /(serving.the|service.area|locally.owned|family.owned)/i),
+      hasOnlineBooking: has(h2, /(book.online|schedule.online|calendar|pick.a.time|select.a.date)/i),
+      hasLiveChat: has(h2, /(livechat|intercom|drift|tawk|crisp|chat.widget|live.chat)/i),
+      hasFastResponsePromise: has(h2, /(respond.within|reply.within|same.day.response|call.back.within)/i),
+      formFieldCount: count(html, /<input(?:[^>]*type=["'](?:text|email|tel|number)["'])/gi),
+      hasATC: has(h2, /add.to.cart|add_to_cart/i),
+      hasPrice: count(h2, /\$\d+(\.\d{2})?/g) > 1,
+      hasDiscount: has(h2, /(\d+%.off|save \$|\bsale\b|discount|coupon)/i),
+      hasUrgency: has(h2, /(limited.time|only \d+ left|ends.today|flash.sale)/i),
+      hasFreeShipping: has(h2, /(free.shipping|free.delivery)/i),
+      hasBundleDeal: has(h2, /(bundle|buy \d+ get|value.pack)/i),
+      hasPaymentOptions: has(h2, /(paypal|apple.pay|shop.pay|afterpay|klarna)/i),
+      hasReturnPolicy: has(h2, /(return.policy|\d+.day.return|\d+.day.guarantee)/i),
+      hasFreeTrial: has(h2, /(free.trial|start.for.free|try.free)/i),
+      hasNoCC: has(h2, /(no.credit.card|no cc required)/i),
+      hasDemo: has(h2, /(schedule.a.demo|book.a.demo|watch.demo)/i),
+      hasPricing: has(h2, /(pricing|per.month|\/mo|per.user)/i),
+      hasFeatureList: has(h2, /(features|what.you.get|everything.you.need)/i),
+      hasIntegrations: has(h2, /(integrates.with|works.with|zapier|slack|salesforce)/i),
+      hasLogoWall: has(h2, /(trusted.by|our.customers|used.by|customer.logo)/i),
+    }
 
     const allFixes: { priority: number; fix: string; impact: string }[] = []
 
@@ -1192,6 +1274,8 @@ export async function POST(req: NextRequest) {
       pageDescription: metaDesc || 'No meta description.',
       businessType,
       businessTypeConfidence,
+      screenshotBase64,
+      detectedElements,
       scores: {
         speed: speedCat.score,
         seo: seoCat.score,
