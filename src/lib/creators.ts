@@ -1,15 +1,15 @@
 export interface Creator {
   id: string
   name: string
-  handle: string          // display name / @handle
+  handle: string           // display name / @handle
   password: string
-  clientId: string        // which client their content is for
-  accountId: string       // Meta ad account ID
-  adIds: string[]         // specific Meta ad IDs their content appears in
-  ratePerVideo: number    // what they're paid per delivered video ($)
+  clientId: string         // which client their content is for
+  accountId: string        // Meta ad account ID
+  nameTag: string          // tag in ad name — e.g. "[BEN]" — any ad containing this is theirs
+  ratePerVideo: number     // what they're paid per delivered video ($)
   bonusPerPurchase: number // bonus per attributed purchase ($)
-  niche: string           // e.g. 'Health & Wellness'
-  joinedDate: string      // ISO date
+  niche: string            // e.g. 'Health & Wellness'
+  joinedDate: string       // ISO date
 }
 
 export const CREATORS: Record<string, Creator> = {
@@ -20,8 +20,20 @@ export const CREATORS: Record<string, Creator> = {
     password: process.env.BEN_PASSWORD || 'BenCreator2026',
     clientId: 'hydra',
     accountId: 'act_1185800722983394',
-    // Add real ad IDs here — these are the Meta ad IDs for Ben's content
-    adIds: [],
+    nameTag: '[BEN]',
+    ratePerVideo: 150,
+    bonusPerPurchase: 3,
+    niche: 'Health & Wellness',
+    joinedDate: '2025-01-01',
+  },
+  sav: {
+    id: 'sav',
+    name: 'Sav',
+    handle: '@sav_ugc',
+    password: process.env.SAV_PASSWORD || 'SavCreator2026',
+    clientId: 'hydra',
+    accountId: 'act_1185800722983394',
+    nameTag: '[SAV]',
     ratePerVideo: 150,
     bonusPerPurchase: 3,
     niche: 'Health & Wellness',

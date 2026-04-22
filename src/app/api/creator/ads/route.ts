@@ -73,13 +73,36 @@ function whyWinning(stat: Omit<CreatorAdStat, 'why_winning' | 'improvement_tips'
 
 function improvementTips(stat: Omit<CreatorAdStat, 'why_winning' | 'improvement_tips' | 'performance_tier'>): string[] {
   const tips: string[] = []
-  if (stat.ctr < 1) tips.push('CTR under 1% — your hook isn\'t landing. Try a bold statement or question in the first 3 seconds')
+  if (stat.ctr < 1) tips.push("CTR under 1% — your hook isn't landing. Try a bold statement or question in the first 3 seconds")
   if (stat.ctr >= 1 && stat.ctr < 2) tips.push('CTR is decent — test a more direct hook that names the problem immediately')
   if (stat.roas > 0 && stat.roas < 1) tips.push('ROAS under 1x — the offer or landing page may be the issue, not your creative')
   if (stat.cpm > 20) tips.push(`$${stat.cpm.toFixed(0)} CPM is high — try a warmer opener, Meta may be showing it to cold audiences`)
   if (stat.cpc > 3) tips.push('CPC over $3 — work on your CTA. Make the next step obvious and low-friction')
   if (stat.days_running < 7) tips.push('Still early — let it run to $50+ spend before judging performance')
   return tips.length ? tips : ['Keep making content in this style — the data looks good']
+}
+
+// Fetch all ads from an account, paginating through results
+async function fetchAllAccountAds(accountId: string): Promise<any[]> {
+  const fields = [
+    'id', 'name', 'status', 'created_time',
+    'insights.date_preset(last_30d){spend,impressions,clicks,ctr,cpc,cpm,actions,action_values}',
+  ].join(',')
+
+  const url = `https://graph.facebook.com/${VERSION}/${accountId}/ads?fields=${encodeURIComponent(fields)}&limit=200&access_token=${TOKEN}`
+
+  const all: any[] = []
+  let nextUrl: string | null = url
+
+  while (nextUrl) {
+    const res: Response = await fetch(nextUrl, { cache: 'no-store', signal: AbortSignal.timeout(15000) })
+    const json: any = await res.json()
+    if (json.error) throw new Error(`Meta API: ${json.error.message}`)
+    if (json.data) all.push(...json.data)
+    nextUrl = json.paging?.next || null
+  }
+
+  return all
 }
 
 export async function GET(req: NextRequest) {
@@ -94,14 +117,12 @@ export async function GET(req: NextRequest) {
 
     const client = CLIENTS[creator.clientId as keyof typeof CLIENTS]
 
-    // If no ad IDs configured yet, return empty state
-    if (!creator.adIds.length || !TOKEN) {
+    // No token yet — return empty state
+    if (!TOKEN) {
       return NextResponse.json({
         creator_name: creator.name,
         client_name: client?.name || creator.clientId,
-        total_spend: 0,
-        total_revenue: 0,
-        overall_roas: 0,
+        total_spend: 0, total_revenue: 0, overall_roas: 0,
         ads: [],
         earnings: {
           videos_delivered: 0,
@@ -115,55 +136,52 @@ export async function GET(req: NextRequest) {
       } as CreatorAdsResponse)
     }
 
-    // Fetch ad insights for each ad ID
-    const fields = 'id,name,status,created_time,insights{spend,impressions,clicks,ctr,cpc,cpm,actions,action_values}'
-    const adPromises = creator.adIds.map(adId =>
-      fetch(
-        `https://graph.facebook.com/${VERSION}/${adId}?fields=${encodeURIComponent(fields)}&access_token=${TOKEN}`,
-        { cache: 'no-store', signal: AbortSignal.timeout(10000) }
-      ).then(r => r.json())
-    )
+    // Pull all ads from the account and filter by nameTag
+    const allAds = await fetchAllAccountAds(creator.accountId)
+    const tag = creator.nameTag.toUpperCase()
+    const matched = allAds.filter(ad => (ad.name || '').toUpperCase().includes(tag))
 
-    const rawAds = await Promise.all(adPromises)
+    const ads: CreatorAdStat[] = matched.map(ad => {
+      const ins = ad.insights?.data?.[0] || {}
+      const spend = parseFloat(ins.spend || '0')
+      const impressions = parseInt(ins.impressions || '0')
+      const clicks = parseInt(ins.clicks || '0')
+      const ctr = parseFloat(ins.ctr || '0')
+      const cpc = parseFloat(ins.cpc || '0')
+      const cpm = parseFloat(ins.cpm || '0')
 
-    const ads: CreatorAdStat[] = rawAds
-      .filter(ad => !ad.error)
-      .map(ad => {
-        const ins = ad.insights?.data?.[0] || {}
-        const spend = parseFloat(ins.spend || '0')
-        const impressions = parseInt(ins.impressions || '0')
-        const clicks = parseInt(ins.clicks || '0')
-        const ctr = parseFloat(ins.ctr || '0')
-        const cpc = parseFloat(ins.cpc || '0')
-        const cpm = parseFloat(ins.cpm || '0')
+      const actions: any[] = ins.actions || []
+      const values: any[] = ins.action_values || []
+      const purchases = parseInt(actions.find((a: any) => a.action_type === 'purchase')?.value || '0')
+      const revenue = parseFloat(values.find((a: any) => a.action_type === 'purchase')?.value || '0')
+      const roas = spend > 0 ? revenue / spend : 0
+      const days = daysSince(ad.created_time || '')
 
-        // Extract purchases and revenue from actions
-        const actions: any[] = ins.actions || []
-        const values: any[] = ins.action_values || []
-        const purchases = parseInt(actions.find((a: any) => a.action_type === 'purchase')?.value || '0')
-        const revenue = parseFloat(values.find((a: any) => a.action_type === 'purchase')?.value || '0')
-        const roas = spend > 0 ? revenue / spend : 0
+      const base = {
+        id: ad.id,
+        name: ad.name || 'Untitled',
+        status: ad.status || 'UNKNOWN',
+        spend, impressions, clicks, ctr, cpc, cpm,
+        purchases, revenue, roas,
+        thumbstop_rate: null, hook_rate: null,
+        days_running: days,
+        created_time: ad.created_time || '',
+      }
 
-        const days = daysSince(ad.created_time || '')
-
-        const base = { id: ad.id, name: ad.name || 'Untitled', status: ad.status || 'UNKNOWN', spend, impressions, clicks, ctr, cpc, cpm, purchases, revenue, roas, thumbstop_rate: null, hook_rate: null, days_running: days, created_time: ad.created_time || '' }
-        const tier = classifyAd(roas, ctr, spend)
-
-        return {
-          ...base,
-          performance_tier: tier,
-          why_winning: whyWinning(base),
-          improvement_tips: improvementTips(base),
-        }
-      })
-      .sort((a, b) => b.roas - a.roas)
+      return {
+        ...base,
+        performance_tier: classifyAd(roas, ctr, spend),
+        why_winning: whyWinning(base),
+        improvement_tips: improvementTips(base),
+      }
+    }).sort((a, b) => b.roas - a.roas)
 
     const total_spend = ads.reduce((s, a) => s + a.spend, 0)
     const total_revenue = ads.reduce((s, a) => s + a.revenue, 0)
     const total_purchases = ads.reduce((s, a) => s + a.purchases, 0)
     const overall_roas = total_spend > 0 ? total_revenue / total_spend : 0
 
-    const base_earnings = creator.adIds.length * creator.ratePerVideo
+    const base_earnings = ads.length * creator.ratePerVideo
     const bonus_earnings = total_purchases * creator.bonusPerPurchase
 
     return NextResponse.json({
@@ -174,7 +192,7 @@ export async function GET(req: NextRequest) {
       overall_roas,
       ads,
       earnings: {
-        videos_delivered: creator.adIds.length,
+        videos_delivered: ads.length,
         rate_per_video: creator.ratePerVideo,
         bonus_per_purchase: creator.bonusPerPurchase,
         total_purchases,
@@ -183,6 +201,7 @@ export async function GET(req: NextRequest) {
         total_earned: base_earnings + bonus_earnings,
       },
     } as CreatorAdsResponse)
+
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Failed to fetch creator ads' }, { status: 500 })
   }
