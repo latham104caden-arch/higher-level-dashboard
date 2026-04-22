@@ -1,9 +1,11 @@
 import { cookies } from 'next/headers'
 import { CLIENTS } from './clients'
+import { CREATORS } from './creators'
 
 export type Session = {
-  role: 'agency' | 'client'
+  role: 'agency' | 'client' | 'creator'
   clientId?: string
+  creatorId?: string
 }
 
 export async function getSession(): Promise<Session | null> {
@@ -29,6 +31,11 @@ export function validateLogin(password: string): Session | null {
   for (const [id, client] of Object.entries(CLIENTS)) {
     if (password === client.password) {
       return { role: 'client', clientId: id }
+    }
+  }
+  for (const [id, creator] of Object.entries(CREATORS)) {
+    if (password === creator.password) {
+      return { role: 'creator', creatorId: id }
     }
   }
   return null
