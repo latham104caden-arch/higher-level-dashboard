@@ -4,6 +4,7 @@ import { CLIENTS } from '@/lib/clients'
 import { getAccountInsights, getRoas, getPurchases, getLeads, getLPV, getATC, getCheckouts } from '@/lib/meta'
 import { fmtCurrency, fmtX, fmtInt } from '@/lib/utils'
 import Link from 'next/link'
+import { Greeting } from './Greeting'
 
 function generateAgencyMessage(clientType: string, spend: number, roas: number, leads: number, cpl: number, ctr: number, impressions: number, purchases: number): string {
   if (clientType === 'ecommerce') {
@@ -89,9 +90,6 @@ export default async function ClientPortalPage() {
 
   const agencyMessage = generateAgencyMessage(client.type, spend, roas, leads, cpl, ctr, impressions, purchases)
 
-  const hour = new Date().getHours()
-  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
-  const greetingEmoji = hour < 12 ? '☀️' : hour < 17 ? '👋' : '🌙'
 
   const quickLinks = [
     {
@@ -193,9 +191,7 @@ export default async function ClientPortalPage() {
           {/* Welcome */}
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>
-              {greeting} {greetingEmoji}
-            </h1>
+            <Greeting />
             <p className="text-base" style={{ color: '#7B82A0' }}>
               Here's how your campaigns are performing.
             </p>
