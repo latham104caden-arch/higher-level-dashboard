@@ -214,6 +214,21 @@ export default function AdLibraryTool() {
           </button>
         </div>
 
+        {/* Open in Meta */}
+        {brand.trim() && (
+          <div className="mb-3">
+            <a
+              href={`https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=${encodeURIComponent(brand.trim())}&search_type=keyword_unordered`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold"
+              style={{ color: '#484D6D', textDecoration: 'underline' }}
+            >
+              Open "{brand.trim()}" directly in Meta Ad Library ↗
+            </a>
+          </div>
+        )}
+
         {/* Quick searches */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs" style={{ color: '#484D6D' }}>Quick:</span>
@@ -242,14 +257,35 @@ export default function AdLibraryTool() {
 
       {/* Error */}
       {error && (
-        <div className="rounded-2xl p-6" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
-          <p className="font-bold text-sm" style={{ color: '#EF4444' }}>⚠ Search failed</p>
-          <p className="text-xs mt-1" style={{ color: '#7B82A0' }}>{error}</p>
-          {error.toLowerCase().includes('token') || error.toLowerCase().includes('session') || error.toLowerCase().includes('expired') ? (
-            <p className="text-xs mt-2 font-bold" style={{ color: '#F59E0B' }}>
-              The Meta access token is expired. Refresh it in Meta Business Suite → System Users → Generate Token, then update META_ACCESS_TOKEN in Railway environment variables.
+        <div className="space-y-3">
+          <div className="rounded-2xl p-6" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
+            <p className="font-bold text-sm mb-1" style={{ color: '#EF4444' }}>⚠ API access not enabled</p>
+            <p className="text-xs mb-3" style={{ color: '#7B82A0' }}>
+              The Meta Ad Library API requires Advanced Access approval for your app. Go to{' '}
+              <a href="https://developers.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#A0CFFF', textDecoration: 'underline' }}>
+                developers.facebook.com
+              </a>{' '}
+              → your app → App Review → Permissions → request <strong style={{ color: '#E8ECFF' }}>ads_read Advanced Access</strong>. Usually approved in 1–3 days.
             </p>
-          ) : null}
+            <p className="text-xs font-bold" style={{ color: '#F59E0B' }}>In the meantime, use the direct link below ↓</p>
+          </div>
+
+          {/* Fallback: direct Meta Ad Library link */}
+          <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p className="font-black text-sm mb-1" style={{ color: '#E8ECFF' }}>Open in Meta Ad Library</p>
+            <p className="text-xs mb-4" style={{ color: '#7B82A0' }}>
+              Search <strong style={{ color: '#E8ECFF' }}>{brand}</strong> directly in the official Meta Ad Library — same data, opens in a new tab.
+            </p>
+            <a
+              href={`https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=${encodeURIComponent(brand)}&search_type=keyword_unordered`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black transition-all"
+              style={{ background: 'rgba(33,209,159,0.12)', border: '1px solid rgba(33,209,159,0.25)', color: '#21D19F' }}
+            >
+              Search "{brand}" in Meta Ad Library →
+            </a>
+          </div>
         </div>
       )}
 
