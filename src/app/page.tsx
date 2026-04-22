@@ -20,7 +20,9 @@ export default function LoginPage() {
     const data = await res.json()
     setLoading(false)
     if (!res.ok) { setError('Access denied. Invalid credentials.'); return }
-    window.location.href = data.role === 'agency' ? '/dashboard' : '/client'
+    if (data.role === 'agency') window.location.href = '/dashboard'
+    else if (data.role === 'creator') window.location.href = '/creator/dashboard'
+    else window.location.href = '/client'
   }
 
   return (
@@ -167,6 +169,12 @@ export default function LoginPage() {
           {/* Footer */}
           <p className="text-center text-xs mt-8" style={{ color: '#484D6D' }}>
             Higher Level Agency · Confidential Access Only
+          </p>
+          <p className="text-center text-xs mt-3" style={{ color: '#2A2D40' }}>
+            UGC Creator?{' '}
+            <a href="/creator" style={{ color: '#484D6D', textDecoration: 'underline' }}>
+              Creator portal →
+            </a>
           </p>
         </div>
       </div>
