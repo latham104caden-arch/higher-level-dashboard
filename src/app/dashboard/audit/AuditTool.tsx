@@ -3,45 +3,45 @@
 import { useState } from 'react'
 import type { AuditResult, Finding, BusinessType, DetectedElements } from '@/app/api/audit/route'
 
-const TYPE_CONFIG: Record<BusinessType, { label: string; emoji: string; color: string; desc: string }> = {
-  ecommerce: { label: 'Ecommerce', emoji: '🛒', color: '#21D19F', desc: 'Product page, ATC, checkout, deals & offers' },
-  service:   { label: 'Local Service', emoji: '🔧', color: '#A0CFFF', desc: 'Lead form quality, local trust, response speed' },
-  saas:      { label: 'SaaS / Software', emoji: '💻', color: '#A78BFA', desc: 'Trial CTA, pricing clarity, demo flow' },
-  unknown:   { label: 'General', emoji: '🌐', color: '#A0A4B8', desc: 'General website audit' },
+const TYPE_CONFIG: Record<BusinessType, { label: string; color: string; desc: string }> = {
+  ecommerce: { label: 'Ecommerce',      color: '#21D19F', desc: 'Product page, ATC, checkout, deals & offers' },
+  service:   { label: 'Local Service',  color: '#A0CFFF', desc: 'Lead form quality, local trust, response speed' },
+  saas:      { label: 'SaaS / Software',color: '#A78BFA', desc: 'Trial CTA, pricing clarity, demo flow' },
+  unknown:   { label: 'General',        color: '#A0A4B8', desc: 'General website audit' },
 }
 
-const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
-  speed:       { emoji: '⚡', color: '#A0CFFF' },
-  seo:         { emoji: '🔍', color: '#45B69C' },
-  conversion:  { emoji: '🎯', color: '#21D19F' },
-  trust:       { emoji: '🛡️', color: '#F59E0B' },
-  tracking:    { emoji: '📡', color: '#A78BFA' },
-  adReadiness: { emoji: '🚀', color: '#F97316' },
+const CATEGORY_META: Record<string, { color: string }> = {
+  speed:       { color: '#A0CFFF' },
+  seo:         { color: '#45B69C' },
+  conversion:  { color: '#21D19F' },
+  trust:       { color: '#F59E0B' },
+  tracking:    { color: '#A78BFA' },
+  adReadiness: { color: '#F97316' },
 }
 
 // ── Layout Blueprint Components ───────────────────────────────────────────────
 
 function BlueprintSection({
-  label, icon, status, tip, children,
+  label, status, tip, children,
 }: {
-  label: string; icon: string; status: 'pass' | 'warn' | 'fail' | 'neutral'; tip?: string; children?: React.ReactNode
+  label: string; status: 'pass' | 'warn' | 'fail' | 'neutral'; tip?: string; children?: React.ReactNode
 }) {
   const colors = {
-    pass:    { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',  badge: '#21D19F',  icon: '✓' },
-    warn:    { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',  badge: '#F59E0B',  icon: '⚠' },
-    fail:    { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',   badge: '#EF4444',  icon: '✗' },
-    neutral: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.1)', badge: '#484D6D',  icon: '·' },
+    pass:    { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',  badge: '#21D19F',  dot: '#21D19F' },
+    warn:    { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',  badge: '#F59E0B',  dot: '#F59E0B' },
+    fail:    { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',   badge: '#EF4444',  dot: '#EF4444' },
+    neutral: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.1)', badge: '#484D6D',  dot: '#484D6D' },
   }
   const c = colors[status]
   return (
     <div className="rounded-xl p-4" style={{ background: c.bg, border: `1px solid ${c.border}` }}>
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
-          <span className="text-sm">{icon}</span>
+          <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.dot }} />
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>{label}</span>
         </div>
         <span className="text-xs font-black px-2 py-0.5 rounded-full" style={{ background: `${c.badge}20`, color: c.badge }}>
-          {c.icon} {status === 'pass' ? 'Found' : status === 'fail' ? 'Missing' : status === 'warn' ? 'Weak' : 'Optional'}
+          {status === 'pass' ? 'Found' : status === 'fail' ? 'Missing' : status === 'warn' ? 'Weak' : 'Optional'}
         </span>
       </div>
       {tip && <p className="text-xs mt-1" style={{ color: '#7B82A0' }}>{tip}</p>}
@@ -72,13 +72,13 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-xs ml-auto" style={{ color: '#484D6D' }}>Most critical section</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Clear Headline" icon="📢" status={d.hasCTA ? 'pass' : 'fail'}
+          <BlueprintSection label="Clear Headline" status={d.hasCTA ? 'pass' : 'fail'}
             tip={d.hasCTA ? 'CTA language found — good.' : 'Your headline should state exactly what you do and who you serve. "Trusted Window Cleaning in [City]" > "Welcome to Our Site".'} />
-          <BlueprintSection label="Phone (Click-to-Call)" icon="📞" status={d.hasClickToCall ? 'pass' : d.hasPhone ? 'warn' : 'fail'}
+          <BlueprintSection label="Phone (Click-to-Call)" status={d.hasClickToCall ? 'pass' : d.hasPhone ? 'warn' : 'fail'}
             tip={d.hasClickToCall ? 'Click-to-call link active. Mobile visitors can tap to call instantly.' : d.hasPhone ? 'Phone found but not linked. Wrap in <a href="tel:..."> for mobile.' : 'Add a phone number linked as tel: — #1 conversion action for service businesses.'} />
-          <BlueprintSection label="Primary CTA Button" icon="🎯" status={d.hasCTA ? 'pass' : 'fail'}
+          <BlueprintSection label="Primary CTA Button" status={d.hasCTA ? 'pass' : 'fail'}
             tip={d.hasCTA ? 'CTA found.' : '"Get a Free Quote" or "Book Now" button should be visible without scrolling.'} />
-          <BlueprintSection label="Hero Image / Background" icon="🖼️" status="neutral"
+          <BlueprintSection label="Hero Image / Background" status="neutral"
             tip="Use a real photo of your team, truck, or completed work — never stock photos. Builds instant trust." />
         </div>
       </div>
@@ -90,11 +90,11 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Bar — Instant Credibility</span>
         </div>
         <div className="p-4 grid grid-cols-3 gap-3">
-          <BlueprintSection label="Licensed & Insured" icon="🛡️" status={d.hasLicensed ? 'pass' : 'fail'}
+          <BlueprintSection label="Licensed & Insured" status={d.hasLicensed ? 'pass' : 'fail'}
             tip={d.hasLicensed ? 'Credentials mentioned — keep it prominent.' : 'This is the #1 objection for service businesses. Add "Licensed & Insured" with your license number.'} />
-          <BlueprintSection label="Years in Business" icon="📅" status={d.hasYearsExp ? 'pass' : 'warn'}
+          <BlueprintSection label="Years in Business" status={d.hasYearsExp ? 'pass' : 'warn'}
             tip={d.hasYearsExp ? 'Experience mentioned.' : '"15 Years in Business" or "Serving Since 2009" — anchors trust immediately.'} />
-          <BlueprintSection label="Rating / Review Count" icon="⭐" status={d.hasReviews ? 'pass' : 'fail'}
+          <BlueprintSection label="Rating / Review Count" status={d.hasReviews ? 'pass' : 'fail'}
             tip={d.hasReviews ? 'Review signals found.' : 'Show your Google star rating and review count right here. "4.9 ★ | 200+ Reviews"'} />
         </div>
       </div>
@@ -106,9 +106,9 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Services — What You Offer</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Service List with Icons" icon="🔧" status="neutral"
+          <BlueprintSection label="Service List with Icons" status="neutral"
             tip="List your core services with icons and 1-line descriptions. 3–6 services max — don't overwhelm." />
-          <BlueprintSection label="Service Area / Coverage" icon="📍" status={d.hasLocalSignal ? 'pass' : 'warn'}
+          <BlueprintSection label="Service Area / Coverage" status={d.hasLocalSignal ? 'pass' : 'warn'}
             tip={d.hasLocalSignal ? 'Local signals found.' : 'State your service area clearly. "Serving [City], [City], and [County]" helps local SEO and trust.'} />
         </div>
       </div>
@@ -120,7 +120,7 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Lead Form — The Money Section</span>
         </div>
         <div className="p-4 space-y-3">
-          <BlueprintSection label="Quote / Contact Form" icon="📋" status={formStatus} tip={formTip} />
+          <BlueprintSection label="Quote / Contact Form" status={formStatus} tip={formTip} />
           <div className="grid grid-cols-3 gap-3">
             {['Name', 'Phone Number', 'Service Needed'].map((field, i) => (
               <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
@@ -129,9 +129,9 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
               </div>
             ))}
           </div>
-          <BlueprintSection label="Response Time Promise" icon="⏱️" status={d.hasFastResponsePromise ? 'pass' : 'warn'}
+          <BlueprintSection label="Response Time Promise" status={d.hasFastResponsePromise ? 'pass' : 'warn'}
             tip={d.hasFastResponsePromise ? 'Response commitment found.' : 'Add "We respond within 1 hour" above the submit button. Dramatically increases form completions.'} />
-          <BlueprintSection label="Guarantee Below Form" icon="✅" status={d.hasGuarantee ? 'pass' : 'warn'}
+          <BlueprintSection label="Guarantee Below Form" status={d.hasGuarantee ? 'pass' : 'warn'}
             tip={d.hasGuarantee ? 'Guarantee found.' : '"100% Satisfaction Guaranteed or we come back free" — put this right under the submit button.'} />
         </div>
       </div>
@@ -143,13 +143,13 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof — Reviews & Work</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Customer Testimonials" icon="💬" status={d.hasReviews ? 'pass' : 'fail'}
+          <BlueprintSection label="Customer Testimonials" status={d.hasReviews ? 'pass' : 'fail'}
             tip={d.hasReviews ? 'Reviews detected.' : 'Add 3–5 specific testimonials with the customer name, city, and the job they had done.'} />
-          <BlueprintSection label="Before & After Photos" icon="📸" status="neutral"
+          <BlueprintSection label="Before & After Photos" status="neutral"
             tip="Before/after photos of your work do more than any copywriting. Add a gallery of real jobs." />
-          <BlueprintSection label="Video Testimonial" icon="🎥" status={d.hasVideo ? 'pass' : 'neutral'}
+          <BlueprintSection label="Video Testimonial" status={d.hasVideo ? 'pass' : 'neutral'}
             tip={d.hasVideo ? 'Video content found.' : 'A 30-second customer video on mobile converts better than any written review.'} />
-          <BlueprintSection label="Team / Owner Photo" icon="👤" status={d.hasTeamPhoto ? 'pass' : 'warn'}
+          <BlueprintSection label="Team / Owner Photo" status={d.hasTeamPhoto ? 'pass' : 'warn'}
             tip={d.hasTeamPhoto ? 'Team content found.' : 'People hire people. A photo of you or your crew with a short bio builds massive trust.'} />
         </div>
       </div>
@@ -161,9 +161,9 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Secondary CTA — Catch Scrollers</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Repeat CTA / Form" icon="🎯" status={d.hasCTA ? 'pass' : 'fail'}
+          <BlueprintSection label="Repeat CTA / Form" status={d.hasCTA ? 'pass' : 'fail'}
             tip="Repeat your CTA at the bottom for anyone who scrolled past the hero. 'Ready to Get Started? Get Your Free Quote →'" />
-          <BlueprintSection label="Online Booking Option" icon="📅" status={d.hasOnlineBooking ? 'pass' : 'neutral'}
+          <BlueprintSection label="Online Booking Option" status={d.hasOnlineBooking ? 'pass' : 'neutral'}
             tip={d.hasOnlineBooking ? 'Online booking found.' : 'Consider adding Calendly or Jobber scheduling. Lets leads self-book outside business hours.'} />
         </div>
       </div>
@@ -175,11 +175,11 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Footer — Contact & Trust</span>
         </div>
         <div className="p-4 grid grid-cols-3 gap-3">
-          <BlueprintSection label="NAP (Name, Address, Phone)" icon="📍" status={d.hasAddress && d.hasPhone ? 'pass' : 'warn'}
+          <BlueprintSection label="NAP (Name, Address, Phone)" status={d.hasAddress && d.hasPhone ? 'pass' : 'warn'}
             tip="Google requires consistent NAP across your site and directory listings for local SEO." />
-          <BlueprintSection label="Service Area Cities" icon="🗺️" status={d.hasLocalSignal ? 'pass' : 'warn'}
+          <BlueprintSection label="Service Area Cities" status={d.hasLocalSignal ? 'pass' : 'warn'}
             tip="List every city you serve in the footer. Each mention helps local SEO." />
-          <BlueprintSection label="Live Chat Widget" icon="💬" status={d.hasLiveChat ? 'pass' : 'neutral'}
+          <BlueprintSection label="Live Chat Widget" status={d.hasLiveChat ? 'pass' : 'neutral'}
             tip={d.hasLiveChat ? 'Chat widget found.' : 'Tawk.to is free and captures people who won\'t call or fill a form.'} />
         </div>
       </div>
@@ -200,12 +200,12 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Product Hero — Above the Fold</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Product Images (3+)" icon="🖼️" status="neutral" tip="Show every angle. Lifestyle + white background. First image determines ATC rate more than anything." />
-          <BlueprintSection label="Price + Deal Visible" icon="💰" status={d.hasPrice && d.hasDiscount ? 'pass' : d.hasPrice ? 'warn' : 'fail'}
+          <BlueprintSection label="Product Images (3+)" status="neutral" tip="Show every angle. Lifestyle + white background. First image determines ATC rate more than anything." />
+          <BlueprintSection label="Price + Deal Visible" status={d.hasPrice && d.hasDiscount ? 'pass' : d.hasPrice ? 'warn' : 'fail'}
             tip={d.hasPrice && d.hasDiscount ? 'Price and deal visible.' : d.hasPrice ? 'Price found but no deal. Add a crossed-out original price next to the sale price.' : 'No price visible above fold. Visitors need to see cost before they commit.'} />
-          <BlueprintSection label="Add to Cart Button" icon="🛒" status={d.hasATC ? 'pass' : 'fail'}
+          <BlueprintSection label="Add to Cart Button" status={d.hasATC ? 'pass' : 'fail'}
             tip={d.hasATC ? 'ATC button found.' : 'The ATC button should be large, high-contrast, and above the fold. This is your main conversion point.'} />
-          <BlueprintSection label="Urgency / Scarcity Signal" icon="⏰" status={d.hasUrgency ? 'pass' : 'warn'}
+          <BlueprintSection label="Urgency / Scarcity Signal" status={d.hasUrgency ? 'pass' : 'warn'}
             tip={d.hasUrgency ? 'Urgency signals found.' : '"Only 8 left" or a sale countdown adds FOMO and increases ATC rate 10–25%.'} />
         </div>
       </div>
@@ -216,9 +216,9 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Signals Near ATC</span>
         </div>
         <div className="p-4 grid grid-cols-3 gap-3">
-          <BlueprintSection label="Free Shipping" icon="🚚" status={d.hasFreeShipping ? 'pass' : 'warn'} tip={d.hasFreeShipping ? 'Free shipping messaging found.' : '80% of buyers expect it. If you offer it, make it the first thing they see near the ATC button.'} />
-          <BlueprintSection label="Money-Back Guarantee" icon="✅" status={d.hasGuarantee ? 'pass' : 'warn'} tip={d.hasGuarantee ? 'Guarantee found.' : '"30-Day Returns" next to ATC removes the biggest barrier for cold traffic.'} />
-          <BlueprintSection label="Secure Checkout Badge" icon="🔒" status={d.isHttps ? 'pass' : 'fail'} tip={d.isHttps ? 'HTTPS active.' : 'No SSL — Meta will not run ads here and buyers will not trust their card details.'} />
+          <BlueprintSection label="Free Shipping" status={d.hasFreeShipping ? 'pass' : 'warn'} tip={d.hasFreeShipping ? 'Free shipping messaging found.' : '80% of buyers expect it. If you offer it, make it the first thing they see near the ATC button.'} />
+          <BlueprintSection label="Money-Back Guarantee" status={d.hasGuarantee ? 'pass' : 'warn'} tip={d.hasGuarantee ? 'Guarantee found.' : '"30-Day Returns" next to ATC removes the biggest barrier for cold traffic.'} />
+          <BlueprintSection label="Secure Checkout Badge" status={d.isHttps ? 'pass' : 'fail'} tip={d.isHttps ? 'HTTPS active.' : 'No SSL — Meta will not run ads here and buyers will not trust their card details.'} />
         </div>
       </div>
 
@@ -228,8 +228,8 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof + Reviews</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Customer Reviews (30+)" icon="⭐" status={d.hasReviews ? 'pass' : 'fail'} tip={d.hasReviews ? 'Reviews found.' : 'Reviews are the single biggest driver of purchase decisions for cold traffic.'} />
-          <BlueprintSection label="Bundle / Upsell Offer" icon="📦" status={d.hasBundleDeal ? 'pass' : 'warn'} tip={d.hasBundleDeal ? 'Bundle offers found.' : '"Buy 2, Save 15%" shown just below ATC increases AOV with minimal friction.'} />
+          <BlueprintSection label="Customer Reviews (30+)" status={d.hasReviews ? 'pass' : 'fail'} tip={d.hasReviews ? 'Reviews found.' : 'Reviews are the single biggest driver of purchase decisions for cold traffic.'} />
+          <BlueprintSection label="Bundle / Upsell Offer" status={d.hasBundleDeal ? 'pass' : 'warn'} tip={d.hasBundleDeal ? 'Bundle offers found.' : '"Buy 2, Save 15%" shown just below ATC increases AOV with minimal friction.'} />
         </div>
       </div>
 
@@ -239,8 +239,8 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Checkout Flow</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Multiple Payment Options" icon="💳" status={d.hasPaymentOptions ? 'pass' : 'warn'} tip={d.hasPaymentOptions ? 'Payment options found.' : 'Add PayPal, Apple Pay, and Afterpay. Each reduces abandoned carts.'} />
-          <BlueprintSection label="Return Policy Clear" icon="↩️" status={d.hasReturnPolicy ? 'pass' : 'warn'} tip={d.hasReturnPolicy ? 'Return policy visible.' : 'Repeat your return policy on the checkout page. Reduces last-second bail-outs.'} />
+          <BlueprintSection label="Multiple Payment Options" status={d.hasPaymentOptions ? 'pass' : 'warn'} tip={d.hasPaymentOptions ? 'Payment options found.' : 'Add PayPal, Apple Pay, and Afterpay. Each reduces abandoned carts.'} />
+          <BlueprintSection label="Return Policy Clear" status={d.hasReturnPolicy ? 'pass' : 'warn'} tip={d.hasReturnPolicy ? 'Return policy visible.' : 'Repeat your return policy on the checkout page. Reduces last-second bail-outs.'} />
         </div>
       </div>
     </div>
@@ -260,10 +260,10 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Hero — Value Prop + CTA</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Free Trial CTA" icon="🎯" status={d.hasFreeTrial ? 'pass' : 'fail'} tip={d.hasFreeTrial ? 'Free trial messaging found.' : '"Start free trial" is the highest-converting CTA for SaaS cold traffic.'} />
-          <BlueprintSection label="No Credit Card Required" icon="💳" status={d.hasNoCC ? 'pass' : 'warn'} tip={d.hasNoCC ? '"No credit card" messaging found.' : 'This removes the #1 friction point. Adds 30–50% more trial signups.'} />
-          <BlueprintSection label="Hero Demo Image/Video" icon="🎥" status={d.hasVideo ? 'pass' : 'warn'} tip={d.hasVideo ? 'Video found.' : 'A product screenshot or 60-second demo video doubles conversion rate for SaaS pages.'} />
-          <BlueprintSection label="Outcome-Led Headline" icon="📢" status={d.hasCTA ? 'pass' : 'warn'} tip="Lead with the outcome, not the feature. 'Close deals faster' > 'A CRM for teams.'" />
+          <BlueprintSection label="Free Trial CTA" status={d.hasFreeTrial ? 'pass' : 'fail'} tip={d.hasFreeTrial ? 'Free trial messaging found.' : '"Start free trial" is the highest-converting CTA for SaaS cold traffic.'} />
+          <BlueprintSection label="No Credit Card Required" status={d.hasNoCC ? 'pass' : 'warn'} tip={d.hasNoCC ? '"No credit card" messaging found.' : 'This removes the #1 friction point. Adds 30–50% more trial signups.'} />
+          <BlueprintSection label="Hero Demo Image/Video" status={d.hasVideo ? 'pass' : 'warn'} tip={d.hasVideo ? 'Video found.' : 'A product screenshot or 60-second demo video doubles conversion rate for SaaS pages.'} />
+          <BlueprintSection label="Outcome-Led Headline" status={d.hasCTA ? 'pass' : 'warn'} tip="Lead with the outcome, not the feature. 'Close deals faster' > 'A CRM for teams.'" />
         </div>
       </div>
 
@@ -273,8 +273,8 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof + Logo Wall</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Customer Logo Wall" icon="🏢" status={d.hasLogoWall ? 'pass' : 'warn'} tip={d.hasLogoWall ? 'Logo wall found.' : '"Trusted by 500+ companies" with logos is the fastest trust builder for SaaS.'} />
-          <BlueprintSection label="User Count / Proof Number" icon="👥" status="neutral" tip='"Join 12,000+ teams" — quantified proof that others trust you.' />
+          <BlueprintSection label="Customer Logo Wall" status={d.hasLogoWall ? 'pass' : 'warn'} tip={d.hasLogoWall ? 'Logo wall found.' : '"Trusted by 500+ companies" with logos is the fastest trust builder for SaaS.'} />
+          <BlueprintSection label="User Count / Proof Number" status="neutral" tip='"Join 12,000+ teams" — quantified proof that others trust you.' />
         </div>
       </div>
 
@@ -284,8 +284,8 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Features + How It Works</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Feature / Benefit List" icon="✨" status={d.hasFeatureList ? 'pass' : 'warn'} tip={d.hasFeatureList ? 'Feature list found.' : '3-column feature grid with icons. Lead with benefits not specs.'} />
-          <BlueprintSection label="Integrations Section" icon="🔗" status={d.hasIntegrations ? 'pass' : 'warn'} tip={d.hasIntegrations ? 'Integrations found.' : 'Show Slack, Zapier, HubSpot logos. Buyers want to know it fits their stack.'} />
+          <BlueprintSection label="Feature / Benefit List" status={d.hasFeatureList ? 'pass' : 'warn'} tip={d.hasFeatureList ? 'Feature list found.' : '3-column feature grid with icons. Lead with benefits not specs.'} />
+          <BlueprintSection label="Integrations Section" status={d.hasIntegrations ? 'pass' : 'warn'} tip={d.hasIntegrations ? 'Integrations found.' : 'Show Slack, Zapier, HubSpot logos. Buyers want to know it fits their stack.'} />
         </div>
       </div>
 
@@ -295,8 +295,8 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Pricing + Final CTA</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
-          <BlueprintSection label="Pricing Section" icon="💰" status={d.hasPricing ? 'pass' : 'warn'} tip={d.hasPricing ? 'Pricing found.' : 'Transparent pricing pre-qualifies leads and builds trust.'} />
-          <BlueprintSection label="Demo / Sales CTA" icon="📅" status={d.hasDemo ? 'pass' : 'warn'} tip={d.hasDemo ? 'Demo CTA found.' : '"Book a Demo" as secondary CTA catches buyers who aren\'t ready to trial.'} />
+          <BlueprintSection label="Pricing Section" status={d.hasPricing ? 'pass' : 'warn'} tip={d.hasPricing ? 'Pricing found.' : 'Transparent pricing pre-qualifies leads and builds trust.'} />
+          <BlueprintSection label="Demo / Sales CTA" status={d.hasDemo ? 'pass' : 'warn'} tip={d.hasDemo ? 'Demo CTA found.' : '"Book a Demo" as secondary CTA catches buyers who aren\'t ready to trial.'} />
         </div>
       </div>
     </div>
@@ -361,7 +361,7 @@ function CategoryCard({ categoryKey, score, label, description, findings, expand
   categoryKey: string; score: number; label: string; description: string
   findings: Finding[]; expanded: boolean; onToggle: () => void
 }) {
-  const { emoji, color } = CATEGORY_META[categoryKey] || { emoji: '📊', color: '#A0A4B8' }
+  const { color } = CATEGORY_META[categoryKey] || { color: '#A0A4B8' }
   const passes = findings.filter(f => f.status === 'pass').length
   const fails = findings.filter(f => f.status === 'fail').length
   const warns = findings.filter(f => f.status === 'warn').length
@@ -369,7 +369,9 @@ function CategoryCard({ categoryKey, score, label, description, findings, expand
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="p-5 flex items-center gap-4 cursor-pointer" onClick={onToggle}>
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>{emoji}</div>
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
+          <div className="w-3 h-3 rounded-full" style={{ background: color }} />
+        </div>
         <div className="flex-1 min-w-0">
           <p className="font-black text-sm mb-0.5" style={{ color: '#E8ECFF' }}>{label}</p>
           <p className="text-xs mb-2" style={{ color: '#484D6D' }}>{description}</p>
@@ -481,7 +483,7 @@ export default function AuditTool() {
       {/* Error */}
       {error && (
         <div className="rounded-2xl p-6" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
-          <p className="font-bold text-sm" style={{ color: '#EF4444' }}>⚠ Audit failed</p>
+          <p className="font-bold text-sm" style={{ color: '#EF4444' }}>Audit failed</p>
           <p className="text-xs mt-1" style={{ color: '#7B82A0' }}>{error}</p>
         </div>
       )}
@@ -498,7 +500,7 @@ export default function AuditTool() {
             <div className="flex items-center gap-2 mb-6 relative">
               <span className="text-xs font-black px-3 py-1.5 rounded-full flex items-center gap-2"
                 style={{ background: `${typeConf.color}15`, color: typeConf.color, border: `1px solid ${typeConf.color}30` }}>
-                {typeConf.emoji} {typeConf.label} Detected
+                {typeConf.label} Detected
               </span>
               <span className="text-xs" style={{ color: '#484D6D' }}>{result.businessTypeConfidence} · {typeConf.desc}</span>
             </div>
@@ -515,7 +517,10 @@ export default function AuditTool() {
                     const meta = CATEGORY_META[key]
                     return (
                       <div key={key} className="flex items-center gap-2">
-                        <span className="text-sm flex-shrink-0">{meta.emoji}</span>
+                        <div
+                          className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5"
+                          style={{ background: meta.color }}
+                        />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-0.5">
                             <span className="text-xs truncate" style={{ color: '#7B82A0' }}>{cat.label}</span>
@@ -536,9 +541,9 @@ export default function AuditTool() {
           {/* Tab Nav */}
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', width: 'fit-content' }}>
             {[
-              { id: 'scores' as ActiveTab, label: '📊 Scores' },
-              { id: 'layout' as ActiveTab, label: `🏗️ Page Layout` },
-              ...(hasScreenshot ? [{ id: 'screenshot' as ActiveTab, label: '📸 Screenshot' }] : []),
+              { id: 'scores' as ActiveTab, label: 'Scores' },
+              { id: 'layout' as ActiveTab, label: 'Page Layout' },
+              ...(hasScreenshot ? [{ id: 'screenshot' as ActiveTab, label: 'Screenshot' }] : []),
             ].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
@@ -556,7 +561,7 @@ export default function AuditTool() {
               {/* Priority Fixes */}
               {result.topFixes.length > 0 && (
                 <div className="rounded-2xl p-7" style={{ background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.12)' }}>
-                  <p className="font-black text-sm mb-4" style={{ color: '#EF4444' }}>🔥 Priority Fixes — Ranked by Impact</p>
+                  <p className="font-black text-sm mb-4" style={{ color: '#EF4444' }}>Priority Fixes — Ranked by Impact</p>
                   <div className="space-y-4">
                     {result.topFixes.map((fix, i) => (
                       <div key={i} className="flex items-start gap-3">
@@ -589,7 +594,7 @@ export default function AuditTool() {
 
               {/* Ad Impact */}
               <div className="rounded-2xl p-7" style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)' }}>
-                <p className="font-black text-sm mb-3" style={{ color: '#21D19F' }}>🚀 Should You Run Ads to This {typeConf.label} Site?</p>
+                <p className="font-black text-sm mb-3" style={{ color: '#21D19F' }}>Should You Run Ads to This {typeConf.label} Site?</p>
                 {result.scores.adReadiness >= 80 ? (
                   <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
                     <span style={{ color: '#21D19F', fontWeight: 700 }}>Yes — this site is ad-ready. </span>
@@ -638,7 +643,7 @@ export default function AuditTool() {
                     <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>Captured by Google PageSpeed — what a mobile visitor sees</p>
                   </div>
                   <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'rgba(160,207,255,0.1)', color: '#A0CFFF', border: '1px solid rgba(160,207,255,0.2)' }}>
-                    📱 Mobile View
+                    Mobile View
                   </span>
                 </div>
                 <div className="p-6 flex justify-center">
@@ -659,7 +664,7 @@ export default function AuditTool() {
                     {result.scores.conversion < 60 && (
                       <div className="absolute top-16 right-0 translate-x-full ml-3 w-40 pl-3">
                         <div className="rounded-lg p-2.5" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)' }}>
-                          <p className="text-xs font-black" style={{ color: '#EF4444' }}>⚠ Weak CTA area</p>
+                          <p className="text-xs font-black" style={{ color: '#EF4444' }}>Weak CTA area</p>
                           <p className="text-xs mt-0.5" style={{ color: '#7B82A0' }}>Conversion needs work</p>
                         </div>
                       </div>
@@ -667,7 +672,7 @@ export default function AuditTool() {
                     {result.scores.trust < 60 && (
                       <div className="absolute bottom-24 right-0 translate-x-full ml-3 w-40 pl-3">
                         <div className="rounded-lg p-2.5" style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)' }}>
-                          <p className="text-xs font-black" style={{ color: '#F59E0B' }}>⚠ Missing trust signals</p>
+                          <p className="text-xs font-black" style={{ color: '#F59E0B' }}>Missing trust signals</p>
                           <p className="text-xs mt-0.5" style={{ color: '#7B82A0' }}>See Page Layout tab</p>
                         </div>
                       </div>

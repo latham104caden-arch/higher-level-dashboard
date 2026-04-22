@@ -8,13 +8,11 @@ type Question = {
   correct: number
   explanation: string
   fact: string
-  emoji: string
-  tag: string
+  tag?: string
 }
 
 const ECOMMERCE_QUESTIONS: Question[] = [
   {
-    emoji: '🛒', tag: 'Checkout',
     question: 'What percentage of online shoppers abandon their cart before purchasing?',
     options: ['28%', '47%', '70%', '88%'],
     correct: 2,
@@ -22,7 +20,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Fixing checkout alone can increase your conversions by up to 35%.',
   },
   {
-    emoji: '📸', tag: 'Creative',
     question: 'UGC ads vs professional studio photos — which gets a higher CTR on Meta?',
     options: ['Professional by 2x', 'They perform the same', 'UGC by 4x', 'Depends on the product'],
     correct: 2,
@@ -30,7 +27,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'UGC is 5x more likely to drive a conversion than professional content.',
   },
   {
-    emoji: '⚡', tag: 'Website',
     question: 'How much does a 1-second delay in page load time cost you in conversions?',
     options: ['1%', '4%', '7%', '15%'],
     correct: 2,
@@ -38,7 +34,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Target under 2.5 seconds. Test yours free at PageSpeed Insights.',
   },
   {
-    emoji: '📱', tag: 'Mobile',
     question: 'What percentage of ecommerce traffic comes from mobile devices?',
     options: ['45%', '61%', '73%', '83%'],
     correct: 3,
@@ -46,7 +41,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Test your store on your own phone before any other device. If it feels slow, it is.',
   },
   {
-    emoji: '💬', tag: 'SMS',
     question: 'What is the abandoned cart SMS conversion rate?',
     options: ['4–8%', '11–15%', '24–39%', '50%+'],
     correct: 2,
@@ -54,7 +48,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'A 3-message sequence (15min, 2hr, 24hr) dramatically outperforms a single follow-up text.',
   },
   {
-    emoji: '📧', tag: 'Email',
     question: 'For every $1 spent on email marketing, what\'s the average return?',
     options: ['$8', '$18', '$42', '$76'],
     correct: 2,
@@ -62,7 +55,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Automated email flows generate 320% more revenue than one-off campaigns.',
   },
   {
-    emoji: '⭐', tag: 'Social Proof',
     question: 'Where should you place customer reviews for maximum conversion impact?',
     options: ['Footer only', 'Separate reviews page', 'Next to the Add to Cart button', 'Pop-up after 30 seconds'],
     correct: 2,
@@ -70,7 +62,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Product pages with customer photos see up to 134% more conversions vs professional-only photos.',
   },
   {
-    emoji: '🔢', tag: 'Photography',
     question: 'How many product images maximize conversions?',
     options: ['1 hero image', '2–3 angles', '4+ including lifestyle', '10+'],
     correct: 2,
@@ -78,7 +69,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: '360° product images increase conversion rates by 22%.',
   },
   {
-    emoji: '🚀', tag: 'Checkout',
     question: 'What\'s the #1 reason shoppers abandon checkout?',
     options: ['Too many steps', 'Hidden fees at checkout', 'Forced account creation', 'Limited payment options'],
     correct: 1,
@@ -86,7 +76,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Be upfront about all costs from the first click. Trust builds conversions.',
   },
   {
-    emoji: '📱', tag: 'SMS',
     question: 'How many SMS messages per month maximizes engagement without killing your list?',
     options: ['1–2', '4–6', '10–12', '15–20'],
     correct: 1,
@@ -94,7 +83,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'A well-run SMS list should generate $15–$30 per subscriber per month.',
   },
   {
-    emoji: '🎯', tag: 'Ads',
     question: 'What is the industry median landing page conversion rate?',
     options: ['1.2%', '3.2%', '6.6%', '12%'],
     correct: 2,
@@ -102,7 +90,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Removing navigation from a landing page has been shown to double conversion rates.',
   },
   {
-    emoji: '🎥', tag: 'Creative',
     question: 'Adding video to a landing page can improve conversions by how much?',
     options: ['12%', '36%', '86%', '200%'],
     correct: 2,
@@ -110,7 +97,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Even a simple 30-second walkthrough shot on your phone outperforms most professional images.',
   },
   {
-    emoji: '🔁', tag: 'Email',
     question: 'What email traffic conversion rate makes it one of the best acquisition channels?',
     options: ['4.1%', '9.3%', '19.3%', '28%'],
     correct: 2,
@@ -118,7 +104,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Personalized CTAs in emails convert 202% better than generic ones.',
   },
   {
-    emoji: '👥', tag: 'Social Proof',
     question: 'What percentage of online shoppers consider product photos the most important buying factor?',
     options: ['45%', '68%', '78%', '90%'],
     correct: 3,
@@ -126,7 +111,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: '50% of shoppers specifically buy products featuring larger, high-quality images.',
   },
   {
-    emoji: '💰', tag: 'ROAS',
     question: 'A 2x ROAS on Meta ads means what exactly?',
     options: ['You spent $2 and made $1', 'You broke even', 'You doubled your ad spend in revenue', 'You made 200% profit'],
     correct: 2,
@@ -134,7 +118,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Most brands need 2.5–4x ROAS to be truly profitable after product cost, shipping, and overhead.',
   },
   {
-    emoji: '🗂️', tag: 'Website',
     question: 'Businesses with how many landing pages see nearly 300% more conversions?',
     options: ['5–10', '10–15', '21–40', '50+'],
     correct: 2,
@@ -142,7 +125,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Every ad angle should have its own dedicated landing page — not your homepage.',
   },
   {
-    emoji: '🛍️', tag: 'Checkout',
     question: 'What percentage of shoppers abandon if you require account creation to checkout?',
     options: ['8%', '14%', '19%', '31%'],
     correct: 2,
@@ -150,7 +132,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Post-purchase account creation converts much higher than pre-purchase — the customer already trusts you.',
   },
   {
-    emoji: '📦', tag: 'Returns',
     question: 'What percentage of products are returned because they looked different in photos?',
     options: ['8%', '15%', '22%', '35%'],
     correct: 2,
@@ -158,7 +139,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: '360° images and lifestyle shots dramatically close the gap between expectation and reality.',
   },
   {
-    emoji: '🔄', tag: 'Retention',
     question: 'A customer who buys twice is how many times more likely to become a loyal repeat buyer?',
     options: ['2x', '3x', '5x', '10x'],
     correct: 2,
@@ -166,7 +146,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Focus your post-purchase email flow on getting that second order — offer a related product within 7 days.',
   },
   {
-    emoji: '💡', tag: 'Email',
     question: 'What percentage of small businesses use email marketing to acquire customers?',
     options: ['42%', '61%', '81%', '94%'],
     correct: 2,
@@ -174,7 +153,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'The brands that treat email as their primary owned channel consistently outperform those that rely only on paid ads.',
   },
   {
-    emoji: '📊', tag: 'Ads',
     question: 'Which audience typically has the lowest cost-per-acquisition on Meta?',
     options: ['Cold interest targeting', 'Lookalike audiences', 'Retargeting past visitors', 'Broad targeting with Advantage+'],
     correct: 2,
@@ -182,7 +160,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Layer your strategy: cold traffic to build awareness → retargeting to convert → email/SMS to retain.',
   },
   {
-    emoji: '🎨', tag: 'Creative',
     question: 'How long do you have to capture attention in a Meta video ad before people scroll past?',
     options: ['5 seconds', '3 seconds', '1.7 seconds', '8 seconds'],
     correct: 1,
@@ -190,7 +167,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Never start a video ad with a logo animation. Start with your strongest hook.',
   },
   {
-    emoji: '🏷️', tag: 'Pricing',
     question: 'Prices ending in .99 vs rounded numbers — which performs better and why?',
     options: ['.99 always wins', 'Rounded numbers always win', '.99 wins for value positioning, rounded wins for premium', 'No difference proven'],
     correct: 2,
@@ -198,7 +174,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Charm pricing (.99) works best with price-sensitive audiences. Round numbers build perceived quality.',
   },
   {
-    emoji: '🔔', tag: 'SMS',
     question: 'What percentage of consumers made a purchase after receiving a brand SMS?',
     options: ['38%', '52%', '72%', '86%'],
     correct: 2,
@@ -206,7 +181,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Businesses that engage customers through SMS are 683% more likely to achieve digital marketing success.',
   },
   {
-    emoji: '⚙️', tag: 'Automation',
     question: 'How much more revenue do automated email campaigns generate vs non-automated?',
     options: ['80% more', '140% more', '220% more', '320% more'],
     correct: 3,
@@ -214,7 +188,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Your abandoned cart flow alone should recover 5–15% of all abandoned revenue on autopilot.',
   },
   {
-    emoji: '📈', tag: 'Scaling',
     question: 'When scaling a winning Meta ad, what\'s the safest budget increase increment?',
     options: ['Double it immediately', 'Increase 20–30% every 3 days', 'Increase 50% weekly', 'Move to a new campaign'],
     correct: 1,
@@ -222,7 +195,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Doubling the budget overnight often tanks performance temporarily. Patience when scaling saves money.',
   },
   {
-    emoji: '🧪', tag: 'Testing',
     question: 'When testing new ad creatives, what metric should you look at first?',
     options: ['ROAS', 'Cost per purchase', 'CTR (Click-Through Rate)', 'Impressions'],
     correct: 2,
@@ -230,7 +202,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'A CTR above 2% is good. Above 4% means your hook is genuinely working.',
   },
   {
-    emoji: '💳', tag: 'Checkout',
     question: 'Offering more payment options at checkout has what effect on conversions?',
     options: ['No measurable effect', 'Reduces conversions — too many choices', 'Increases conversions, especially with Buy Now Pay Later', 'Only matters for orders over $100'],
     correct: 2,
@@ -238,7 +209,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Missing a preferred payment method is a top-5 reason for checkout abandonment.',
   },
   {
-    emoji: '🌐', tag: 'Website',
     question: 'What is the fastest way to increase conversions without changing your ads?',
     options: ['Lower your prices', 'Optimize your landing page speed', 'Add more products', 'Increase your ad budget'],
     correct: 1,
@@ -246,7 +216,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'Ad optimization without landing page optimization is like pouring water into a leaky bucket.',
   },
   {
-    emoji: '🎁', tag: 'Retention',
     question: 'What\'s the best time to introduce a customer to your next product?',
     options: ['Before they buy the first one', 'Immediately at checkout', 'In the 24 hours after their first purchase', '30 days after delivery'],
     correct: 2,
@@ -254,7 +223,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
     fact: 'A well-timed post-purchase upsell email in this window can add 15–25% to your average order value.',
   },
   {
-    emoji: '🔍', tag: 'Ads',
     question: 'What does CPM stand for and what does a high CPM indicate?',
     options: ['Cost Per Month — too much spending', 'Cost Per Message — your DMs are expensive', 'Cost Per 1,000 Impressions — competition for your audience is high', 'Conversion Per Metric — your tracking is off'],
     correct: 2,
@@ -265,7 +233,6 @@ const ECOMMERCE_QUESTIONS: Question[] = [
 
 const LOCAL_QUESTIONS: Question[] = [
   {
-    emoji: '⚡', tag: 'Speed to Lead',
     question: 'How much more likely are you to convert a lead responding within 5 minutes vs 30 minutes?',
     options: ['3x more likely', '10x more likely', '21x more likely', 'Same chance'],
     correct: 2,
@@ -273,7 +240,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Calling within 1 minute of inquiry boosts conversions by 391%.',
   },
   {
-    emoji: '🕐', tag: 'Speed to Lead',
     question: 'What is the average business response time to a new lead?',
     options: ['15 minutes', '2 hours', '12 hours', '47 hours'],
     correct: 3,
@@ -281,7 +247,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: '51% of leads are never contacted at all. Just showing up puts you ahead of half your competition.',
   },
   {
-    emoji: '🏆', tag: 'Competition',
     question: 'What percentage of buyers go with the first business that responds?',
     options: ['42%', '58%', '67%', '78%'],
     correct: 3,
@@ -289,7 +254,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: '82% of consumers expect a business to reply within 10 minutes of reaching out.',
   },
   {
-    emoji: '📱', tag: 'SMS',
     question: 'What is the open rate for SMS messages compared to email?',
     options: ['SMS 45% / Email 35%', 'SMS 75% / Email 25%', 'SMS 98% / Email 20%', 'About the same'],
     correct: 2,
@@ -297,7 +261,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Post-service SMS review requests convert at 12–15% vs 3–4% for email.',
   },
   {
-    emoji: '⭐', tag: 'Reviews',
     question: 'How many reviews does a local business need before customers trust their rating?',
     options: ['5', '10', '20', '50'],
     correct: 2,
@@ -305,7 +268,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: '71% of consumers regularly read reviews before hiring any local service business.',
   },
   {
-    emoji: '📞', tag: 'Speed to Lead',
     question: 'A lead submits a quote request. When should you text them?',
     options: ['Within 24 hours', 'Within 4 hours', 'Within 1 hour', 'Within 60 seconds'],
     correct: 3,
@@ -313,7 +275,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Text first ("I\'ll call you in a moment") then call immediately. Two-touch instant response wins every time.',
   },
   {
-    emoji: '📸', tag: 'Website',
     question: 'What\'s the #1 trust signal on a local service business website?',
     options: ['Professional logo', 'Before & after photos', 'Price list', 'Years in business badge'],
     correct: 1,
@@ -321,7 +282,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Businesses with 100+ photos on Google Business Profile get 520% more calls than those with fewer than 10.',
   },
   {
-    emoji: '📋', tag: 'Website',
     question: 'How many fields should your lead capture form have for maximum conversions?',
     options: ['8–10 fields', '5–6 fields', '3 fields', '1 field'],
     correct: 2,
@@ -329,7 +289,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Every extra form field is another opportunity for your potential customer to give up.',
   },
   {
-    emoji: '🔄', tag: 'Follow-Up',
     question: 'What percentage of replies to follow-up sequences come from messages 2–5, not the first contact?',
     options: ['15%', '30%', '45%', '55%'],
     correct: 3,
@@ -337,7 +296,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'The winning sequence: Day 1 call + text, Day 2 call, Day 3 email, Day 5 text, Day 7 final call.',
   },
   {
-    emoji: '📍', tag: 'Mobile',
     question: 'What percentage of local searches happen on mobile phones?',
     options: ['45%', '58%', '70%+', '90%'],
     correct: 2,
@@ -345,7 +303,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A 1-second delay in page load time reduces conversions by 7%.',
   },
   {
-    emoji: '🔔', tag: 'Reviews',
     question: 'When is the best time to ask a customer for a Google review?',
     options: ['1 month after the job', 'In a follow-up email a week later', 'Right when you finish the job while they\'re happy', 'After they rebook'],
     correct: 2,
@@ -353,7 +310,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Asking in person then sending a text link is the highest-converting review request method.',
   },
   {
-    emoji: '💰', tag: 'Leads',
     question: 'Referred customers close at what rate compared to cold leads?',
     options: ['Same rate', '2x higher', '4x higher', '10x higher'],
     correct: 2,
@@ -361,7 +317,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Emailing happy customers 2 weeks post-job with a referral offer is one of the highest-ROI moves in local service marketing.',
   },
   {
-    emoji: '📧', tag: 'Email',
     question: 'For every $1 spent on email marketing, what\'s the average return?',
     options: ['$8', '$18', '$42', '$76'],
     correct: 2,
@@ -369,7 +324,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A simple monthly email to your past customer list is one of the highest-ROI activities in your whole business.',
   },
   {
-    emoji: '🌐', tag: 'Website',
     question: 'Where should your phone number appear on your website?',
     options: ['Footer only', 'Contact page only', 'Top right of every page, clickable on mobile', 'Pop-up after 10 seconds'],
     correct: 2,
@@ -377,7 +331,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Your homepage has one job: turn a visitor into a lead in under 30 seconds.',
   },
   {
-    emoji: '🎥', tag: 'Content',
     question: 'What type of content performs best for local service businesses in Meta ads?',
     options: ['Polished studio ads', 'Stock footage with voiceover', 'Before/after walkthrough videos shot on a phone', 'Carousel of service options'],
     correct: 2,
@@ -385,7 +338,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A 30-second phone video of a completed job — before and after — is your most powerful ad creative.',
   },
   {
-    emoji: '🤝', tag: 'Trust',
     question: 'What is the #1 reason homeowners hesitate to hire a new service business?',
     options: ['Price is too high', 'They\'re worried about who\'s coming to their home', 'Too many choices', 'They don\'t know what they need'],
     correct: 1,
@@ -393,7 +345,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A "Meet the Team" page with real photos and short bios directly increases inquiry conversion rates.',
   },
   {
-    emoji: '📊', tag: 'Ads',
     question: 'What does CPL stand for and what\'s a healthy target for most local service businesses?',
     options: ['Cost Per Lead — target under $200', 'Cost Per Lead — target 10–20% of average job value', 'Clicks Per Lead — depends on industry', 'Conversion Per Lead — above 50%'],
     correct: 1,
@@ -401,7 +352,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Tracking CPL is just the start — also track lead-to-booked-job rate to understand your true acquisition cost.',
   },
   {
-    emoji: '🔁', tag: 'Retention',
     question: 'Past customers convert at what rate compared to cold leads?',
     options: ['About the same', '2–3x higher', '20–30x higher', '60–70x higher'],
     correct: 2,
@@ -409,7 +359,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A seasonal text or email to your past customers before peak season is your highest-ROI campaign every year.',
   },
   {
-    emoji: '💬', tag: 'Follow-Up',
     question: 'What is a "missed-call text-back" and why does it matter?',
     options: ['A feature that calls back automatically', 'An auto-text sent within 30 seconds of a missed call', 'A voicemail transcription service', 'A callback scheduling tool'],
     correct: 1,
@@ -417,7 +366,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Most CRM and phone tools (GoHighLevel, Jobber, etc.) have this feature built in.',
   },
   {
-    emoji: '📈', tag: 'Growth',
     question: 'What\'s the most cost-effective way to grow a local service business?',
     options: ['More ad spend', 'More service offerings', 'Referral program + review system + fast follow-up', 'Hire more staff first'],
     correct: 2,
@@ -425,7 +373,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Building systems before scaling ad spend means every dollar you invest goes further.',
   },
   {
-    emoji: '🏠', tag: 'Trust',
     question: 'What percentage of consumers check a business\'s online presence before calling?',
     options: ['41%', '63%', '79%', '92%'],
     correct: 3,
@@ -433,7 +380,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'A complete, active Google Business Profile with recent photos and reviews is worth more than most paid campaigns.',
   },
   {
-    emoji: '📅', tag: 'Seasonality',
     question: 'When should you start marketing for your peak season?',
     options: ['When peak season starts', '2 weeks before peak season', '4–6 weeks before peak season', 'Year-round with no changes'],
     correct: 2,
@@ -441,7 +387,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'By the time most homeowners are actively searching, the best service providers are already fully booked.',
   },
   {
-    emoji: '🔑', tag: 'Website',
     question: 'Your homepage has one primary goal. What is it?',
     options: ['Show everything you offer', 'Rank on Google', 'Turn a visitor into a lead in under 30 seconds', 'Look professional'],
     correct: 2,
@@ -449,7 +394,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Pages with a single, clear CTA convert significantly higher than pages with multiple competing calls to action.',
   },
   {
-    emoji: '💡', tag: 'Ads',
     question: 'What makes a Facebook ad hook effective for a local service business?',
     options: ['Mentioning your years of experience', 'Leading with the customer\'s problem, not your solution', 'Starting with your company name and logo', 'Listing all your services'],
     correct: 1,
@@ -457,7 +401,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'You have 3 seconds to stop the scroll. A problem your customer recognizes is your fastest hook.',
   },
   {
-    emoji: '🗓️', tag: 'Follow-Up',
     question: 'What is the ideal follow-up cadence after sending a quote that hasn\'t been accepted?',
     options: ['Wait for them to reach out', 'One email after 3 days then stop', '24hr text, 3-day call, 7-day final message', 'Daily messages for a week'],
     correct: 2,
@@ -465,7 +408,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: '55% of replies to follow-up sequences come from the 2nd or 3rd message — not the first.',
   },
   {
-    emoji: '🌟', tag: 'Reviews',
     question: 'Google reviews vs Facebook reviews — which matters more for local service SEO?',
     options: ['Facebook reviews', 'They are equal', 'Google reviews', 'Yelp reviews'],
     correct: 2,
@@ -473,7 +415,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'Getting to 50+ Google reviews with a 4.8+ rating puts you in a completely different competitive tier.',
   },
   {
-    emoji: '📲', tag: 'SMS',
     question: 'Seasonal re-engagement SMS to past customers typically converts at what rate?',
     options: ['2–5%', '10–20%', '40–50%', '60–70%'],
     correct: 3,
@@ -481,7 +422,6 @@ const LOCAL_QUESTIONS: Question[] = [
     fact: 'This is the highest-ROI campaign you can run — costs almost nothing, converts like crazy.',
   },
   {
-    emoji: '⚙️', tag: 'Systems',
     question: 'What is the most common reason small local businesses fail to grow despite getting enough leads?',
     options: ['Not enough ad budget', 'Poor follow-up and slow response time', 'Bad service quality', 'Too much competition'],
     correct: 1,
@@ -558,7 +498,7 @@ export function QuizGame({ clientType }: { clientType: string }) {
         style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
       >
         <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full blur-3xl opacity-08 pointer-events-none" style={{ background: '#21D19F' }} />
-        <div className="text-3xl mb-4">{q.emoji}</div>
+        {q.tag && <span className="text-xs font-black px-2.5 py-1 rounded-full inline-block mb-4" style={{ background: 'rgba(33,209,159,0.1)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>{q.tag}</span>}
         <p className="font-black text-lg leading-snug mb-6" style={{ color: '#E8ECFF' }}>{q.question}</p>
 
         <div className="space-y-3">
@@ -606,12 +546,12 @@ export function QuizGame({ clientType }: { clientType: string }) {
           }}
         >
           <p className="font-black text-sm" style={{ color: isCorrect ? '#21D19F' : '#EF4444' }}>
-            {isCorrect ? '✅ Correct!' : `❌  The answer is: ${q.options[q.correct]}`}
+            {isCorrect ? 'Correct!' : `The answer is: ${q.options[q.correct]}`}
           </p>
           <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{q.explanation}</p>
           <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
             <p className="text-xs" style={{ color: '#A0A4B8' }}>
-              <span style={{ color: '#484D6D' }}>💡 </span>{q.fact}
+              {q.fact}
             </p>
           </div>
         </div>

@@ -9,7 +9,7 @@ const SECTIONS = {
   ecommerce: [
     {
       id: 'website',
-      emoji: '🌐',
+      
       title: 'Build a Website That Actually Converts',
       color: '#00C2FF',
       stat: { value: '35%', label: 'avg conversion lift from checkout optimization alone (Baymard Institute)' },
@@ -43,7 +43,7 @@ const SECTIONS = {
     },
     {
       id: 'content',
-      emoji: '📸',
+      
       title: 'Content & Photography That Sells',
       color: '#21D19F',
       stat: { value: '5x', label: 'more conversions from UGC vs professional photography (inBeat Agency)' },
@@ -77,7 +77,7 @@ const SECTIONS = {
     },
     {
       id: 'followup',
-      emoji: '⚡',
+      
       title: 'Response Time & Follow-Up',
       color: '#F59E0B',
       stat: { value: '21x', label: 'more likely to convert when you respond within 5 minutes vs 30 minutes' },
@@ -103,7 +103,7 @@ const SECTIONS = {
     },
     {
       id: 'sms',
-      emoji: '📱',
+      
       title: 'SMS Marketing',
       color: '#45B69C',
       stat: { value: '98%', label: 'open rate — 90% read within 3 minutes (Omnisend 2025)' },
@@ -129,7 +129,7 @@ const SECTIONS = {
     },
     {
       id: 'email',
-      emoji: '📧',
+      
       title: 'Email Marketing',
       color: '#A78BFA',
       stat: { value: '$42', label: 'returned for every $1 spent on email — highest ROI of any channel (Litmus)' },
@@ -158,7 +158,7 @@ const SECTIONS = {
   local: [
     {
       id: 'website',
-      emoji: '🌐',
+      
       title: 'Build a Website That Books Jobs',
       color: '#FFB800',
       stat: { value: '70%+', label: 'of local searches happen on phones — mobile-first is non-negotiable' },
@@ -192,7 +192,7 @@ const SECTIONS = {
     },
     {
       id: 'content',
-      emoji: '📸',
+      
       title: 'Content & Photography That Builds Trust',
       color: '#21D19F',
       stat: { value: '134%', label: 'conversion increase when real job photos are shown vs stock images' },
@@ -226,7 +226,7 @@ const SECTIONS = {
     },
     {
       id: 'followup',
-      emoji: '⚡',
+      
       title: 'Speed to Lead & Follow-Up',
       color: '#EF4444',
       stat: { value: '391%', label: 'conversion increase when you call a lead within 1 minute of inquiry' },
@@ -260,7 +260,7 @@ const SECTIONS = {
     },
     {
       id: 'sms',
-      emoji: '📱',
+      
       title: 'SMS Marketing for Local Businesses',
       color: '#45B69C',
       stat: { value: '98%', label: 'SMS open rate — 90% read within 3 minutes vs 20% for email (Omnisend)' },
@@ -286,7 +286,7 @@ const SECTIONS = {
     },
     {
       id: 'email',
-      emoji: '📧',
+      
       title: 'Email Marketing',
       color: '#A78BFA',
       stat: { value: '$42', label: 'returned for every $1 spent on email — highest ROI of any channel (Litmus)' },
@@ -412,11 +412,9 @@ export default async function GrowPage() {
               {/* Section header */}
               <div className="flex items-center gap-4 mb-8">
                 <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
-                  style={{ background: section.color + '15', border: `1px solid ${section.color}25` }}
-                >
-                  {section.emoji}
-                </div>
+                  className="w-3 self-stretch rounded-full flex-shrink-0"
+                  style={{ background: `linear-gradient(180deg, ${section.color}, ${section.color}44)` }}
+                />
                 <div>
                   <h2 className="text-2xl font-black tracking-tight" style={{ color: '#E8ECFF' }}>{section.title}</h2>
                   <p className="text-sm mt-0.5" style={{ color: '#7B82A0' }}>{section.intro}</p>

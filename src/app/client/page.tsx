@@ -61,17 +61,17 @@ export default async function ClientPortalPage() {
   // Funnel steps
   const funnelSteps = client.type === 'ecommerce'
     ? [
-        { label: 'Impressions', value: fmtInt(impressions), raw: impressions, color: '#A0A4B8', emoji: '👁️' },
-        { label: 'Clicks', value: fmtInt(clicks), raw: clicks, color: '#A0CFFF', emoji: '🖱️', rate: impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) + '% CTR' : null },
-        { label: 'Page Views', value: fmtInt(lpv), raw: lpv, color: '#F59E0B', emoji: '📄', rate: clicks > 0 && lpv > 0 ? ((lpv / clicks) * 100).toFixed(0) + '% of clicks' : null },
-        { label: 'Add to Cart', value: fmtInt(atc), raw: atc, color: '#45B69C', emoji: '🛒', rate: lpv > 0 && atc > 0 ? ((atc / lpv) * 100).toFixed(0) + '% of views' : null },
-        { label: 'Purchases', value: fmtInt(purchases), raw: purchases, color: '#21D19F', emoji: '✅', rate: atc > 0 && purchases > 0 ? ((purchases / atc) * 100).toFixed(0) + '% of carts' : null },
+        { label: 'Impressions', value: fmtInt(impressions), raw: impressions, color: '#A0A4B8' },
+        { label: 'Clicks', value: fmtInt(clicks), raw: clicks, color: '#A0CFFF', rate: impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) + '% CTR' : null },
+        { label: 'Page Views', value: fmtInt(lpv), raw: lpv, color: '#F59E0B', rate: clicks > 0 && lpv > 0 ? ((lpv / clicks) * 100).toFixed(0) + '% of clicks' : null },
+        { label: 'Add to Cart', value: fmtInt(atc), raw: atc, color: '#45B69C', rate: lpv > 0 && atc > 0 ? ((atc / lpv) * 100).toFixed(0) + '% of views' : null },
+        { label: 'Purchases', value: fmtInt(purchases), raw: purchases, color: '#21D19F', rate: atc > 0 && purchases > 0 ? ((purchases / atc) * 100).toFixed(0) + '% of carts' : null },
       ]
     : [
-        { label: 'Impressions', value: fmtInt(impressions), raw: impressions, color: '#A0A4B8', emoji: '👁️' },
-        { label: 'Clicks', value: fmtInt(clicks), raw: clicks, color: '#A0CFFF', emoji: '🖱️', rate: impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) + '% CTR' : null },
-        { label: 'Page Views', value: fmtInt(lpv), raw: lpv, color: '#F59E0B', emoji: '📄', rate: clicks > 0 && lpv > 0 ? ((lpv / clicks) * 100).toFixed(0) + '% of clicks' : null },
-        { label: 'Leads', value: fmtInt(leads), raw: leads, color: '#21D19F', emoji: '✅', rate: lpv > 0 && leads > 0 ? ((leads / lpv) * 100).toFixed(0) + '% of views' : null },
+        { label: 'Impressions', value: fmtInt(impressions), raw: impressions, color: '#A0A4B8' },
+        { label: 'Clicks', value: fmtInt(clicks), raw: clicks, color: '#A0CFFF', rate: impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) + '% CTR' : null },
+        { label: 'Page Views', value: fmtInt(lpv), raw: lpv, color: '#F59E0B', rate: clicks > 0 && lpv > 0 ? ((lpv / clicks) * 100).toFixed(0) + '% of clicks' : null },
+        { label: 'Leads', value: fmtInt(leads), raw: leads, color: '#21D19F', rate: lpv > 0 && leads > 0 ? ((leads / lpv) * 100).toFixed(0) + '% of views' : null },
       ]
 
   const metrics = client.type === 'ecommerce'
@@ -94,7 +94,6 @@ export default async function ClientPortalPage() {
   const quickLinks = [
     {
       href: '/client/performance',
-      emoji: '📊',
       title: 'Campaign Performance',
       desc: 'See your campaigns and how your budget is working.',
       cta: 'View Report →',
@@ -102,7 +101,6 @@ export default async function ClientPortalPage() {
     },
     {
       href: '/client/grow',
-      emoji: '🚀',
       title: 'Growth Playbook',
       desc: 'Website, content, follow-up, SMS, and email tips to maximize results.',
       cta: 'Read Playbook →',
@@ -110,7 +108,6 @@ export default async function ClientPortalPage() {
     },
     {
       href: '/client/learn',
-      emoji: '📖',
       title: 'Learn the Metrics',
       desc: 'Plain English explanations of every number and what it means.',
       cta: 'Start Learning →',
@@ -118,7 +115,6 @@ export default async function ClientPortalPage() {
     },
     {
       href: '/client/quiz',
-      emoji: '🧠',
       title: 'Business Quiz',
       desc: 'Test your knowledge on scaling, ads, and growing a successful business.',
       cta: 'Play Now →',
@@ -278,7 +274,7 @@ export default async function ClientPortalPage() {
 
                     {/* Value */}
                     <p className="text-lg font-black mb-0.5" style={{ color: step.color }}>{step.value}</p>
-                    <p className="text-xs font-bold mb-1" style={{ color: '#E8ECFF' }}>{step.emoji} {step.label}</p>
+                    <p className="text-xs font-bold mb-1" style={{ color: '#E8ECFF' }}>{step.label}</p>
                     {step.rate && (
                       <p className="text-xs" style={{ color: '#484D6D' }}>{step.rate}</p>
                     )}
@@ -321,7 +317,9 @@ export default async function ClientPortalPage() {
                       className="absolute -top-6 -right-6 w-24 h-24 rounded-full blur-2xl opacity-10 group-hover:opacity-20 transition-opacity"
                       style={{ background: link.color }}
                     />
-                    <div className="text-3xl mb-4">{link.emoji}</div>
+                    <div className="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style={{ background: `${link.color}18`, border: `1px solid ${link.color}30` }}>
+                      <div className="w-3 h-3 rounded-full" style={{ background: link.color }} />
+                    </div>
                     <h3 className="font-black text-lg mb-2" style={{ color: '#E8ECFF' }}>{link.title}</h3>
                     <p className="text-sm mb-5" style={{ color: '#7B82A0' }}>{link.desc}</p>
                     <p className="text-sm font-black" style={{ color: link.color }}>{link.cta}</p>

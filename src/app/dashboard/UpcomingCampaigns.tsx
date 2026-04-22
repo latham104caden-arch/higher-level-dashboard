@@ -96,7 +96,7 @@ export function UpcomingCampaigns() {
                       : { background: 'rgba(255,180,0,0.08)', color: '#F59E0B', border: '1px solid rgba(255,180,0,0.2)' }
                     }
                   >
-                    {allDone ? '✓ Ready' : 'Pre-Launch'}
+                    {allDone ? 'Ready' : 'Pre-Launch'}
                   </span>
                 </div>
 
@@ -132,7 +132,7 @@ export function UpcomingCampaigns() {
                           : { background: 'rgba(255,255,255,0.04)', color: '#484D6D', border: '1px solid rgba(255,255,255,0.07)' }
                         }
                       >
-                        {done ? '✓ ' : ''}{item.label}
+                        {item.label}
                       </span>
                     )
                   })}

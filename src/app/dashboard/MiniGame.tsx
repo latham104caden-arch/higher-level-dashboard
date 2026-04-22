@@ -7,23 +7,23 @@ const H = 480
 const R = 42
 
 const GOOD = [
-  { label: 'ROAS', pts: 150, color: '#21D19F', emoji: '📈', dmg: 0 },
-  { label: 'CTR', pts: 100, color: '#45B69C', emoji: '🎯', dmg: 0 },
-  { label: 'CPM↓', pts: 80, color: '#A0CFFF', emoji: '💰', dmg: 0 },
-  { label: 'SCALE', pts: 200, color: '#FFB800', emoji: '🚀', dmg: 0 },
-  { label: '3x ROAS', pts: 175, color: '#21D19F', emoji: '🔥', dmg: 0 },
-  { label: 'LEADS', pts: 120, color: '#45B69C', emoji: '✅', dmg: 0 },
-  { label: 'CONV%', pts: 90, color: '#A0CFFF', emoji: '⚡', dmg: 0 },
+  { label: 'ROAS', pts: 150, color: '#21D19F', dmg: 0 },
+  { label: 'CTR', pts: 100, color: '#45B69C', dmg: 0 },
+  { label: 'CPM↓', pts: 80, color: '#A0CFFF', dmg: 0 },
+  { label: 'SCALE', pts: 200, color: '#FFB800', dmg: 0 },
+  { label: '3x ROAS', pts: 175, color: '#21D19F', dmg: 0 },
+  { label: 'LEADS', pts: 120, color: '#45B69C', dmg: 0 },
+  { label: 'CONV%', pts: 90, color: '#A0CFFF', dmg: 0 },
 ]
 
 const BAD = [
-  { label: 'NO PIXEL', pts: 0, color: '#EF4444', emoji: '💀', dmg: 22 },
-  { label: 'BAD OBJ', pts: 0, color: '#EF4444', emoji: '☠️', dmg: 20 },
-  { label: 'NO TRACK', pts: 0, color: '#DC2626', emoji: '🚫', dmg: 18 },
-  { label: 'LOW BID', pts: 0, color: '#EF4444', emoji: '📉', dmg: 15 },
-  { label: 'NO CTA', pts: 0, color: '#DC2626', emoji: '❌', dmg: 18 },
-  { label: 'PAUSED', pts: 0, color: '#EF4444', emoji: '⛔', dmg: 20 },
-  { label: 'BROAD', pts: 0, color: '#DC2626', emoji: '🎪', dmg: 15 },
+  { label: 'NO PIXEL', pts: 0, color: '#EF4444', dmg: 22 },
+  { label: 'BAD OBJ', pts: 0, color: '#EF4444', dmg: 20 },
+  { label: 'NO TRACK', pts: 0, color: '#DC2626', dmg: 18 },
+  { label: 'LOW BID', pts: 0, color: '#EF4444', dmg: 15 },
+  { label: 'NO CTA', pts: 0, color: '#DC2626', dmg: 18 },
+  { label: 'PAUSED', pts: 0, color: '#EF4444', dmg: 20 },
+  { label: 'BROAD', pts: 0, color: '#DC2626', dmg: 15 },
 ]
 
 interface Target {
@@ -36,7 +36,6 @@ interface Target {
   pts: number
   dmg: number
   color: string
-  emoji: string
   born: number
   lifespan: number
   hit: boolean
@@ -113,7 +112,7 @@ export function MiniGame() {
       good, label: src.label,
       pts: (src as any).pts || 0,
       dmg: (src as any).dmg || 0,
-      color: src.color, emoji: src.emoji,
+      color: src.color,
       born: now, lifespan: 3800 + Math.random() * 1200,
       hit: false, hitTime: 0, hitGood: false,
       alpha: 1, scale: 1, wobble: Math.random() * Math.PI * 2,
@@ -319,7 +318,7 @@ export function MiniGame() {
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.shadowColor = '#EF4444'; ctx.shadowBlur = 20
-          ctx.fillText('💀  OPPORTUNITY SCORE: 0', W / 2, H / 2 - 60)
+          ctx.fillText('OPPORTUNITY SCORE: 0', W / 2, H / 2 - 60)
           ctx.shadowBlur = 0
           ctx.fillStyle = '#E8ECFF'
           ctx.font = 'bold 20px system-ui'
@@ -327,7 +326,7 @@ export function MiniGame() {
           if (st.score >= st.highScore && st.score > 0) {
             ctx.fillStyle = '#FFB800'
             ctx.font = 'bold 14px system-ui'
-            ctx.fillText('🏆 NEW HIGH SCORE!', W / 2, H / 2 + 14)
+            ctx.fillText('NEW HIGH SCORE!', W / 2, H / 2 + 14)
           }
         } else {
           ctx.fillStyle = '#E8ECFF'
@@ -335,13 +334,13 @@ export function MiniGame() {
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.shadowColor = '#21D19F'; ctx.shadowBlur = 20
-          ctx.fillText('AD SLAYER 🎯', W / 2, H / 2 - 70)
+          ctx.fillText('AD SLAYER', W / 2, H / 2 - 70)
           ctx.shadowBlur = 0
           ctx.fillStyle = '#7B82A0'
           ctx.font = '13px system-ui'
-          ctx.fillText('Click 📈 ROAS  🎯 CTR  🚀 SCALE  🔥 3x', W / 2, H / 2 - 30)
+          ctx.fillText('Click green targets: ROAS  CTR  SCALE  3x ROAS', W / 2, H / 2 - 30)
           ctx.fillStyle = '#EF4444'
-          ctx.fillText('Avoid 💀 NO PIXEL  ☠️ BAD OBJ  🚫 NO TRACK  📉 LOW BID', W / 2, H / 2 - 8)
+          ctx.fillText('Avoid red targets: NO PIXEL  BAD OBJ  NO TRACK  LOW BID', W / 2, H / 2 - 8)
           ctx.fillStyle = '#F59E0B'
           ctx.font = '12px system-ui'
           ctx.fillText('Missing good targets also drains your Opportunity Score', W / 2, H / 2 + 14)
@@ -390,19 +389,13 @@ export function MiniGame() {
       ctx.lineWidth = 1
       ctx.beginPath(); ctx.arc(0, 0, t.r * 0.7, 0, Math.PI * 2); ctx.stroke()
 
-      // Emoji
-      ctx.font = `${t.r * 0.9}px serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText(t.emoji, 0, -6)
-
-      // Label
+      // Label (centered, no emoji)
       ctx.fillStyle = t.color
-      ctx.font = `bold 8px system-ui`
+      ctx.font = `bold 9px system-ui`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.letterSpacing = '0.5px'
-      ctx.fillText(t.label, 0, t.r * 0.55)
+      ctx.fillText(t.label, 0, 0)
 
       ctx.restore()
     }
@@ -430,7 +423,7 @@ export function MiniGame() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Ad Slayer 🎯</p>
+            <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Ad Slayer</p>
             <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>
               Shoot good metrics · avoid bad settings · don't miss
             </p>

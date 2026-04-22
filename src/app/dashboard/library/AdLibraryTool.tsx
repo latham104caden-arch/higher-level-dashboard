@@ -7,13 +7,11 @@ const CLIENT_INTEL = [
   {
     client: 'Hydra Hydration',
     color: '#21D19F',
-    emoji: '💧',
     competitors: ['Liquid IV', 'LMNT', 'Athletic Greens', 'Nuun', 'DripDrop', 'Pedialyte', 'Electrolit'],
   },
   {
     client: 'Shine Bright Window Cleaning',
     color: '#A0CFFF',
-    emoji: '🪟',
     competitors: ['Fish Window Cleaning', 'Window Genie', 'Squeegee Squad', 'Clear Choice'],
   },
 ]
@@ -112,7 +110,7 @@ export default function AdLibraryTool() {
                 : { color: '#7B82A0', border: '1px solid transparent' }
             }
           >
-            {tab === 'search' ? '🔍 Brand Search' : '🎯 Client Intel'}
+            {tab === 'search' ? 'Brand Search' : 'Client Intel'}
           </button>
         ))}
       </div>
@@ -259,7 +257,7 @@ export default function AdLibraryTool() {
             className="rounded-2xl px-5 py-4"
             style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <p className="text-xs font-black mb-2" style={{ color: '#484D6D' }}>📌 What to look for</p>
+            <p className="text-xs font-black mb-2" style={{ color: '#484D6D' }}>What to look for</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
                 { label: 'Ads running 30+ days', tip: "If it's still live, it's converting. That angle works." },
@@ -279,7 +277,7 @@ export default function AdLibraryTool() {
       {/* ── CLIENT INTEL TAB ── */}
       {activeTab === 'clients' && (
         <div className="space-y-5">
-          {CLIENT_INTEL.map(({ client, color, emoji, competitors }) => (
+          {CLIENT_INTEL.map(({ client, color, competitors }) => (
             <div
               key={client}
               className="rounded-2xl p-6 space-y-4"
@@ -287,7 +285,7 @@ export default function AdLibraryTool() {
             >
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color }}>
-                  {emoji} {client}
+                  {client}
                 </p>
                 <p className="text-xs" style={{ color: '#484D6D' }}>
                   One-click competitor ad research — opens Meta Ad Library pre-filtered
@@ -344,7 +342,7 @@ export default function AdLibraryTool() {
             className="rounded-2xl px-5 py-4"
             style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <p className="text-xs font-black mb-1" style={{ color: '#484D6D' }}>💡 Research workflow</p>
+            <p className="text-xs font-black mb-1" style={{ color: '#484D6D' }}>Research workflow</p>
             <p className="text-xs leading-relaxed" style={{ color: '#484D6D' }}>
               Check each competitor, filter by Video, sort by longest running in the Meta Ad Library interface.
               Ads still live after 30+ days are profitable. Use those hooks, angles, and offers as inspiration — not copying.
