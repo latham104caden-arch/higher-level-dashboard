@@ -89,6 +89,10 @@ export default async function ClientPortalPage() {
 
   const agencyMessage = generateAgencyMessage(client.type, spend, roas, leads, cpl, ctr, impressions, purchases)
 
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+  const greetingEmoji = hour < 12 ? '☀️' : hour < 17 ? '👋' : '🌙'
+
   const quickLinks = [
     {
       href: '/client/performance',
@@ -190,7 +194,7 @@ export default async function ClientPortalPage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
             <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>
-              Good morning 👋
+              {greeting} {greetingEmoji}
             </h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>
               Here's how your campaigns are performing.
