@@ -8,11 +8,71 @@ function fmt$(n: number) { return '$' + n.toLocaleString('en-US', { minimumFract
 function fmtR(n: number) { return n.toFixed(2) + 'x' }
 function fmtPct(n: number) { return n.toFixed(2) + '%' }
 
+// ─── Icons ────────────────────────────────────────────────────────────────────
+const Icon = {
+  chart: (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+    </svg>
+  ),
+  search: (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  ),
+  file: (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+    </svg>
+  ),
+  dollar: (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </svg>
+  ),
+  trophy: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="8 21 12 17 16 21"/><line x1="12" y1="17" x2="12" y2="13"/><path d="M7 4H17l-1 9a5 5 0 0 1-8 0L7 4z"/><path d="M4 4h3"/><path d="M17 4h3"/>
+    </svg>
+  ),
+  check: (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  ),
+  pin: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+    </svg>
+  ),
+  lightbulb: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+    </svg>
+  ),
+  video: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+    </svg>
+  ),
+  hook: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+    </svg>
+  ),
+  arrow: (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
+  ),
+}
+
+// ─── Tier config — no emojis ──────────────────────────────────────────────────
 const TIER_CONFIG = {
-  winner:   { label: '🏆 Winner',   bg: 'rgba(33,209,159,0.12)',  border: 'rgba(33,209,159,0.25)',  color: '#21D19F' },
-  solid:    { label: '✅ Solid',    bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.25)',  color: '#60A5FA' },
-  learning: { label: '📊 Learning', bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.25)',  color: '#FBB724' },
-  weak:     { label: '⚠ Needs Work',bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444' },
+  winner:   { label: 'Winner',    bg: 'rgba(33,209,159,0.12)',  border: 'rgba(33,209,159,0.25)',  color: '#21D19F' },
+  solid:    { label: 'Solid',     bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.25)',  color: '#60A5FA' },
+  learning: { label: 'Learning',  bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.25)',  color: '#FBB724' },
+  weak:     { label: 'Needs Work',bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444' },
 }
 
 // ─── Script templates ─────────────────────────────────────────────────────────
@@ -93,7 +153,6 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
         </div>
       </div>
 
-      {/* Projection breakdown */}
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
           <p className="text-xs mb-1" style={{ color: '#484D6D' }}>Base pay</p>
@@ -112,7 +171,6 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
         </div>
       </div>
 
-      {/* Milestones */}
       <div className="space-y-2">
         <p className="text-xs font-black" style={{ color: '#484D6D' }}>Milestones</p>
         {[500, 1000, 2500, 5000].map(target => {
@@ -120,8 +178,8 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
           const reached = total >= target
           return (
             <div key={target} className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: reached ? 'rgba(33,209,159,0.2)' : 'rgba(255,255,255,0.04)', border: `1px solid ${reached ? 'rgba(33,209,159,0.4)' : 'rgba(255,255,255,0.08)'}` }}>
-                {reached && <span className="text-xs" style={{ color: '#21D19F' }}>✓</span>}
+              <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: reached ? 'rgba(33,209,159,0.2)' : 'rgba(255,255,255,0.04)', border: `1px solid ${reached ? 'rgba(33,209,159,0.4)' : 'rgba(255,255,255,0.08)'}`, color: '#21D19F' }}>
+                {reached && Icon.check}
               </div>
               <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                 <div className="h-1.5 rounded-full transition-all" style={{ width: `${Math.min((total / target) * 100, 100)}%`, background: reached ? '#21D19F' : 'rgba(139,92,246,0.5)' }} />
@@ -163,7 +221,6 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
           </span>
         </div>
 
-        {/* Key metrics */}
         <div className="grid grid-cols-4 gap-2 mb-4">
           {[
             { label: 'ROAS', val: fmtR(ad.roas), highlight: ad.roas >= 2 },
@@ -178,13 +235,13 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
           ))}
         </div>
 
-        {/* Why / tips toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="text-xs font-bold"
+          className="flex items-center gap-1.5 text-xs font-bold"
           style={{ color: '#7B82A0' }}
         >
-          {open ? '↑ Hide analysis' : '↓ See analysis'}
+          <span style={{ transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block', transition: 'transform 0.15s' }}>{Icon.arrow}</span>
+          {open ? 'Hide analysis' : 'See analysis'}
         </button>
 
         {open && (
@@ -193,7 +250,7 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
               <div className="rounded-xl p-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.12)' }}>
                 <p className="text-xs font-black mb-2" style={{ color: '#21D19F' }}>Why it's working</p>
                 {ad.why_winning.map((w, i) => (
-                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>• {w}</p>
+                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>— {w}</p>
                 ))}
               </div>
             )}
@@ -201,7 +258,7 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
               <div className="rounded-xl p-3" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.12)' }}>
                 <p className="text-xs font-black mb-2" style={{ color: '#FBB724' }}>How to improve</p>
                 {ad.improvement_tips.map((t, i) => (
-                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>• {t}</p>
+                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>— {t}</p>
                 ))}
               </div>
             )}
@@ -209,7 +266,6 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
         )}
       </div>
 
-      {/* Footer */}
       <div className="px-5 py-3 flex items-center gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
         <div>
           <span className="text-xs" style={{ color: '#484D6D' }}>Purchases: </span>
@@ -231,18 +287,21 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
 // ─── Competitor research panel ────────────────────────────────────────────────
 function CompetitorPanel({ niche }: { niche: string }) {
   const competitors = [
-    { name: 'Liquid IV',    url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Liquid+IV&search_type=keyword_unordered' },
-    { name: 'LMNT',         url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=LMNT+electrolyte&search_type=keyword_unordered' },
+    { name: 'Liquid IV',       url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Liquid+IV&search_type=keyword_unordered' },
+    { name: 'LMNT',            url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=LMNT+electrolyte&search_type=keyword_unordered' },
     { name: 'Athletic Greens', url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Athletic+Greens&search_type=keyword_unordered' },
-    { name: 'Nuun',         url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Nuun+hydration&search_type=keyword_unordered' },
-    { name: 'DripDrop',     url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=DripDrop&search_type=keyword_unordered' },
-    { name: 'Pedialyte',    url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Pedialyte&search_type=keyword_unordered' },
+    { name: 'Nuun',            url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Nuun+hydration&search_type=keyword_unordered' },
+    { name: 'DripDrop',        url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=DripDrop&search_type=keyword_unordered' },
+    { name: 'Pedialyte',       url: 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=Pedialyte&search_type=keyword_unordered' },
   ]
 
   return (
     <div className="space-y-4">
       <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
-        <p className="text-xs font-black mb-1" style={{ color: '#A78BFA' }}>📌 How to use this</p>
+        <div className="flex items-center gap-2 mb-1" style={{ color: '#A78BFA' }}>
+          {Icon.pin}
+          <p className="text-xs font-black" style={{ color: '#A78BFA' }}>How to use this</p>
+        </div>
         <p className="text-xs leading-relaxed" style={{ color: '#7B82A0' }}>
           Open a competitor, filter by <strong style={{ color: '#E8ECFF' }}>Video</strong>, sort by longest running.
           Any ad live 30+ days is profitable. Study the hook, the pacing, the offer. Then make your version — don't copy, just learn the pattern.
@@ -258,22 +317,14 @@ function CompetitorPanel({ niche }: { niche: string }) {
           >
             <span className="font-black text-sm" style={{ color: '#E8ECFF' }}>{c.name}</span>
             <div className="flex gap-2">
-              <a
-                href={c.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <a href={c.url} target="_blank" rel="noopener noreferrer"
                 className="text-xs px-2.5 py-1 rounded-lg font-bold"
-                style={{ background: 'rgba(139,92,246,0.1)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.2)' }}
-              >
+                style={{ background: 'rgba(139,92,246,0.1)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.2)' }}>
                 All ads →
               </a>
-              <a
-                href={c.url.replace('ad_type=all', 'ad_type=all&media_type=video')}
-                target="_blank"
-                rel="noopener noreferrer"
+              <a href={c.url.replace('ad_type=all', 'ad_type=all&media_type=video')} target="_blank" rel="noopener noreferrer"
                 className="text-xs px-2.5 py-1 rounded-lg font-bold"
-                style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}
-              >
+                style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}>
                 Video →
               </a>
             </div>
@@ -292,29 +343,27 @@ function ScriptLab() {
   return (
     <div className="space-y-5">
       <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
-        <p className="text-xs font-black mb-1" style={{ color: '#A78BFA' }}>💡 These scripts are based on what's actually working</p>
+        <div className="flex items-center gap-2 mb-1">
+          {Icon.lightbulb && <span style={{ color: '#A78BFA' }}>{Icon.lightbulb}</span>}
+          <p className="text-xs font-black" style={{ color: '#A78BFA' }}>Scripts based on what's actually working</p>
+        </div>
         <p className="text-xs" style={{ color: '#7B82A0' }}>
-          Each angle below is proven in the health & wellness space. Adapt them — change the product name, make it your voice, film it natural. Don't read it like a script.
+          Each angle is proven in health & wellness. Adapt them — change the product name, make it your voice, film it natural. Don't read it like a script.
         </p>
       </div>
 
-      {/* Angle selector */}
       <div className="flex gap-2 flex-wrap">
         {SCRIPTS.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => setSelected(i)}
+          <button key={i} onClick={() => setSelected(i)}
             className="text-xs px-3 py-1.5 rounded-lg font-bold transition-all"
             style={selected === i
               ? { background: 'rgba(139,92,246,0.15)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.3)' }
-              : { background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}
-          >
+              : { background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}>
             {s.angle}
           </button>
         ))}
       </div>
 
-      {/* Script card */}
       <div className="rounded-2xl p-6 space-y-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(139,92,246,0.2)' }}>
         <div>
           <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#A78BFA' }}>ANGLE</p>
@@ -322,12 +371,15 @@ function ScriptLab() {
         </div>
 
         {[
-          { label: '🎬 HOOK (first 3 sec)', val: script.hook, color: '#EF4444' },
-          { label: '🗣 BODY', val: script.body, color: '#E8ECFF' },
-          { label: '📲 CTA', val: script.cta, color: '#21D19F' },
-        ].map(({ label, val, color }) => (
+          { label: 'HOOK — first 3 sec', icon: Icon.hook, val: script.hook, color: '#EF4444' },
+          { label: 'BODY', icon: Icon.video, val: script.body, color: '#E8ECFF' },
+          { label: 'CTA', icon: Icon.arrow, val: script.cta, color: '#21D19F' },
+        ].map(({ label, icon, val, color }) => (
           <div key={label}>
-            <p className="text-xs font-bold mb-1.5" style={{ color: '#484D6D' }}>{label}</p>
+            <div className="flex items-center gap-1.5 mb-1.5" style={{ color: '#484D6D' }}>
+              {icon}
+              <p className="text-xs font-bold">{label}</p>
+            </div>
             <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <p className="text-sm leading-relaxed font-bold" style={{ color }}>{val}</p>
             </div>
@@ -347,7 +399,11 @@ function ScriptLab() {
 function EmptyAds() {
   return (
     <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-      <div className="text-4xl mb-4">🎬</div>
+      <div className="flex justify-center mb-4" style={{ color: 'rgba(255,255,255,0.15)' }}>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+      </div>
       <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>No ads linked yet</p>
       <p className="text-xs max-w-xs mx-auto" style={{ color: '#7B82A0' }}>
         Once Higher Level links your ad IDs to your profile, your performance data will show up here automatically.
@@ -385,11 +441,11 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
       .finally(() => setLoading(false))
   }, [])
 
-  const TABS: { id: Tab; label: string }[] = [
-    { id: 'performance', label: '📊 My Ads' },
-    { id: 'competitors', label: '🔍 Competitor Ads' },
-    { id: 'scripts',     label: '📝 Script Lab' },
-    { id: 'earnings',    label: '💰 My Earnings' },
+  const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    { id: 'performance', label: 'My Ads',        icon: Icon.chart  },
+    { id: 'competitors', label: 'Competitor Ads', icon: Icon.search },
+    { id: 'scripts',     label: 'Script Lab',     icon: Icon.file   },
+    { id: 'earnings',    label: 'My Earnings',    icon: Icon.dollar },
   ]
 
   const winners = data?.ads.filter(a => a.performance_tier === 'winner') || []
@@ -397,14 +453,13 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
 
   return (
     <div className="space-y-6">
-      {/* Stat row — only show when data loaded */}
       {data && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Total Spend', val: fmt$(data.total_spend), color: '#E8ECFF' },
-            { label: 'Revenue Generated', val: fmt$(data.total_revenue), color: '#21D19F' },
-            { label: 'Overall ROAS', val: fmtR(data.overall_roas), color: data.overall_roas >= 2 ? '#21D19F' : data.overall_roas >= 1 ? '#FBB724' : '#EF4444' },
-            { label: 'Total Earned', val: fmt$(data.earnings.total_earned), color: '#A78BFA' },
+            { label: 'Total Spend',       val: fmt$(data.total_spend),         color: '#E8ECFF' },
+            { label: 'Revenue Generated', val: fmt$(data.total_revenue),        color: '#21D19F' },
+            { label: 'Overall ROAS',      val: fmtR(data.overall_roas),         color: data.overall_roas >= 2 ? '#21D19F' : data.overall_roas >= 1 ? '#FBB724' : '#EF4444' },
+            { label: 'Total Earned',      val: fmt$(data.earnings.total_earned), color: '#A78BFA' },
           ].map(({ label, val, color }) => (
             <div key={label} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <p className="text-xs mb-1" style={{ color: '#484D6D' }}>{label}</p>
@@ -414,33 +469,32 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
         </div>
       )}
 
-      {/* Winner callout */}
       {topAd && topAd.performance_tier === 'winner' && (
-        <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.15)' }}>
+        <div className="rounded-xl px-5 py-4 flex items-center gap-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.15)' }}>
+          <span style={{ color: '#21D19F', flexShrink: 0 }}>{Icon.trophy}</span>
           <p className="text-xs font-black" style={{ color: '#21D19F' }}>
-            🏆 Your top performer: <span style={{ color: '#E8ECFF' }}>{topAd.name}</span> — {fmtR(topAd.roas)} ROAS, {fmtPct(topAd.ctr)} CTR.
-            Make more content in this style.
+            Top performer: <span style={{ color: '#E8ECFF' }}>{topAd.name}</span> — {fmtR(topAd.roas)} ROAS, {fmtPct(topAd.ctr)} CTR. Make more content in this style.
           </p>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl flex-wrap" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
         {TABS.map(t => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
-            className="flex-1 px-4 py-2 rounded-lg text-xs font-black transition-all whitespace-nowrap"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-black transition-all"
             style={tab === t.id
               ? { background: 'rgba(139,92,246,0.15)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.25)' }
               : { color: '#7B82A0', border: '1px solid transparent' }}
           >
-            {t.label}
+            <span style={{ opacity: 0.8 }}>{t.icon}</span>
+            <span className="hidden sm:inline">{t.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Tab content */}
       {loading && (
         <div className="rounded-2xl p-10 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
           <p className="text-xs" style={{ color: '#484D6D' }}>Loading your data…</p>
@@ -462,17 +516,11 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
         </div>
       )}
 
-      {!loading && tab === 'competitors' && (
-        <CompetitorPanel niche={niche} />
-      )}
-
-      {!loading && tab === 'scripts' && (
-        <ScriptLab />
-      )}
+      {!loading && tab === 'competitors' && <CompetitorPanel niche={niche} />}
+      {!loading && tab === 'scripts' && <ScriptLab />}
 
       {!loading && tab === 'earnings' && data && (
         <div className="space-y-6">
-          {/* Current earnings breakdown */}
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
             <p className="text-sm font-black mb-4" style={{ color: '#E8ECFF' }}>Current Earnings</p>
             <div className="space-y-3">
@@ -492,7 +540,6 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
             </div>
           </div>
 
-          {/* Projection slider */}
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
             <p className="text-sm font-black mb-4" style={{ color: '#E8ECFF' }}>Earnings Projection</p>
             <ProjectionCalc
@@ -505,10 +552,7 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, ratePerVi
         </div>
       )}
 
-      {/* Earnings tab empty state */}
-      {!loading && tab === 'earnings' && !data && (
-        <EmptyAds />
-      )}
+      {!loading && tab === 'earnings' && !data && <EmptyAds />}
     </div>
   )
 }
