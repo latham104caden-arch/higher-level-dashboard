@@ -159,6 +159,7 @@ export default async function ClientPortalPage() {
                 { href: '/client/grow', label: 'Grow', active: false },
                 { href: '/client/learn', label: 'Learn', active: false },
                 { href: '/client/quiz', label: 'Quiz', active: false },
+                { href: '/client/audit', label: 'Site Audit', active: false },
               ].map(n => (
                 <Link
                   key={n.href}
