@@ -3,7 +3,7 @@ import { CLIENTS } from './clients'
 import { CREATORS } from './creators'
 
 export type Session = {
-  role: 'agency' | 'client' | 'creator'
+  role: 'agency' | 'client' | 'creator' | 'demo'
   clientId?: string
   creatorId?: string
 }
@@ -27,6 +27,9 @@ export function createSessionToken(session: Session): string {
 export function validateLogin(password: string): Session | null {
   if (password === (process.env.AGENCY_PASSWORD || 'HigherLevel2026')) {
     return { role: 'agency' }
+  }
+  if (password === (process.env.DEMO_PASSWORD || 'Preview2026')) {
+    return { role: 'demo' }
   }
   for (const [id, client] of Object.entries(CLIENTS)) {
     if (password === client.password) {

@@ -36,7 +36,7 @@ function DemoNav({ active }: { active: string }) {
             {links.map(n => (
               <Link key={n.href} href={n.href} className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={n.label === active ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' } : { color: '#7B82A0', border: '1px solid transparent' }}>{n.label}</Link>
             ))}
-            <Link href="/demo" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>Sign out</Link>
+            <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>Sign out</Link>
           </nav>
         </div>
       </div>

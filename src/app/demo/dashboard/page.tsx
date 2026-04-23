@@ -126,7 +126,7 @@ function DemoNav({ active }: { active: string }) {
               </Link>
             ))}
             <Link
-              href="/demo"
+              href="/logout"
               className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2"
               style={{ color: '#484D6D', border: '1px solid transparent' }}
             >

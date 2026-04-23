@@ -22,6 +22,7 @@ export default function LoginPage() {
     if (!res.ok) { setError('Access denied. Invalid credentials.'); return }
     if (data.role === 'agency') window.location.href = '/dashboard'
     else if (data.role === 'creator') window.location.href = '/creator/dashboard'
+    else if (data.role === 'demo') window.location.href = '/demo/dashboard'
     else window.location.href = '/client'
   }
 

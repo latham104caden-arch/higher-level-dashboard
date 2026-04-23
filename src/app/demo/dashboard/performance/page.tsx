@@ -97,7 +97,7 @@ function DemoNav({ active }: { active: string }) {
                 {n.label}
               </Link>
             ))}
-            <Link href="/demo" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>
+            <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>
               Sign out
             </Link>
           </nav>
