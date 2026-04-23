@@ -49,6 +49,12 @@ export interface DetectedElements {
   hasBundleDeal: boolean
   hasPaymentOptions: boolean
   hasReturnPolicy: boolean
+  hasOutOfStock: boolean
+  hasSubscriptionFriction: boolean
+  hasAllSalesFinal: boolean
+  hasCrossSell: boolean
+  hasSatisfactionGuarantee: boolean
+  hasIngredientStory: boolean
   // saas
   hasFreeTrial: boolean
   hasNoCC: boolean
@@ -379,6 +385,14 @@ function buildEcomConversion(html: string): CategoryResult {
   const hasPaymentOptions = has(h, /(paypal|apple.pay|shop.pay|afterpay|klarna|affirm|buy.now.pay.later|visa|mastercard)/i)
   const hasReturnPolicy = has(h, /(return.policy|easy.returns|hassle.free.return|\d+.day.return|\d+.day.guarantee)/i)
 
+  // New ecom signals
+  const hasOutOfStock = has(h, /(sold.out|out.of.stock|currently.unavailable|no.longer.available|unavailable)/i)
+  const hasSubscriptionFriction = has(h, /(recurring.purchase|subscription.required|auto.renewal|auto-renewal)/i) && !has(h, /(one.time|one-time|buy.once|no.subscription)/i)
+  const hasAllSalesFinal = has(h, /(all.sales.final|no.returns|no.refunds)/i)
+  const hasCrossSell = has(h, /(you.may.also.like|frequently.bought|related.products|customers.also|pairs.well|goes.well.with)/i)
+  const hasSatisfactionGuarantee = has(h, /(money.back|satisfaction.guarantee|love.it.or|risk.free|\d+.day.guarantee)/i)
+  const hasIngredientStory = has(h, /(sea.mineral|sourced.from|third.party.tested|independently.tested|why.it.works|the.science|how.it.works)/i)
+
   const findings: Finding[] = [
     {
       label: 'Add to Cart Button',
@@ -470,6 +484,60 @@ function buildEcomConversion(html: string): CategoryResult {
       points: hasReturnPolicy ? 6 : 1,
       maxPoints: 6,
     },
+    {
+      label: 'Products In Stock',
+      status: hasOutOfStock ? 'fail' : 'pass',
+      detail: hasOutOfStock
+        ? 'Sold out or out-of-stock language detected. Running ads to an out-of-stock product is money in the trash — pause campaigns immediately until inventory is live.'
+        : 'No out-of-stock signals detected. Products appear available — good to run ads.',
+      points: hasOutOfStock ? 0 : 10,
+      maxPoints: 10,
+    },
+    {
+      label: 'Subscription Friction',
+      status: hasSubscriptionFriction ? 'warn' : 'pass',
+      detail: hasSubscriptionFriction
+        ? 'Subscription or auto-renewal language found without a clear one-time option. Cold traffic hates commitment — add "one-time purchase" alongside subscribe & save to reduce ATC hesitation.'
+        : 'No forced subscription friction detected. Customers can buy without a commitment barrier.',
+      points: hasSubscriptionFriction ? 2 : 6,
+      maxPoints: 6,
+    },
+    {
+      label: 'All Sales Final Warning',
+      status: hasAllSalesFinal ? 'warn' : 'pass',
+      detail: hasAllSalesFinal
+        ? '"All sales final" or "no returns" language found. This is a major trust killer for cold ad traffic who haven\'t tried your product. Replace with a satisfaction guarantee — even a 15-day one dramatically improves conversions.'
+        : 'No hard "all sales final" language detected.',
+      points: hasAllSalesFinal ? 0 : 5,
+      maxPoints: 5,
+    },
+    {
+      label: 'Cross-Sell / Related Products',
+      status: hasCrossSell ? 'pass' : 'warn',
+      detail: hasCrossSell
+        ? 'Cross-sell or "frequently bought together" section found. These lift AOV and make each ad dollar work harder.'
+        : 'No cross-sell section detected. Adding "Pairs well with" or "Frequently bought together" after ATC is one of the easiest AOV wins in ecommerce.',
+      points: hasCrossSell ? 8 : 2,
+      maxPoints: 8,
+    },
+    {
+      label: 'Satisfaction Guarantee',
+      status: hasSatisfactionGuarantee ? 'pass' : 'warn',
+      detail: hasSatisfactionGuarantee
+        ? 'Satisfaction guarantee or money-back offer found. This is the single highest-leverage trust signal for converting cold traffic — keep it prominent.'
+        : 'No satisfaction guarantee detected. A 30-day money-back guarantee removes the biggest purchase objection. If you offer one, make it visible near the ATC button.',
+      points: hasSatisfactionGuarantee ? 8 : 1,
+      maxPoints: 8,
+    },
+    {
+      label: 'Ingredient / Product Story',
+      status: hasIngredientStory ? 'pass' : 'warn',
+      detail: hasIngredientStory
+        ? 'Ingredient sourcing or "why it works" content found. Educated buyers convert better — especially in health, wellness, and supplement categories.'
+        : 'No ingredient story or "why it works" section detected. For health/wellness products, explaining what\'s in it and why it works builds conviction. Add a short "The Science" or "Why It Works" section near the product.',
+      points: hasIngredientStory ? 6 : 1,
+      maxPoints: 6,
+    },
   ]
   const raw = findings.reduce((s, f) => s + f.points, 0)
   const max = findings.reduce((s, f) => s + f.maxPoints, 0)
@@ -557,16 +625,26 @@ function buildEcomAdReadiness(html: string, isHttps: boolean, pageSpeedScore: nu
   const hasPrice = count(h, /\$\d+(\.\d{2})?/g) > 1
   const hasCatalog = has(html, /(product\.json|catalog|og:type.*product)/i)
   const hasOGTags = has(html, /og:title|og:image|og:description/i)
+  const hasOutOfStock = has(h, /(sold.out|out.of.stock|currently.unavailable|no.longer.available|unavailable)/i)
 
   const findings: Finding[] = [
+    {
+      label: 'Inventory Available',
+      status: hasOutOfStock ? 'fail' : 'pass',
+      detail: hasOutOfStock
+        ? 'Out-of-stock or sold-out language detected. Stop all paid traffic immediately — every click to an unavailable product is wasted spend and destroys ROAS. Pause campaigns until inventory is live.'
+        : 'No out-of-stock indicators detected. Products appear in stock — safe to send paid traffic.',
+      points: hasOutOfStock ? 0 : 25,
+      maxPoints: 25,
+    },
     {
       label: 'Meta Pixel + Conversion Events',
       status: hasMetaPixel ? 'pass' : 'fail',
       detail: hasMetaPixel
         ? 'Pixel found. Make sure Purchase, AddToCart, and InitiateCheckout events are firing.'
         : 'No Meta Pixel. Cannot run conversion campaigns, build retargeting audiences, or optimize for purchases.',
-      points: hasMetaPixel ? 30 : 0,
-      maxPoints: 30,
+      points: hasMetaPixel ? 25 : 0,
+      maxPoints: 25,
     },
     {
       label: 'Page Load Speed for Paid Traffic',
@@ -1222,6 +1300,12 @@ export async function POST(req: NextRequest) {
       hasBundleDeal: has(h2, /(bundle|buy \d+ get|value.pack)/i),
       hasPaymentOptions: has(h2, /(paypal|apple.pay|shop.pay|afterpay|klarna)/i),
       hasReturnPolicy: has(h2, /(return.policy|\d+.day.return|\d+.day.guarantee)/i),
+      hasOutOfStock: has(h2, /(sold.out|out.of.stock|currently.unavailable|no.longer.available|unavailable)/i),
+      hasSubscriptionFriction: has(h2, /(recurring.purchase|subscription.required|auto.renewal|auto-renewal)/i) && !has(h2, /(one.time|one-time|buy.once|no.subscription)/i),
+      hasAllSalesFinal: has(h2, /(all.sales.final|no.returns|no.refunds)/i),
+      hasCrossSell: has(h2, /(you.may.also.like|frequently.bought|related.products|customers.also|pairs.well|goes.well.with)/i),
+      hasSatisfactionGuarantee: has(h2, /(money.back|satisfaction.guarantee|love.it.or|risk.free|\d+.day.guarantee)/i),
+      hasIngredientStory: has(h2, /(sea.mineral|sourced.from|third.party.tested|independently.tested|why.it.works|the.science|how.it.works)/i),
       hasFreeTrial: has(h2, /(free.trial|start.for.free|try.free)/i),
       hasNoCC: has(h2, /(no.credit.card|no cc required)/i),
       hasDemo: has(h2, /(schedule.a.demo|book.a.demo|watch.demo)/i),
@@ -1238,12 +1322,23 @@ export async function POST(req: NextRequest) {
     if (!hasCTA) allFixes.push({ priority: 1, fix: 'Add a clear Call-to-Action above the fold', impact: 'Visitors from ads need an obvious next step immediately. No CTA = no conversions.' })
 
     if (businessType === 'ecommerce') {
-      const hasDiscount = has(html.toLowerCase(), /(\d+%.off|save \$|\bsale\b|discount|coupon)/i)
-      const hasReviews = has(html.toLowerCase(), /(review|testimonial|star|rated)/i)
-      const hasFreeShipping = has(html.toLowerCase(), /free.shipping|free.delivery/i)
+      const h3 = html.toLowerCase()
+      const hasDiscount = has(h3, /(\d+%.off|save \$|\bsale\b|discount|coupon)/i)
+      const hasReviews = has(h3, /(review|testimonial|star|rated)/i)
+      const hasFreeShipping = has(h3, /free.shipping|free.delivery/i)
+      const outOfStock = has(h3, /(sold.out|out.of.stock|currently.unavailable|no.longer.available|unavailable)/i)
+      const allSalesFinal = has(h3, /(all.sales.final|no.returns|no.refunds)/i)
+      const hasSatGuarantee = has(h3, /(money.back|satisfaction.guarantee|love.it.or|risk.free|\d+.day.guarantee)/i)
+      const hasCrossSell = has(h3, /(you.may.also.like|frequently.bought|related.products|customers.also)/i)
+      const hasIngredientStory = has(h3, /(sourced.from|third.party.tested|independently.tested|why.it.works|the.science|how.it.works)/i)
+      if (outOfStock) allFixes.push({ priority: 1, fix: 'Pause all paid ads — products appear out of stock', impact: 'Sending ad traffic to sold-out products burns 100% of your budget with zero return. Stop spend until inventory is live.' })
+      if (allSalesFinal) allFixes.push({ priority: 1, fix: 'Replace "all sales final" with a satisfaction guarantee', impact: 'No-return policies kill cold traffic conversions. A 30-day guarantee converts 20–30% better and rarely gets abused.' })
       if (!hasDiscount) allFixes.push({ priority: 2, fix: 'Add a discount or deal to the product page', impact: '% off, "Save $X", or a free gift with purchase massively increases ATC rate for cold traffic.' })
       if (!hasReviews) allFixes.push({ priority: 2, fix: 'Add customer reviews to product pages', impact: 'Cold traffic doesn\'t trust you yet. Reviews are the #1 factor in purchase decisions.' })
       if (!hasFreeShipping) allFixes.push({ priority: 2, fix: 'Add free shipping messaging prominently', impact: '80% of shoppers expect free shipping. If you offer it, make it obvious. If not, add a threshold.' })
+      if (!hasSatGuarantee) allFixes.push({ priority: 2, fix: 'Add a visible satisfaction guarantee near the ATC button', impact: 'The single highest-leverage trust signal for cold traffic. "Love it or your money back" removes the last objection.' })
+      if (!hasCrossSell) allFixes.push({ priority: 3, fix: 'Add a "Frequently Bought Together" or cross-sell section', impact: 'Increases AOV without additional ad spend. Even a 10% AOV lift significantly improves ROAS on the same budget.' })
+      if (!hasIngredientStory) allFixes.push({ priority: 3, fix: 'Add a "Why It Works" or ingredient story section', impact: 'Health/wellness buyers want to know what\'s in it and why it works. Educated shoppers convert at 2–3x the rate of uninformed ones.' })
       if (!hasForm) allFixes.push({ priority: 3, fix: 'Ensure checkout has guest option + multiple payment methods', impact: 'Forced account creation and single payment option are the top reasons for cart abandonment.' })
     } else if (businessType === 'service') {
       const hasLicensed = has(html.toLowerCase(), /(licensed|insured|bonded|certified)/i)
