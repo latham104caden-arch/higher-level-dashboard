@@ -125,10 +125,15 @@ export function AuditClient({ website, clientColor, clientName }: Props) {
           return updated
         })
       }
-    } catch {
+    } catch (err: any) {
       setMessages(prev => {
         const updated = [...prev]
-        updated[updated.length - 1] = { role: 'assistant', content: 'Sorry, something went wrong. Try again.' }
+        updated[updated.length - 1] = {
+          role: 'assistant',
+          content: err?.message?.includes('503')
+            ? 'AI chat isn\'t configured yet — your agency needs to add the API key to the server.'
+            : 'Something went wrong. Try again in a moment.',
+        }
         return updated
       })
     } finally {

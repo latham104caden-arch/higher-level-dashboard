@@ -5,16 +5,31 @@ import { CLIENTS } from '@/lib/clients'
 
 export const dynamic = 'force-dynamic'
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+// Demo fallback client for the preview portal
+const DEMO_CLIENT = {
+  name: 'Riverside Window Cleaning',
+  website: 'shinebrightokc.com',
+  type: 'local',
+}
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return NextResponse.json({ error: 'AI chat is not configured yet. Add ANTHROPIC_API_KEY to your environment variables.' }, { status: 503 })
+    }
+
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
     const session = await getSession()
-    if (!session || session.role !== 'client' || !session.clientId) {
+    if (!session || !['client', 'demo'].includes(session.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const businessClient = CLIENTS[session.clientId as keyof typeof CLIENTS]
+    // Demo mode uses fallback client data
+    const businessClient = session.role === 'demo'
+      ? DEMO_CLIENT
+      : CLIENTS[session.clientId as keyof typeof CLIENTS]
+
     if (!businessClient) return NextResponse.json({ error: 'Client not found' }, { status: 404 })
 
     const { message, auditData } = await req.json()
@@ -38,8 +53,8 @@ Your job is to answer their questions about their website and how to improve it.
 
 You're speaking directly to the business owner, not a developer. Keep it conversational.`
 
-    const stream = await client.messages.stream({
-      model: 'claude-opus-4-5',
+    const stream = await anthropic.messages.stream({
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 1024,
       system: systemPrompt,
       messages: [{ role: 'user', content: message }],
