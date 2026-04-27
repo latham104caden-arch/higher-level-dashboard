@@ -1,6 +1,4 @@
-import Link from 'next/link'
-
-const CLIENT = { name: 'Riverside Window Cleaning', initial: 'R', color: '#F59E0B' }
+import { DemoNav } from '../DemoNav'
 
 const METRICS = [
   { name: 'CPM', full: 'Cost Per 1,000 Impressions', plain: 'How much it costs to show your ad to 1,000 people.', why: 'A lower CPM means your budget goes further — more people see your ad for less money. Good for local businesses: $5–$15.', good: 'Lower is better. Under $20 is healthy for most campaigns.', color: '#A0CFFF' },
@@ -12,37 +10,6 @@ const METRICS = [
   { name: 'Frequency', full: 'Ad Frequency', plain: 'How many times the average person has seen your ad.', why: 'Seeing an ad once usually isn\'t enough to act. But seeing it 10+ times gets annoying. High frequency + low results = need new creative.', good: '1–3 is ideal. Over 4–5 means you need fresh ads or a bigger audience.', color: '#F59E0B' },
   { name: 'CTR vs CVR', full: 'Click Rate vs Conversion Rate', plain: 'CTR measures who clicked. Conversion rate measures who actually contacted you after clicking.', why: 'You can have great CTR (people click) but terrible conversion rate (people leave). That means the problem is your website, not the ad.', good: 'Aim for 2%+ website conversion rate. If people click but don\'t call, focus on your landing page.', color: '#EF4444' },
 ]
-
-function DemoNav({ active }: { active: string }) {
-  const links = [
-    { href: '/demo/dashboard', label: 'Overview' },
-    { href: '/demo/dashboard/performance', label: 'Performance' },
-    { href: '/demo/dashboard/grow', label: 'Grow' },
-    { href: '/demo/dashboard/learn', label: 'Learn' },
-  ]
-  return (
-    <header className="px-6 py-4 sticky top-0 z-10" style={{ background: 'rgba(8,11,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm" style={{ background: `linear-gradient(135deg, ${CLIENT.color}33, ${CLIENT.color}55)`, border: `1px solid ${CLIENT.color}44`, color: CLIENT.color }}>{CLIENT.initial}</div>
-          <div>
-            <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{CLIENT.name}</p>
-            <p className="text-xs" style={{ color: '#484D6D' }}>Campaign Portal</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-widest" style={{ background: 'rgba(251,191,36,0.08)', color: '#FCD34D', border: '1px solid rgba(251,191,36,0.18)' }}>Preview</span>
-          <nav className="flex items-center gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            {links.map(n => (
-              <Link key={n.href} href={n.href} className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={n.label === active ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' } : { color: '#7B82A0', border: '1px solid transparent' }}>{n.label}</Link>
-            ))}
-            <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>Sign out</Link>
-          </nav>
-        </div>
-      </div>
-    </header>
-  )
-}
 
 export default function DemoLearnPage() {
   return (
