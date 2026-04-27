@@ -19,10 +19,10 @@ export default function DemoLearnPage() {
       <div className="orb orb-2" />
       <div className="page-content">
         <DemoNav active="Learn" />
-        <main className="max-w-5xl mx-auto px-8 py-12">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Education</p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Learn the Metrics</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Learn the Metrics</h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>Plain English — what every number means and why it matters for your business.</p>
           </div>
 

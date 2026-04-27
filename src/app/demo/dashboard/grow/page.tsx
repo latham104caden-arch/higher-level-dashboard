@@ -69,10 +69,10 @@ export default function DemoGrowPage() {
       <div className="orb orb-2" />
       <div className="page-content">
         <DemoNav active="Grow" />
-        <main className="max-w-5xl mx-auto px-8 py-12 space-y-16">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Growth Playbook</p>
-            <h1 className="text-4xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>Grow Your Business</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>Grow Your Business</h1>
             <p className="text-base max-w-xl" style={{ color: '#7B82A0' }}>The playbook local businesses use to turn ad spend into booked jobs — website, content, follow-up, and everything in between.</p>
           </div>
 

@@ -45,15 +45,15 @@ export default function DemoPerformancePage() {
       <div className="page-content">
         <DemoNav active="Performance" />
 
-        <main className="max-w-5xl mx-auto px-8 py-12 space-y-8">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Campaign Performance</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Campaign Performance</h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>How your budget is working for you.</p>
           </div>
 
           {/* Summary row */}
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             {[
               { label: 'Total Spend', value: `$${totalSpend.toLocaleString()}`, color: '#A0A4B8' },
               { label: 'Total Leads', value: totalLeads, color: '#21D19F' },

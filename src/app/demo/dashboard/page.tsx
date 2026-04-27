@@ -79,7 +79,7 @@ export default function DemoDashboardPage() {
       <div className="page-content">
         <DemoNav active="Overview" />
 
-        <main className="max-w-5xl mx-auto px-8 py-12 space-y-10">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8 sm:space-y-10">
           {/* Welcome */}
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
