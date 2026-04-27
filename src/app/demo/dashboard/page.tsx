@@ -70,7 +70,7 @@ function DemoNav({ active }: { active: string }) {
   ]
   return (
     <header
-      className="px-6 py-4 sticky top-0 z-10"
+      className="px-4 py-3 sticky top-0 z-10"
       style={{
         background: 'rgba(8,11,20,0.85)',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -78,29 +78,27 @@ function DemoNav({ active }: { active: string }) {
         WebkitBackdropFilter: 'blur(20px)',
       }}
     >
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-3">
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
-            style={{
-              background: `linear-gradient(135deg, ${CLIENT.color}33, ${CLIENT.color}55)`,
-              border: `1px solid ${CLIENT.color}44`,
-              color: CLIENT.color,
-            }}
-          >
-            {CLIENT.initial}
+      <div className="max-w-5xl mx-auto">
+        {/* Top row: brand + badge */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div
+              className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0"
+              style={{
+                background: `linear-gradient(135deg, ${CLIENT.color}33, ${CLIENT.color}55)`,
+                border: `1px solid ${CLIENT.color}44`,
+                color: CLIENT.color,
+              }}
+            >
+              {CLIENT.initial}
+            </div>
+            <div>
+              <p className="font-black text-xs leading-tight" style={{ color: '#E8ECFF' }}>{CLIENT.name}</p>
+              <p className="text-xs" style={{ color: '#484D6D' }}>Campaign Portal</p>
+            </div>
           </div>
-          <div>
-            <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{CLIENT.name}</p>
-            <p className="text-xs" style={{ color: '#484D6D' }}>Campaign Portal</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {/* Demo badge */}
           <span
-            className="text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-widest"
+            className="text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-widest flex-shrink-0"
             style={{
               background: 'rgba(251,191,36,0.08)',
               color: '#FCD34D',
@@ -109,31 +107,38 @@ function DemoNav({ active }: { active: string }) {
           >
             Preview
           </span>
-
-          {/* Nav */}
-          <nav className="flex items-center gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            {links.map(n => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
-                style={n.label === active
-                  ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                  : { color: '#7B82A0', border: '1px solid transparent' }
-                }
-              >
-                {n.label}
-              </Link>
-            ))}
-            <Link
-              href="/logout"
-              className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2"
-              style={{ color: '#484D6D', border: '1px solid transparent' }}
-            >
-              Sign out
-            </Link>
-          </nav>
         </div>
+
+        {/* Bottom row: nav links scrollable */}
+        <nav
+          className="flex items-center gap-1 p-1 rounded-xl overflow-x-auto"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            scrollbarWidth: 'none',
+          }}
+        >
+          {links.map(n => (
+            <Link
+              key={n.href}
+              href={n.href}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex-shrink-0"
+              style={n.label === active
+                ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
+                : { color: '#7B82A0', border: '1px solid transparent' }
+              }
+            >
+              {n.label}
+            </Link>
+          ))}
+          <Link
+            href="/logout"
+            className="px-3 py-1.5 rounded-lg text-xs font-bold ml-auto flex-shrink-0"
+            style={{ color: '#484D6D', border: '1px solid transparent' }}
+          >
+            Sign out
+          </Link>
+        </nav>
       </div>
     </header>
   )
