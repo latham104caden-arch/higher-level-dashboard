@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [focused, setFocused] = useState(false)
+  const [show, setShow] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -34,19 +36,14 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md px-6">
         <div className="card p-8 sm:p-10">
           <div className="flex flex-col items-center mb-8">
-            <div
-              className="w-12 h-12 rounded-md flex items-center justify-center font-semibold text-base mb-4"
-              style={{
-                background: 'rgba(94,106,210,0.12)',
-                border: '1px solid rgba(94,106,210,0.25)',
-                color: '#5E6AD2',
-              }}
-            >
-              HL
-            </div>
-            <h1 className="font-serif italic text-3xl tracking-tight mb-1" style={{ color: '#F4F5F8' }}>
-              Higher Level
-            </h1>
+            <Image
+              src="/logo.png"
+              alt="Higher Level"
+              width={280}
+              height={64}
+              priority
+              className="h-14 sm:h-16 w-auto mb-4"
+            />
             <p className="text-sm" style={{ color: '#8A8F98' }}>
               Campaign Intelligence Platform
             </p>
@@ -57,21 +54,42 @@ export default function LoginPage() {
               <label className="block text-xs font-medium mb-2" style={{ color: '#8A8F98' }}>
                 Access Code
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                placeholder="••••••••••••"
-                required
-                className="w-full px-4 py-2.5 rounded-md text-sm transition-colors outline-none"
-                style={{
-                  background: '#1A1B20',
-                  border: `1px solid ${focused ? 'rgba(94,106,210,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                  color: '#F4F5F8',
-                }}
-              />
+              <div className="relative">
+                <input
+                  type={show ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setFocused(false)}
+                  placeholder="••••••••••••"
+                  required
+                  className="w-full pl-4 pr-11 py-2.5 rounded-md text-sm transition-colors outline-none"
+                  style={{
+                    background: '#1A1B20',
+                    border: `1px solid ${focused ? 'rgba(94,106,210,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                    color: '#F4F5F8',
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow(s => !s)}
+                  aria-label={show ? 'Hide password' : 'Show password'}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded flex items-center justify-center transition-colors"
+                  style={{ color: show ? '#F4F5F8' : '#8A8F98' }}
+                >
+                  {show ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
 
             {error && (
