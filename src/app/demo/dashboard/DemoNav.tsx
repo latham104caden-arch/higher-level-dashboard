@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const CLIENT = { name: 'Riverside Window Cleaning', initial: 'R', color: '#F59E0B' }
+const CLIENT = { name: 'Riverside Window Cleaning', initial: 'R' }
 
 export function DemoNav({ active }: { active: string }) {
   const links = [
@@ -11,59 +11,42 @@ export function DemoNav({ active }: { active: string }) {
   ]
   return (
     <header
-      className="px-4 py-3 sticky top-0 z-10"
-      style={{
-        background: 'rgba(8,11,20,0.85)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-      }}
+      className="px-4 sm:px-6 py-3 sticky top-0 z-10"
+      style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
     >
       <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2.5 min-w-0">
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0"
-              style={{
-                background: `linear-gradient(135deg, ${CLIENT.color}33, ${CLIENT.color}55)`,
-                border: `1px solid ${CLIENT.color}44`,
-                color: CLIENT.color,
-              }}
+              className="w-7 h-7 rounded-md flex items-center justify-center font-semibold text-xs flex-shrink-0"
+              style={{ background: '#1A1B20', border: '1px solid rgba(255,255,255,0.08)', color: '#F4F5F8' }}
             >
               {CLIENT.initial}
             </div>
             <div className="min-w-0">
-              <p className="font-black text-xs leading-tight truncate" style={{ color: '#E8ECFF' }}>{CLIENT.name}</p>
-              <p className="text-xs" style={{ color: '#484D6D' }}>Campaign Portal</p>
+              <p className="font-semibold text-sm leading-tight truncate" style={{ color: '#F4F5F8' }}>{CLIENT.name}</p>
+              <p className="text-xs" style={{ color: '#5C606C' }}>Campaign Portal</p>
             </div>
           </div>
           <span
-            className="text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-widest flex-shrink-0 ml-2"
-            style={{
-              background: 'rgba(251,191,36,0.08)',
-              color: '#FCD34D',
-              border: '1px solid rgba(251,191,36,0.18)',
-            }}
+            className="text-[10px] font-medium px-2 py-0.5 rounded uppercase tracking-wider flex-shrink-0 ml-2"
+            style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)' }}
           >
             Preview
           </span>
         </div>
         <nav
-          className="flex items-center gap-1 p-1 rounded-xl overflow-x-auto"
-          style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            scrollbarWidth: 'none',
-          }}
+          className="flex items-center gap-0 overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0"
+          style={{ scrollbarWidth: 'none' }}
         >
           {links.map(n => (
             <Link
               key={n.href}
               href={n.href}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex-shrink-0"
+              className="px-3 py-2 text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 -mb-px border-b-2"
               style={n.label === active
-                ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                : { color: '#7B82A0', border: '1px solid transparent' }
+                ? { color: '#F4F5F8', borderColor: '#5E6AD2' }
+                : { color: '#8A8F98', borderColor: 'transparent' }
               }
             >
               {n.label}
@@ -71,8 +54,8 @@ export function DemoNav({ active }: { active: string }) {
           ))}
           <Link
             href="/logout"
-            className="px-3 py-1.5 rounded-lg text-xs font-bold ml-auto flex-shrink-0"
-            style={{ color: '#484D6D', border: '1px solid transparent' }}
+            className="px-3 py-2 text-sm font-medium ml-auto flex-shrink-0"
+            style={{ color: '#5C606C' }}
           >
             Sign out
           </Link>
