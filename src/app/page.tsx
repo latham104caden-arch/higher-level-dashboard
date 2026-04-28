@@ -42,7 +42,7 @@ export default function LoginPage() {
               width={420}
               height={96}
               priority
-              className="w-full max-w-xs h-auto mb-5"
+              className="w-full max-w-[200px] h-auto mb-3"
             />
             <p className="text-sm" style={{ color: '#8A8F98' }}>
               Campaign Intelligence Platform
