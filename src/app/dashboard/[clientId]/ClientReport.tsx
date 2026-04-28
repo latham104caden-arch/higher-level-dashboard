@@ -115,7 +115,7 @@ export function ClientReport({ client }: { client: Client }) {
   return (
     <>
       <header
-        className="px-4 sm:px-6 py-3 sticky top-0 z-20"
+        className="px-4 sm:px-6 py-5 sticky top-0 z-20"
         style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
       >
         <div className="max-w-7xl mx-auto space-y-3">
@@ -198,7 +198,7 @@ export function ClientReport({ client }: { client: Client }) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 sm:pt-12 pb-10 space-y-8">
         {loading && (
           <div className="flex items-center justify-center py-32">
             <div className="text-center">
