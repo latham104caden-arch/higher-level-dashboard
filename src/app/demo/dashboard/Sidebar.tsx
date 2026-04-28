@@ -21,13 +21,13 @@ export function Sidebar() {
       className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-60 px-4 py-5 z-20"
       style={{ background: '#0B0C0F', borderRight: '1px solid rgba(255,255,255,0.06)' }}
     >
-      <Link href="/demo/dashboard" className="flex items-center gap-2 mb-8 px-2">
+      <Link href="/demo/dashboard" className="flex items-center gap-2 mb-8 px-1">
         <Image
           src="/logo.png"
           alt="Higher Level"
-          width={120}
-          height={28}
-          className="h-7 w-auto"
+          width={220}
+          height={52}
+          className="h-12 w-auto"
           priority
         />
       </Link>
@@ -89,7 +89,7 @@ export function MobileTopBar() {
       style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
     >
       <div className="flex items-center justify-between mb-3">
-        <Image src="/logo.png" alt="Higher Level" width={100} height={24} className="h-6 w-auto" priority />
+        <Image src="/logo.png" alt="Higher Level" width={180} height={42} className="h-10 w-auto" priority />
         <span className="text-[10px] font-medium px-2 py-0.5 rounded uppercase tracking-wider" style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)' }}>
           Preview
         </span>
