@@ -5,8 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const LINKS = [
-  { href: '/dashboard', label: 'Clients', match: (p: string) => p === '/dashboard' || (p.startsWith('/dashboard/') && !p.startsWith('/dashboard/audit') && !p.startsWith('/dashboard/library') && !p.startsWith('/dashboard/onboarding') && !p.startsWith('/dashboard/upcoming')) },
-  { href: '/dashboard/upcoming', label: 'Upcoming', match: (p: string) => p.startsWith('/dashboard/upcoming') },
+  { href: '/dashboard', label: 'Clients', match: (p: string) => p === '/dashboard' || (p.startsWith('/dashboard/') && !p.startsWith('/dashboard/audit') && !p.startsWith('/dashboard/library') && !p.startsWith('/dashboard/onboarding')) },
   { href: '/dashboard/audit', label: 'Site Audit', match: (p: string) => p.startsWith('/dashboard/audit') },
   { href: '/dashboard/library', label: 'Ad Library', match: (p: string) => p.startsWith('/dashboard/library') },
   { href: '/dashboard/onboarding', label: 'Onboarding', match: (p: string) => p.startsWith('/dashboard/onboarding') },
@@ -25,7 +24,12 @@ export function AdminNav() {
           <Link href="/dashboard" className="flex items-center gap-2">
             <Image src="/logo.png" alt="Higher Level" width={140} height={32} className="h-8 sm:h-9 w-auto" priority />
           </Link>
-          <Link href="/logout" className="text-xs font-medium" style={{ color: '#5C606C' }}>
+          <Link
+            href="/logout"
+            prefetch={false}
+            className="px-3 py-1.5 rounded-md text-xs font-medium"
+            style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.1)', color: '#F4F5F8' }}
+          >
             Sign out
           </Link>
         </div>

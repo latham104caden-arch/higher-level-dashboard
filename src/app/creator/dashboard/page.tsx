@@ -39,7 +39,7 @@ export default async function CreatorDashboardPage() {
             </div>
           </div>
 
-          <Link href="/logout" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#5C606C' }}>
+          <Link prefetch={false} href="/logout" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#5C606C' }}>
             Sign out
           </Link>
         </div>
