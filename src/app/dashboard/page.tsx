@@ -81,7 +81,7 @@ export default async function DashboardPage() {
             <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#21D19F' }}>
               — Agency View
             </p>
-            <h1 className="text-5xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>
               Active Clients
             </h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>

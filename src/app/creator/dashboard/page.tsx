@@ -93,7 +93,7 @@ export default async function CreatorDashboardPage() {
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#A78BFA' }}>
               — Creator Portal
             </p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>
               Your Content Hub
             </h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>

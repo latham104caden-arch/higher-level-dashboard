@@ -201,7 +201,7 @@ export function AuditClient({ website, clientColor, clientName }: Props) {
               border: `2px solid ${audit.gradeColor}40`,
             }}
           >
-            <p className="text-5xl font-black leading-none" style={{ color: audit.gradeColor }}>{audit.grade}</p>
+            <p className="text-4xl sm:text-5xl font-black leading-none" style={{ color: audit.gradeColor }}>{audit.grade}</p>
             <p className="text-xs font-bold mt-1" style={{ color: audit.gradeColor + 'aa' }}>{audit.scores.overall}/100</p>
           </div>
 

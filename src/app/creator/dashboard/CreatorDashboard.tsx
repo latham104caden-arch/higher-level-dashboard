@@ -153,7 +153,7 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
           <p className="text-xs mb-1" style={{ color: '#484D6D' }}>Base pay</p>
           <p className="text-xl font-black" style={{ color: '#E8ECFF' }}>{fmt$(base)}</p>
@@ -221,7 +221,7 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
           </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
           {[
             { label: 'ROAS', val: fmtR(ad.roas), highlight: ad.roas >= 2 },
             { label: 'CTR', val: fmtPct(ad.ctr), highlight: ad.ctr >= 2 },

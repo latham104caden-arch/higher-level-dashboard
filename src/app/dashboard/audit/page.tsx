@@ -63,10 +63,10 @@ export default async function AuditPage() {
           </div>
         </header>
 
-        <main className="max-w-5xl mx-auto px-8 py-12">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Agency Tools</p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Website & Funnel Audit</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Website & Funnel Audit</h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>
               Paste any URL. Get a full breakdown of speed, SEO, conversion readiness, trust signals, tracking, and ad compatibility — with specific fixes ranked by impact.
             </p>

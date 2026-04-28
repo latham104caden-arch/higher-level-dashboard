@@ -89,7 +89,7 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Bar — Instant Credibility</span>
         </div>
-        <div className="p-4 grid grid-cols-3 gap-3">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="Licensed & Insured" status={d.hasLicensed ? 'pass' : 'fail'}
             tip={d.hasLicensed ? 'Credentials mentioned — keep it prominent.' : 'This is the #1 objection for service businesses. Add "Licensed & Insured" with your license number.'} />
           <BlueprintSection label="Years in Business" status={d.hasYearsExp ? 'pass' : 'warn'}
@@ -174,7 +174,7 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#A0A4B8' }}>FOOTER</span>
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Footer — Contact & Trust</span>
         </div>
-        <div className="p-4 grid grid-cols-3 gap-3">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="NAP (Name, Address, Phone)" status={d.hasAddress && d.hasPhone ? 'pass' : 'warn'}
             tip="Google requires consistent NAP across your site and directory listings for local SEO." />
           <BlueprintSection label="Service Area Cities" status={d.hasLocalSignal ? 'pass' : 'warn'}
@@ -215,7 +215,7 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
           <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
           <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Signals Near ATC</span>
         </div>
-        <div className="p-4 grid grid-cols-3 gap-3">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="Free Shipping" status={d.hasFreeShipping ? 'pass' : 'warn'} tip={d.hasFreeShipping ? 'Free shipping messaging found.' : '80% of buyers expect it. If you offer it, make it the first thing they see near the ATC button.'} />
           <BlueprintSection label="Money-Back Guarantee" status={d.hasGuarantee ? 'pass' : 'warn'} tip={d.hasGuarantee ? 'Guarantee found.' : '"30-Day Returns" next to ATC removes the biggest barrier for cold traffic.'} />
           <BlueprintSection label="Secure Checkout Badge" status={d.isHttps ? 'pass' : 'fail'} tip={d.isHttps ? 'HTTPS active.' : 'No SSL — Meta will not run ads here and buyers will not trust their card details.'} />
@@ -318,7 +318,7 @@ function ScoreRing({ score, grade, color }: { score: number; grade: string; colo
           style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
       </svg>
       <div className="flex flex-col items-center z-10">
-        <span className="text-5xl font-black leading-none" style={{ color }}>{grade}</span>
+        <span className="text-4xl sm:text-5xl font-black leading-none" style={{ color }}>{grade}</span>
         <span className="text-xs font-bold mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>{score}/100</span>
       </div>
     </div>

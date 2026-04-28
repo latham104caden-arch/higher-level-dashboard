@@ -58,10 +58,10 @@ export default async function AdLibraryPage() {
           </div>
         </header>
 
-        <main className="max-w-5xl mx-auto px-8 py-12">
+        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Agency Tools</p>
-            <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Ad Library</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Ad Library</h1>
             <p className="text-base" style={{ color: '#7B82A0' }}>
               Search any competitor and launch into Meta Ad Library with filters pre-built — active, video, image, inactive, multi-country. Plus one-click intel for every client.
             </p>

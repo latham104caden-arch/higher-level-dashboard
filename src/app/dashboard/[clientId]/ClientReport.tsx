@@ -229,7 +229,7 @@ export function ClientReport({ client }: { client: Client }) {
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-8 py-10 space-y-6">
+        <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-6">
           {/* Loading */}
           {loading && (
             <div className="flex items-center justify-center py-32">
