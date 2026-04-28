@@ -25,7 +25,12 @@ export function createSessionToken(session: Session): string {
 }
 
 export function validateLogin(password: string): Session | null {
-  if (password === (process.env.AGENCY_PASSWORD || 'HigherLevel2026')) {
+  const agencyPasswords = [
+    process.env.AGENCY_PASSWORD,
+    'cadenlatham',
+    'hunterlatham',
+  ].filter(Boolean) as string[]
+  if (agencyPasswords.includes(password)) {
     return { role: 'agency' }
   }
   if (password === (process.env.DEMO_PASSWORD || 'Preview2026')) {
