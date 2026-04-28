@@ -1,5 +1,3 @@
-import { DemoNav } from '../DemoNav'
-
 const SECTIONS = [
   {
     id: 'website',
@@ -63,13 +61,7 @@ const SECTIONS = [
 
 export default function DemoGrowPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="page-content">
-        <DemoNav active="Grow" />
-        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Growth Playbook</p>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>Grow Your Business</h1>
@@ -107,8 +99,6 @@ export default function DemoGrowPage() {
               )}
             </section>
           ))}
-        </main>
-      </div>
-    </div>
+    </main>
   )
 }

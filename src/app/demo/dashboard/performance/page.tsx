@@ -1,5 +1,3 @@
-import { DemoNav } from '../DemoNav'
-
 const CAMPAIGNS = [
   {
     name: 'Window Cleaning | Local | Broad',
@@ -37,15 +35,7 @@ export default function DemoPerformancePage() {
   const avgCpl = totalSpend / totalLeads
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-
-      <div className="page-content">
-        <DemoNav active="Performance" />
-
-        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Last 30 Days</p>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Campaign Performance</h1>
@@ -169,8 +159,6 @@ export default function DemoPerformancePage() {
               })}
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+    </main>
   )
 }

@@ -1,5 +1,3 @@
-import { DemoNav } from '../DemoNav'
-
 const METRICS = [
   { name: 'CPM', full: 'Cost Per 1,000 Impressions', plain: 'How much it costs to show your ad to 1,000 people.', why: 'A lower CPM means your budget goes further — more people see your ad for less money. Good for local businesses: $5–$15.', good: 'Lower is better. Under $20 is healthy for most campaigns.', color: '#A0CFFF' },
   { name: 'CTR', full: 'Click-Through Rate', plain: 'The percentage of people who saw your ad and clicked on it.', why: 'A high CTR means your ad is grabbing attention. A low CTR means the ad isn\'t connecting with your audience.', good: 'Above 1% is average. Above 2% is good. Above 3% means your creative is working.', color: '#45B69C' },
@@ -13,13 +11,7 @@ const METRICS = [
 
 export default function DemoLearnPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="page-content">
-        <DemoNav active="Learn" />
-        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Education</p>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Learn the Metrics</h1>
@@ -45,8 +37,6 @@ export default function DemoLearnPage() {
               </div>
             ))}
           </div>
-        </main>
-      </div>
-    </div>
+    </main>
   )
 }

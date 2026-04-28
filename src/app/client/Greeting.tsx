@@ -19,7 +19,7 @@ export function Greeting() {
   if (!greeting) return null
 
   return (
-    <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight" style={{ color: '#F4F5F8' }}>
+    <h1 className="font-serif text-4xl sm:text-5xl tracking-tight italic" style={{ color: '#F4F5F8', lineHeight: 1.1 }}>
       {greeting}
     </h1>
   )
