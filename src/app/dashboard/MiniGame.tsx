@@ -79,6 +79,7 @@ export function MiniGame() {
     raf: 0,
     lastTime: 0,
     shotFlashes: [] as { x: number; y: number; t: number }[],
+    aim: { x: W / 2, y: H / 2 },
   })
   const [ui, setUi] = useState({
     phase: 'idle' as 'idle' | 'play' | 'dead',
@@ -192,6 +193,19 @@ export function MiniGame() {
       y: (e.clientY - rect.top) * (H / rect.height),
     }
   }, [])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'w' && e.key !== 'W') return
+      if (s.current.phase !== 'play') return
+      if (e.repeat) return
+      e.preventDefault()
+      const { x, y } = s.current.aim
+      shoot(x, y)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [shoot])
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -338,7 +352,7 @@ export function MiniGame() {
           ctx.shadowBlur = 0
           ctx.fillStyle = '#8A8F98'
           ctx.font = '13px system-ui'
-          ctx.fillText('Click green targets: ROAS  CTR  SCALE  3x ROAS', W / 2, H / 2 - 30)
+          ctx.fillText('Aim with mouse · Press W to fire · Hit green: ROAS  CTR  SCALE', W / 2, H / 2 - 30)
           ctx.fillStyle = '#EF4444'
           ctx.fillText('Avoid red targets: NO PIXEL  BAD OBJ  NO TRACK  LOW BID', W / 2, H / 2 - 8)
           ctx.fillStyle = '#F59E0B'
@@ -452,6 +466,10 @@ export function MiniGame() {
           height={H}
           className="w-full block"
           style={{ cursor: ui.phase === 'play' ? 'crosshair' : 'default' }}
+          onMouseMove={e => {
+            const { x, y } = getXY(e)
+            s.current.aim = { x, y }
+          }}
           onClick={e => {
             if (ui.phase !== 'play') return
             const { x, y } = getXY(e)
