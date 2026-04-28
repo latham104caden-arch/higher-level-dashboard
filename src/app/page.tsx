@@ -39,10 +39,10 @@ export default function LoginPage() {
             <Image
               src="/logo.png"
               alt="Higher Level"
-              width={280}
-              height={64}
+              width={420}
+              height={96}
               priority
-              className="h-14 sm:h-16 w-auto mb-4"
+              className="w-full max-w-xs h-auto mb-5"
             />
             <p className="text-sm" style={{ color: '#8A8F98' }}>
               Campaign Intelligence Platform
