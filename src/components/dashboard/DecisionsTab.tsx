@@ -56,13 +56,13 @@ function getDecisionReason(ad: any, clientType: string): { action: string; reaso
   }
 }
 
-const VERDICT_CONFIG: Record<string, { bg: string; border: string; color: string; icon: string; budgetNote: string }> = {
-  KILL:    { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444', icon: '🔴', budgetNote: 'Pause immediately' },
-  SCALE:   { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',   color: '#21D19F', icon: '🟢', budgetNote: 'Increase budget 20–30%' },
-  KEEP:    { bg: 'rgba(59,130,246,0.06)',  border: 'rgba(59,130,246,0.2)',   color: '#60A5FA', icon: '🔵', budgetNote: 'Hold current budget' },
-  WATCH:   { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',   color: '#F59E0B', icon: '🟡', budgetNote: 'Monitor for 2–3 days' },
-  TEST:    { bg: 'rgba(139,92,246,0.06)',  border: 'rgba(139,92,246,0.2)',   color: '#A78BFA', icon: '🟣', budgetNote: 'Let it breathe — more data needed' },
-  PENDING: { bg: 'rgba(167,139,250,0.06)', border: 'rgba(167,139,250,0.2)', color: '#A78BFA', icon: '⏳', budgetNote: 'Waiting on Meta review' },
+const VERDICT_CONFIG: Record<string, { bg: string; border: string; color: string; budgetNote: string }> = {
+  KILL:    { bg: 'rgba(245,158,11,0.04)', border: 'rgba(245,158,11,0.18)', color: '#F59E0B', budgetNote: 'Pause immediately' },
+  SCALE:   { bg: 'rgba(33,209,159,0.04)', border: 'rgba(33,209,159,0.18)', color: '#21D19F', budgetNote: 'Increase budget 20–30%' },
+  KEEP:    { bg: 'rgba(94,106,210,0.04)', border: 'rgba(94,106,210,0.18)', color: '#5E6AD2', budgetNote: 'Hold current budget' },
+  WATCH:   { bg: 'rgba(245,158,11,0.04)', border: 'rgba(245,158,11,0.18)', color: '#F59E0B', budgetNote: 'Monitor for 2–3 days' },
+  TEST:    { bg: 'rgba(94,106,210,0.04)', border: 'rgba(94,106,210,0.18)', color: '#5E6AD2', budgetNote: 'Let it breathe — more data needed' },
+  PENDING: { bg: '#15161A',                 border: 'rgba(255,255,255,0.08)', color: '#8A8F98', budgetNote: 'Waiting on Meta review' },
 }
 
 function priorityOrder(label: string) {
@@ -72,8 +72,8 @@ function priorityOrder(label: string) {
 export function DecisionsTab({ ads, clientType }: { ads: any[]; clientType: string }) {
   if (!ads || ads.length === 0) {
     return (
-      <div className="rounded-2xl p-8 text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-        <p className="text-sm" style={{ color: '#484D6D' }}>No ad data available for this period.</p>
+      <div className="card p-8 text-center">
+        <p className="text-sm" style={{ color: '#5C606C' }}>No ad data available for this period.</p>
       </div>
     )
   }
@@ -93,96 +93,76 @@ export function DecisionsTab({ ads, clientType }: { ads: any[]; clientType: stri
   const killSpend  = kills.reduce((s, d) => s + parseFloat(d.ad.spend || 0), 0)
   const scaleSpend = scales.reduce((s, d) => s + parseFloat(d.ad.spend || 0), 0)
 
+  const summary: { label: string; count: number; sub: string; color: string }[] = [
+    { label: 'Kill',       count: kills.length,                  sub: `${fmtCurrency(killSpend)} wasted`,    color: '#F59E0B' },
+    { label: 'Scale',      count: scales.length,                 sub: `${fmtCurrency(scaleSpend)} working`,  color: '#21D19F' },
+    { label: 'Keep',       count: keeps.length,                  sub: 'Holding steady',                       color: '#5E6AD2' },
+    { label: 'Watch/Test', count: watches.length + tests.length, sub: 'Needs more data',                      color: '#F59E0B' },
+  ]
+  if (pending.length > 0) summary.push({ label: 'In Review', count: pending.length, sub: 'Awaiting Meta approval', color: '#8A8F98' })
+
   return (
     <div className="space-y-6">
-      {/* Summary bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#EF4444' }}>Kill</p>
-          <p className="text-2xl font-black" style={{ color: '#EF4444' }}>{kills.length}</p>
-          <p className="text-xs mt-1" style={{ color: 'rgba(239,68,68,0.5)' }}>{fmtCurrency(killSpend)} wasted</p>
-        </div>
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.15)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#21D19F' }}>Scale</p>
-          <p className="text-2xl font-black" style={{ color: '#21D19F' }}>{scales.length}</p>
-          <p className="text-xs mt-1" style={{ color: 'rgba(33,209,159,0.5)' }}>{fmtCurrency(scaleSpend)} working</p>
-        </div>
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#60A5FA' }}>Keep</p>
-          <p className="text-2xl font-black" style={{ color: '#60A5FA' }}>{keeps.length}</p>
-          <p className="text-xs mt-1" style={{ color: 'rgba(59,130,246,0.4)' }}>Holding steady</p>
-        </div>
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.15)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#F59E0B' }}>Watch / Test</p>
-          <p className="text-2xl font-black" style={{ color: '#F59E0B' }}>{watches.length + tests.length}</p>
-          <p className="text-xs mt-1" style={{ color: 'rgba(245,158,11,0.4)' }}>Needs more data</p>
-        </div>
-        {pending.length > 0 && (
-          <div className="rounded-2xl p-5" style={{ background: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.2)' }}>
-            <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#A78BFA' }}>In Review</p>
-            <p className="text-2xl font-black" style={{ color: '#A78BFA' }}>{pending.length}</p>
-            <p className="text-xs mt-1" style={{ color: 'rgba(167,139,250,0.5)' }}>Awaiting Meta approval</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+        {summary.map((s, i) => (
+          <div key={i} className="p-5" style={{ background: '#15161A' }}>
+            <p className="text-xs font-medium mb-2" style={{ color: '#5C606C' }}>{s.label}</p>
+            <p className="text-2xl font-semibold tnum" style={{ color: s.color }}>{s.count}</p>
+            <p className="text-xs mt-1" style={{ color: '#5C606C' }}>{s.sub}</p>
           </div>
-        )}
+        ))}
       </div>
 
-      {/* Priority action callout */}
       {(kills.length > 0 || scales.length > 0) && (
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#484D6D' }}>Priority Actions Right Now</p>
+        <div className="card p-5">
+          <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Priority Actions Right Now</p>
           <div className="space-y-2">
             {kills.length > 0 && (
-              <p className="text-sm font-bold" style={{ color: '#EF4444' }}>
-                🔴 Pause {kills.map(d => d.ad.ad_name).join(', ')} — {fmtCurrency(killSpend)} in daily spend going nowhere.
+              <p className="text-sm" style={{ color: '#F59E0B' }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full mr-2" style={{ background: '#F59E0B' }} />
+                Pause {kills.map(d => d.ad.ad_name).join(', ')} — {fmtCurrency(killSpend)} in daily spend going nowhere.
               </p>
             )}
             {scales.length > 0 && (
-              <p className="text-sm font-bold" style={{ color: '#21D19F' }}>
-                🟢 Scale {scales.map(d => d.ad.ad_name).join(', ')} — push budget 20–30% now while they're working.
+              <p className="text-sm" style={{ color: '#21D19F' }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full mr-2" style={{ background: '#21D19F' }} />
+                Scale {scales.map(d => d.ad.ad_name).join(', ')} — push budget 20–30% now while they're working.
               </p>
             )}
           </div>
         </div>
       )}
 
-      {/* Ad cards */}
-      <div className="space-y-3">
-        <p className="text-xs font-black uppercase tracking-widest" style={{ color: '#484D6D' }}>
+      <div className="space-y-2">
+        <p className="text-xs font-medium" style={{ color: '#5C606C' }}>
           All Ads — {decisions.length} total · sorted by priority
         </p>
         {decisions.map(({ ad, action, reason, metric }, i) => {
           const cfg = VERDICT_CONFIG[action] || VERDICT_CONFIG.WATCH
           const isLive = ad.effective_status === 'ACTIVE'
           return (
-            <div
-              key={i}
-              className="rounded-2xl overflow-hidden"
-              style={{ background: cfg.bg, border: `1px solid ${cfg.border}`, backdropFilter: 'blur(12px)' }}
-            >
-              <div className="px-6 py-4 flex items-start justify-between gap-4 flex-wrap">
-                <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <span className="text-base mt-0.5 flex-shrink-0">{cfg.icon}</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <p className="font-black text-sm truncate" style={{ color: '#E8ECFF' }}>{ad.ad_name}</p>
-                      {!isLive && (
-                        <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(255,255,255,0.06)', color: '#484D6D', border: '1px solid rgba(255,255,255,0.08)' }}>
-                          OFF
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs mb-2" style={{ color: cfg.color, opacity: 0.8 }}>{metric}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{reason}</p>
+            <div key={i} className="card p-5" style={{ background: cfg.bg, border: `1px solid ${cfg.border}` }}>
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <p className="font-semibold text-sm truncate" style={{ color: '#F4F5F8' }}>{ad.ad_name}</p>
+                    {!isLive && (
+                      <span className="text-[10px] px-2 py-0.5 rounded font-medium" style={{ background: '#1A1B20', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        Off
+                      </span>
+                    )}
                   </div>
+                  <p className="text-xs mb-2" style={{ color: cfg.color }}>{metric}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>{reason}</p>
                 </div>
                 <div className="flex-shrink-0 text-right">
                   <span
-                    className="inline-block text-xs font-black px-3 py-1.5 rounded-full"
+                    className="inline-block text-[10px] font-medium px-2 py-0.5 rounded"
                     style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
                   >
                     {action}
                   </span>
-                  <p className="text-xs mt-1.5" style={{ color: '#484D6D' }}>{cfg.budgetNote}</p>
+                  <p className="text-xs mt-1.5" style={{ color: '#5C606C' }}>{cfg.budgetNote}</p>
                 </div>
               </div>
             </div>

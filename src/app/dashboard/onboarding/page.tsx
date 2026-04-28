@@ -23,51 +23,46 @@ export default async function OnboardingSubmissionsPage() {
   const submissions = await getSubmissions()
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" /><div className="orb orb-2" /><div className="orb orb-3" />
-
-      <div className="page-content relative z-10">
-        {/* Header */}
-        <header className="px-6 py-4 sticky top-0 z-10"
-          style={{ background: 'rgba(8,11,20,0.8)', borderBottom: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
-          <div className="max-w-6xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
-                style={{ background: 'linear-gradient(135deg, #21D19F22, #21D19F44)', border: '1px solid rgba(33,209,159,0.3)', color: '#21D19F' }}>
-                HL
-              </div>
-              <span className="font-black text-sm tracking-wider" style={{ color: '#E8ECFF' }}>HIGHER LEVEL</span>
+    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
+      <header className="px-6 py-4 sticky top-0 z-10"
+        style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
+              style={{ background: 'rgba(94,106,210,0.12)', border: '1px solid rgba(94,106,210,0.25)', color: '#5E6AD2' }}>
+              HL
             </div>
-            <div className="flex items-center gap-4">
-              <Link href="/dashboard" className="text-sm font-medium hover:opacity-80 transition-opacity" style={{ color: '#7B82A0' }}>
-                ← Dashboard
-              </Link>
-              <a href="/onboarding" target="_blank"
-                className="px-4 py-2 rounded-xl text-xs font-bold transition-all hover:opacity-90"
-                style={{ background: 'linear-gradient(135deg, #21D19F, #45B69C)', color: '#080B14' }}>
-                View Form →
-              </a>
-            </div>
+            <span className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Higher Level</span>
           </div>
-        </header>
+          <div className="flex items-center gap-3">
+            <Link href="/dashboard" className="text-sm font-medium" style={{ color: '#8A8F98' }}>
+              ← Dashboard
+            </Link>
+            <a href="/onboarding" target="_blank"
+              className="px-3 py-1.5 rounded-md text-sm font-medium"
+              style={{ background: '#5E6AD2', color: '#F4F5F8' }}>
+              View Form →
+            </a>
+          </div>
+        </div>
+      </header>
 
         <main className="max-w-6xl mx-auto px-6 py-8">
           {/* Title */}
           <div className="mb-8">
-            <h1 className="text-3xl font-black mb-2" style={{ color: '#E8ECFF' }}>Onboarding Submissions</h1>
-            <p style={{ color: '#7B82A0' }}>
+            <h1 className="text-3xl font-semibold mb-2" style={{ color: '#F4F5F8' }}>Onboarding Submissions</h1>
+            <p style={{ color: '#8A8F98' }}>
               {submissions.length === 0 ? 'No submissions yet.' : `${submissions.length} submission${submissions.length !== 1 ? 's' : ''} received`}
             </p>
           </div>
 
           {submissions.length === 0 ? (
-            <div className="rounded-2xl p-12 text-center glass"
+            <div className="rounded-lg p-12 text-center glass"
               style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="text-5xl mb-4">📋</div>
-              <p className="font-bold mb-2" style={{ color: '#E8ECFF' }}>No submissions yet</p>
-              <p className="text-sm mb-6" style={{ color: '#7B82A0' }}>Share the onboarding link with new clients to get started.</p>
-              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold"
+              <p className="font-bold mb-2" style={{ color: '#F4F5F8' }}>No submissions yet</p>
+              <p className="text-sm mb-6" style={{ color: '#8A8F98' }}>Share the onboarding link with new clients to get started.</p>
+              <div className="inline-flex items-center gap-2 px-4 py-3 rounded-md text-sm font-bold"
                 style={{ background: 'rgba(33,209,159,0.08)', border: '1px solid rgba(33,209,159,0.2)', color: '#21D19F' }}>
                 higherleveladz.com/onboarding
               </div>
@@ -80,7 +75,6 @@ export default async function OnboardingSubmissionsPage() {
             </div>
           )}
         </main>
-      </div>
     </div>
   )
 }
@@ -91,19 +85,19 @@ function SubmissionCard({ s }: { s: any }) {
   })
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+    <div className="rounded-lg overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#15161A' }}>
       {/* Card header */}
       <div className="px-6 py-4 flex items-center justify-between"
         style={{ background: 'rgba(33,209,159,0.05)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div>
-          <h2 className="font-black text-lg" style={{ color: '#E8ECFF' }}>{s.businessName || 'Unnamed Business'}</h2>
-          <p className="text-sm" style={{ color: '#7B82A0' }}>{s.legalName}</p>
+          <h2 className="font-semibold text-base" style={{ color: '#F4F5F8' }}>{s.businessName || 'Unnamed Business'}</h2>
+          <p className="text-sm" style={{ color: '#8A8F98' }}>{s.legalName}</p>
         </div>
         <div className="text-right">
           <div className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'rgba(33,209,159,0.1)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>
             New
           </div>
-          <p className="text-xs mt-1" style={{ color: '#484D6D' }}>{date}</p>
+          <p className="text-xs mt-1" style={{ color: '#5C606C' }}>{date}</p>
         </div>
       </div>
 
@@ -143,7 +137,7 @@ function SubmissionCard({ s }: { s: any }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#21D19F' }}>{title}</p>
+      <p className="text-xs font-semibold  mb-3" style={{ color: '#21D19F' }}>{title}</p>
       <div className="space-y-2">{children}</div>
     </div>
   )
@@ -152,8 +146,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Row({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div>
-      <p className="text-xs" style={{ color: '#484D6D' }}>{label}</p>
-      <p className="text-sm font-semibold" style={{ color: highlight ? '#21D19F' : '#E8ECFF' }}>{value || '—'}</p>
+      <p className="text-xs" style={{ color: '#5C606C' }}>{label}</p>
+      <p className="text-sm font-semibold" style={{ color: highlight ? '#21D19F' : '#F4F5F8' }}>{value || '—'}</p>
     </div>
   )
 }

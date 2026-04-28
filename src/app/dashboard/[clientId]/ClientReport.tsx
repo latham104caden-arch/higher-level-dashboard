@@ -98,310 +98,266 @@ export function ClientReport({ client }: { client: Client }) {
 
   const funnelSteps = client.type === 'ecommerce'
     ? [
-        { label: 'Impressions', value: impressions, color: '#484D6D' },
-        { label: 'Clicks', value: clicks, color: '#A0A4B8' },
-        { label: 'Page Views', value: lpv, color: '#D8DDEF' },
-        { label: 'Add to Cart', value: atc, color: '#45B69C' },
+        { label: 'Impressions', value: impressions, color: '#5C606C' },
+        { label: 'Clicks', value: clicks, color: '#8A8F98' },
+        { label: 'Page Views', value: lpv, color: '#F4F5F8' },
+        { label: 'Add to Cart', value: atc, color: '#5E6AD2' },
         { label: 'Checkout', value: checkouts, color: '#21D19F' },
         { label: 'Purchases', value: purchases, color: '#21D19F' },
       ]
     : [
-        { label: 'Impressions', value: impressions, color: '#484D6D' },
-        { label: 'Clicks', value: clicks, color: '#A0A4B8' },
-        { label: 'Page Views', value: lpv, color: '#D8DDEF' },
+        { label: 'Impressions', value: impressions, color: '#5C606C' },
+        { label: 'Clicks', value: clicks, color: '#8A8F98' },
+        { label: 'Page Views', value: lpv, color: '#F4F5F8' },
         { label: 'Leads', value: leads, color: '#21D19F' },
       ]
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      {/* Background */}
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
+    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
+      <header
+        className="px-6 py-4 sticky top-0 z-20"
+        style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+      >
+        <div className="max-w-7xl mx-auto px-2 flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#8A8F98' }}>
+              ← Back
+            </Link>
+            <div className="w-px h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
+            <div
+              className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
+              style={{
+                background: '#1A1B20',
+                border: '1px solid rgba(255,255,255,0.08)',
+                color: '#F4F5F8',
+              }}
+            >
+              {client.name.charAt(0)}
+            </div>
+            <div>
+              <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>{client.name}</p>
+              <p className="text-xs font-mono tnum" style={{ color: '#5C606C' }}>{client.accountId}</p>
+            </div>
+          </div>
 
-      {/* Ghost client initial */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-end pr-8 opacity-100">
-        <span className="ghost-text" style={{ fontSize: '28vw', bottom: '-4vw', position: 'absolute', right: '-2vw' }}>
-          {client.name.charAt(0)}
-        </span>
-      </div>
-
-      <div className="page-content">
-        {/* Header */}
-        <header
-          className="px-6 py-4 sticky top-0 z-20"
-          style={{
-            background: 'rgba(8,11,20,0.85)',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-          }}
-        >
-          <div className="max-w-7xl mx-auto px-2 flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-4">
-              <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#484D6D' }}>
-                ← Back
-              </Link>
-              <div className="w-px h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
-                style={{
-                  background: `linear-gradient(135deg, ${client.color}22, ${client.color}44)`,
-                  border: `1px solid ${client.color}44`,
-                  color: client.color,
-                }}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              {lastUpdated && (
+                <span className="text-xs" style={{ color: '#5C606C' }}>
+                  {refreshing ? 'Refreshing…' : `Updated ${lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
+                </span>
+              )}
+              <button
+                onClick={() => fetchData(true)}
+                disabled={refreshing}
+                className="w-7 h-7 rounded-md flex items-center justify-center transition-colors"
+                style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', color: refreshing ? '#5C606C' : '#8A8F98' }}
+                title="Refresh data"
               >
-                {client.name.charAt(0)}
-              </div>
-              <div>
-                <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>{client.name}</p>
-                <p className="text-xs font-mono" style={{ color: '#484D6D' }}>{client.accountId}</p>
-              </div>
+                <svg
+                  width="12" height="12" viewBox="0 0 12 12" fill="none"
+                  style={{ transform: refreshing ? 'rotate(360deg)' : 'none', transition: refreshing ? 'transform 1s linear' : 'none' }}
+                >
+                  <path d="M10 6A4 4 0 1 1 6 2a4 4 0 0 1 2.83 1.17L10 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M10 2v2H8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
 
-            <div className="flex items-center gap-3 flex-wrap">
-              {/* Last updated + refresh */}
-              <div className="flex items-center gap-2">
-                {lastUpdated && (
-                  <span className="text-xs" style={{ color: '#484D6D' }}>
-                    {refreshing ? 'Refreshing…' : `Updated ${lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
-                  </span>
-                )}
+            <div className="flex gap-0">
+              {TABS.map(t => (
                 <button
-                  onClick={() => fetchData(true)}
-                  disabled={refreshing}
-                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: refreshing ? '#484D6D' : '#7B82A0' }}
-                  title="Refresh data"
+                  key={t.value}
+                  onClick={() => setActiveTab(t.value)}
+                  className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
+                  style={activeTab === t.value
+                    ? { background: 'rgba(94,106,210,0.12)', color: '#F4F5F8' }
+                    : { color: '#8A8F98' }
+                  }
                 >
-                  <svg
-                    width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    style={{ transform: refreshing ? 'rotate(360deg)' : 'none', transition: refreshing ? 'transform 1s linear' : 'none' }}
-                  >
-                    <path d="M10 6A4 4 0 1 1 6 2a4 4 0 0 1 2.83 1.17L10 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                    <path d="M10 2v2H8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  {t.label}
                 </button>
-              </div>
+              ))}
+            </div>
 
-              {/* Tabs */}
-              <div
-                className="flex gap-1 p-1 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
-              >
-                {TABS.map(t => (
+            {(activeTab === 'overview' || activeTab === 'decisions') && (
+              <div className="flex gap-0 p-0.5 rounded-md" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+                {PRESETS.map(p => (
                   <button
-                    key={t.value}
-                    onClick={() => setActiveTab(t.value)}
-                    className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
-                    style={activeTab === t.value
-                      ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                      : { color: '#7B82A0', border: '1px solid transparent' }
+                    key={p.value}
+                    onClick={() => setDatePreset(p.value)}
+                    className="px-2.5 py-1 rounded text-xs font-medium transition-colors tnum"
+                    style={datePreset === p.value
+                      ? { background: '#1A1B20', color: '#F4F5F8' }
+                      : { color: '#8A8F98' }
                     }
                   >
-                    {t.label}
+                    {p.label}
                   </button>
                 ))}
               </div>
+            )}
+          </div>
+        </div>
+      </header>
 
-              {/* Date presets */}
-              {(activeTab === 'overview' || activeTab === 'decisions') && (
-                <div
-                  className="flex gap-1 p-1 rounded-xl"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
-                >
-                  {PRESETS.map(p => (
-                    <button
-                      key={p.value}
-                      onClick={() => setDatePreset(p.value)}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
-                      style={datePreset === p.value
-                        ? { background: 'rgba(255,255,255,0.08)', color: '#E8ECFF', border: '1px solid rgba(255,255,255,0.12)' }
-                        : { color: '#484D6D', border: '1px solid transparent' }
-                      }
-                    >
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-6">
+        {loading && (
+          <div className="flex items-center justify-center py-32">
+            <div className="text-center">
+              <div
+                className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4"
+                style={{ borderColor: 'rgba(94,106,210,0.2)', borderTopColor: '#5E6AD2' }}
+              />
+              <p className="text-sm" style={{ color: '#8A8F98' }}>
+                Pulling live data
+              </p>
             </div>
           </div>
-        </header>
+        )}
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-6">
-          {/* Loading */}
-          {loading && (
-            <div className="flex items-center justify-center py-32">
-              <div className="text-center">
-                <div
-                  className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-5"
-                  style={{ borderColor: 'rgba(33,209,159,0.2)', borderTopColor: '#21D19F' }}
-                />
-                <p className="text-sm tracking-widest uppercase" style={{ color: '#484D6D' }}>
-                  Pulling live data
-                </p>
-              </div>
-            </div>
-          )}
+        {error && (
+          <div
+            className="card p-4 text-sm"
+            style={{ background: 'rgba(245,158,11,0.04)', border: '1px solid rgba(245,158,11,0.18)', color: '#F59E0B' }}
+          >
+            {error}
+          </div>
+        )}
 
-          {error && (
-            <div
-              className="rounded-2xl p-4 text-sm"
-              style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)', color: '#EF4444' }}
-            >
-              {error}
-            </div>
-          )}
+        {!loading && !error && activeTab === 'decisions' && (
+          <DecisionsTab ads={ads} clientType={client.type} />
+        )}
 
-          {/* Kill / Scale Decisions */}
-          {!loading && !error && activeTab === 'decisions' && (
-            <DecisionsTab ads={ads} clientType={client.type} />
-          )}
+        {!loading && !error && activeTab === 'competitors' && (
+          <CompetitorTab clientId={client.id} />
+        )}
 
-          {/* Competitors */}
-          {!loading && !error && activeTab === 'competitors' && (
-            <CompetitorTab clientId={client.id} />
-          )}
+        {!loading && !error && activeTab === 'angles' && (
+          <AnglesTab clientId={client.id} ads={ads} />
+        )}
 
-          {/* Angles */}
-          {!loading && !error && activeTab === 'angles' && (
-            <AnglesTab clientId={client.id} ads={ads} />
-          )}
-
-          {/* Overview */}
-          {!loading && !error && activeTab === 'overview' && (
-            <>
-              {/* Action Alerts */}
-              {(kills.length > 0 || scales.length > 0 || tests.length > 0) && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {kills.length > 0 && (
-                    <div className="rounded-2xl p-4" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)' }}>
-                      <p className="font-black text-sm mb-1" style={{ color: '#EF4444' }}>🔴 Kill ({kills.length})</p>
-                      <p className="text-xs" style={{ color: 'rgba(239,68,68,0.6)' }}>{kills.map((a: any) => a.ad_name).join(', ')}</p>
-                    </div>
-                  )}
-                  {scales.length > 0 && (
-                    <div className="rounded-2xl p-4" style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.15)' }}>
-                      <p className="font-black text-sm mb-1" style={{ color: '#21D19F' }}>🟢 Scale ({scales.length})</p>
-                      <p className="text-xs" style={{ color: 'rgba(33,209,159,0.6)' }}>{scales.map((a: any) => a.ad_name).join(', ')}</p>
-                    </div>
-                  )}
-                  {tests.length > 0 && (
-                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                      <p className="font-black text-sm mb-1" style={{ color: '#E8ECFF' }}>🟣 Test ({tests.length})</p>
-                      <p className="text-xs" style={{ color: '#7B82A0' }}>{tests.map((a: any) => a.ad_name).join(', ')}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Metrics */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                <MetricCard label="Total Spend" value={fmtCurrency(spend)} />
-                <MetricCard label="Impressions" value={fmtInt(impressions)} />
-                <MetricCard label="CTR" value={fmtPct(ctr)} />
-                <MetricCard label="CPM" value={fmtCurrency(cpm)} />
-                {client.type === 'ecommerce' ? (
-                  <>
-                    <MetricCard label="Revenue" value={fmtCurrency(revenue)} />
-                    <MetricCard label="ROAS" value={fmtX(roas)} alert={roas > 0 && roas < 1} />
-                    <MetricCard label="Purchases" value={fmtInt(purchases)} />
-                    <MetricCard label="Cost/Purchase" value={purchases > 0 ? fmtCurrency(spend / purchases) : '—'} alert={purchases === 0 && spend > 50} />
-                  </>
-                ) : (
-                  <>
-                    <MetricCard label="Leads" value={fmtInt(leads)} />
-                    <MetricCard label="Cost/Lead" value={leads > 0 ? fmtCurrency(spend / leads) : '—'} alert={leads === 0 && spend > 30} />
-                    <MetricCard label="CPC" value={fmtCurrency(cpc)} />
-                    <MetricCard label="Clicks" value={fmtInt(clicks)} />
-                  </>
+        {!loading && !error && activeTab === 'overview' && (
+          <>
+            {(kills.length > 0 || scales.length > 0 || tests.length > 0) && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {kills.length > 0 && (
+                  <div className="card p-4" style={{ background: 'rgba(245,158,11,0.04)', border: '1px solid rgba(245,158,11,0.18)' }}>
+                    <p className="font-semibold text-sm mb-1" style={{ color: '#F59E0B' }}>Kill ({kills.length})</p>
+                    <p className="text-xs" style={{ color: '#8A8F98' }}>{kills.map((a: any) => a.ad_name).join(', ')}</p>
+                  </div>
+                )}
+                {scales.length > 0 && (
+                  <div className="card p-4" style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.18)' }}>
+                    <p className="font-semibold text-sm mb-1" style={{ color: '#21D19F' }}>Scale ({scales.length})</p>
+                    <p className="text-xs" style={{ color: '#8A8F98' }}>{scales.map((a: any) => a.ad_name).join(', ')}</p>
+                  </div>
+                )}
+                {tests.length > 0 && (
+                  <div className="card p-4">
+                    <p className="font-semibold text-sm mb-1" style={{ color: '#5E6AD2' }}>Test ({tests.length})</p>
+                    <p className="text-xs" style={{ color: '#8A8F98' }}>{tests.map((a: any) => a.ad_name).join(', ')}</p>
+                  </div>
                 )}
               </div>
+            )}
 
-              {/* Charts */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                  <Card>
-                    <CardHeader>
-                      <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Spend Over Time</p>
-                    </CardHeader>
-                    <CardBody>
-                      <SpendChart data={daily} clientType={client.type} color={client.color} />
-                    </CardBody>
-                  </Card>
-                </div>
-                <div>
-                  <Card className="h-full">
-                    <CardHeader>
-                      <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Conversion Funnel</p>
-                    </CardHeader>
-                    <CardBody>
-                      <FunnelViz steps={funnelSteps} />
-                    </CardBody>
-                  </Card>
-                </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+              <MetricCard label="Total Spend" value={fmtCurrency(spend)} />
+              <MetricCard label="Impressions" value={fmtInt(impressions)} />
+              <MetricCard label="CTR" value={fmtPct(ctr)} />
+              <MetricCard label="CPM" value={fmtCurrency(cpm)} />
+              {client.type === 'ecommerce' ? (
+                <>
+                  <MetricCard label="Revenue" value={fmtCurrency(revenue)} />
+                  <MetricCard label="ROAS" value={fmtX(roas)} alert={roas > 0 && roas < 1} />
+                  <MetricCard label="Purchases" value={fmtInt(purchases)} />
+                  <MetricCard label="Cost/Purchase" value={purchases > 0 ? fmtCurrency(spend / purchases) : '—'} alert={purchases === 0 && spend > 50} />
+                </>
+              ) : (
+                <>
+                  <MetricCard label="Leads" value={fmtInt(leads)} />
+                  <MetricCard label="Cost/Lead" value={leads > 0 ? fmtCurrency(spend / leads) : '—'} alert={leads === 0 && spend > 30} />
+                  <MetricCard label="CPC" value={fmtCurrency(cpc)} />
+                  <MetricCard label="Clicks" value={fmtInt(clicks)} />
+                </>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              <div className="lg:col-span-2">
+                <Card>
+                  <CardHeader>
+                    <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>Spend Over Time</p>
+                  </CardHeader>
+                  <CardBody>
+                    <SpendChart data={daily} clientType={client.type} color={client.color} />
+                  </CardBody>
+                </Card>
               </div>
+              <div>
+                <Card className="h-full">
+                  <CardHeader>
+                    <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>Conversion Funnel</p>
+                  </CardHeader>
+                  <CardBody>
+                    <FunnelViz steps={funnelSteps} />
+                  </CardBody>
+                </Card>
+              </div>
+            </div>
 
-              {/* Campaigns */}
-              <Card>
-                <CardHeader>
-                  <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Campaigns</p>
-                </CardHeader>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                        <th className="text-left py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Campaign</th>
-                        <th className="text-left py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Status</th>
-                        <th className="text-left py-4 px-5 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Objective</th>
-                        <th className="text-right py-4 px-7 text-xs font-bold uppercase tracking-widest" style={{ color: '#484D6D' }}>Budget</th>
+            <Card>
+              <CardHeader>
+                <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>Campaigns</p>
+              </CardHeader>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <th className="text-left py-3 px-5 sm:px-6 text-xs font-medium" style={{ color: '#5C606C' }}>Campaign</th>
+                      <th className="text-left py-3 px-4 text-xs font-medium" style={{ color: '#5C606C' }}>Status</th>
+                      <th className="text-left py-3 px-4 text-xs font-medium" style={{ color: '#5C606C' }}>Objective</th>
+                      <th className="text-right py-3 px-5 sm:px-6 text-xs font-medium" style={{ color: '#5C606C' }}>Budget</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {campaigns.map((c: any, i: number) => (
+                      <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <td className="py-3.5 px-5 sm:px-6 font-medium max-w-xs truncate" style={{ color: '#F4F5F8' }}>{c.name}</td>
+                        <td className="py-3.5 px-4">
+                          <span
+                            className="text-[10px] font-medium px-2 py-0.5 rounded inline-flex items-center gap-1.5"
+                            style={c.effective_status === 'ACTIVE'
+                              ? { background: 'rgba(33,209,159,0.08)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.18)' }
+                              : { background: '#1A1B20', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }
+                            }
+                          >
+                            {c.effective_status === 'ACTIVE' && <span className="w-1 h-1 rounded-full bg-current" />}
+                            {c.effective_status || c.status}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-xs" style={{ color: '#8A8F98' }}>{c.objective}</td>
+                        <td className="py-3.5 px-5 sm:px-6 text-right font-medium tnum" style={{ color: '#F4F5F8' }}>
+                          {c.daily_budget ? `$${(parseInt(c.daily_budget) / 100).toFixed(0)}/day` : '—'}
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {campaigns.map((c: any, i: number) => (
-                        <tr
-                          key={i}
-                          style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
-                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                        >
-                          <td className="py-4 px-7 font-bold max-w-xs truncate" style={{ color: '#E8ECFF' }}>{c.name}</td>
-                          <td className="py-4 px-5">
-                            <span
-                              className="text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 w-fit"
-                              style={c.effective_status === 'ACTIVE'
-                                ? { background: 'rgba(33,209,159,0.08)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                                : { background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }
-                              }
-                            >
-                              {c.effective_status === 'ACTIVE' && <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />}
-                              {c.effective_status || c.status}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4 text-xs" style={{ color: '#7B82A0' }}>{c.objective}</td>
-                          <td className="py-3 px-6 text-right font-bold" style={{ color: '#E8ECFF' }}>
-                            {c.daily_budget ? `$${(parseInt(c.daily_budget) / 100).toFixed(0)}/day` : '—'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
 
-              {/* Ads */}
-              <Card>
-                <CardHeader className="flex items-center justify-between">
-                  <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Ad Performance</p>
-                  <p className="text-xs font-mono" style={{ color: '#484D6D' }}>{ads.length} ads · sorted by spend</p>
-                </CardHeader>
-                <AdTable ads={ads} clientType={client.type} />
-              </Card>
-            </>
-          )}
-        </main>
-      </div>
+            <Card>
+              <CardHeader className="flex items-center justify-between">
+                <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>Ad Performance</p>
+                <p className="text-xs font-mono tnum" style={{ color: '#5C606C' }}>{ads.length} ads · sorted by spend</p>
+              </CardHeader>
+              <AdTable ads={ads} clientType={client.type} />
+            </Card>
+          </>
+        )}
+      </main>
     </div>
   )
 }

@@ -70,7 +70,7 @@ const Icon = {
 // ─── Tier config — no emojis ──────────────────────────────────────────────────
 const TIER_CONFIG = {
   winner:   { label: 'Winner',    bg: 'rgba(33,209,159,0.12)',  border: 'rgba(33,209,159,0.25)',  color: '#21D19F' },
-  solid:    { label: 'Solid',     bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.25)',  color: '#60A5FA' },
+  solid:    { label: 'Solid',     bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.25)',  color: '#5E6AD2' },
   learning: { label: 'Learning',  bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.25)',  color: '#FBB724' },
   weak:     { label: 'Needs Work',bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.2)',    color: '#EF4444' },
 }
@@ -133,10 +133,10 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
     <div className="space-y-6">
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-black" style={{ color: '#E8ECFF' }}>
+          <label className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>
             How many videos will you deliver?
           </label>
-          <span className="text-2xl font-black" style={{ color: '#A78BFA' }}>{videos}</span>
+          <span className="text-2xl font-semibold" style={{ color: '#5E6AD2' }}>{videos}</span>
         </div>
         <input
           type="range"
@@ -145,34 +145,34 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
           value={videos}
           onChange={e => setVideos(Number(e.target.value))}
           className="w-full h-2 rounded-full appearance-none cursor-pointer"
-          style={{ accentColor: '#A78BFA', background: 'rgba(139,92,246,0.2)' }}
+          style={{ accentColor: '#5E6AD2', background: 'rgba(139,92,246,0.2)' }}
         />
-        <div className="flex justify-between text-xs mt-1" style={{ color: '#484D6D' }}>
+        <div className="flex justify-between text-xs mt-1" style={{ color: '#5C606C' }}>
           <span>1 video</span>
           <span>50 videos</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-xs mb-1" style={{ color: '#484D6D' }}>Base pay</p>
-          <p className="text-xl font-black" style={{ color: '#E8ECFF' }}>{fmt$(base)}</p>
-          <p className="text-xs mt-1" style={{ color: '#484D6D' }}>{fmt$(ratePerVideo)}/video</p>
+        <div className="rounded-md p-4 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-xs mb-1" style={{ color: '#5C606C' }}>Base pay</p>
+          <p className="text-xl font-semibold" style={{ color: '#F4F5F8' }}>{fmt$(base)}</p>
+          <p className="text-xs mt-1" style={{ color: '#5C606C' }}>{fmt$(ratePerVideo)}/video</p>
         </div>
-        <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-xs mb-1" style={{ color: '#484D6D' }}>Purchase bonus</p>
-          <p className="text-xl font-black" style={{ color: '#A78BFA' }}>{fmt$(bonus)}</p>
-          <p className="text-xs mt-1" style={{ color: '#484D6D' }}>~{projected_purchases} purchases</p>
+        <div className="rounded-md p-4 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-xs mb-1" style={{ color: '#5C606C' }}>Purchase bonus</p>
+          <p className="text-xl font-semibold" style={{ color: '#5E6AD2' }}>{fmt$(bonus)}</p>
+          <p className="text-xs mt-1" style={{ color: '#5C606C' }}>~{projected_purchases} purchases</p>
         </div>
-        <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)' }}>
-          <p className="text-xs mb-1" style={{ color: '#A78BFA' }}>Total earned</p>
-          <p className="text-xl font-black" style={{ color: '#A78BFA' }}>{fmt$(total)}</p>
-          <p className="text-xs mt-1" style={{ color: '#484D6D' }}>{fmt$(Math.round(total / videos))}/video avg</p>
+        <div className="rounded-md p-4 text-center" style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)' }}>
+          <p className="text-xs mb-1" style={{ color: '#5E6AD2' }}>Total earned</p>
+          <p className="text-xl font-semibold" style={{ color: '#5E6AD2' }}>{fmt$(total)}</p>
+          <p className="text-xs mt-1" style={{ color: '#5C606C' }}>{fmt$(Math.round(total / videos))}/video avg</p>
         </div>
       </div>
 
       <div className="space-y-2">
-        <p className="text-xs font-black" style={{ color: '#484D6D' }}>Milestones</p>
+        <p className="text-xs font-semibold" style={{ color: '#5C606C' }}>Milestones</p>
         {[500, 1000, 2500, 5000].map(target => {
           const vidsNeeded = Math.ceil(target / (ratePerVideo + avgPurchasesPerVideo * bonusPerPurchase))
           const reached = total >= target
@@ -184,11 +184,11 @@ function ProjectionCalc({ ratePerVideo, bonusPerPurchase, currentVideos, current
               <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                 <div className="h-1.5 rounded-full transition-all" style={{ width: `${Math.min((total / target) * 100, 100)}%`, background: reached ? '#21D19F' : 'rgba(139,92,246,0.5)' }} />
               </div>
-              <span className="text-xs font-black w-16 text-right" style={{ color: reached ? '#21D19F' : '#484D6D' }}>
+              <span className="text-xs font-semibold w-16 text-right" style={{ color: reached ? '#21D19F' : '#5C606C' }}>
                 {fmt$(target)}
               </span>
               {!reached && (
-                <span className="text-xs w-20 text-right" style={{ color: '#484D6D' }}>
+                <span className="text-xs w-20 text-right" style={{ color: '#5C606C' }}>
                   {vidsNeeded - currentVideos > 0 ? `${vidsNeeded - currentVideos} more vids` : 'almost there'}
                 </span>
               )}
@@ -207,16 +207,16 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
 
   return (
     <div
-      className="rounded-2xl overflow-hidden transition-all"
-      style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${tier.border}` }}
+      className="rounded-lg overflow-hidden transition-all"
+      style={{ background: '#15161A', border: `1px solid ${tier.border}` }}
     >
       <div className="px-5 pt-5 pb-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex-1 min-w-0">
-            <p className="font-black text-sm truncate" style={{ color: '#E8ECFF' }}>{ad.name}</p>
-            <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>Running {ad.days_running}d</p>
+            <p className="font-semibold text-sm truncate" style={{ color: '#F4F5F8' }}>{ad.name}</p>
+            <p className="text-xs mt-0.5" style={{ color: '#5C606C' }}>Running {ad.days_running}d</p>
           </div>
-          <span className="flex-shrink-0 text-xs font-black px-2.5 py-1 rounded-full" style={{ background: tier.bg, color: tier.color, border: `1px solid ${tier.border}` }}>
+          <span className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: tier.bg, color: tier.color, border: `1px solid ${tier.border}` }}>
             {tier.label}
           </span>
         </div>
@@ -228,9 +228,9 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
             { label: 'Spend', val: fmt$(ad.spend), highlight: false },
             { label: 'CPM', val: fmt$(ad.cpm), highlight: ad.cpm <= 12 },
           ].map(({ label, val, highlight }) => (
-            <div key={label} className="rounded-lg p-2 text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-xs" style={{ color: '#484D6D' }}>{label}</p>
-              <p className="text-sm font-black mt-0.5" style={{ color: highlight ? '#21D19F' : '#E8ECFF' }}>{val}</p>
+            <div key={label} className="rounded-lg p-2 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <p className="text-xs" style={{ color: '#5C606C' }}>{label}</p>
+              <p className="text-sm font-semibold mt-0.5" style={{ color: highlight ? '#21D19F' : '#F4F5F8' }}>{val}</p>
             </div>
           ))}
         </div>
@@ -238,7 +238,7 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
         <button
           onClick={() => setOpen(!open)}
           className="flex items-center gap-1.5 text-xs font-bold"
-          style={{ color: '#7B82A0' }}
+          style={{ color: '#8A8F98' }}
         >
           <span style={{ transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block', transition: 'transform 0.15s' }}>{Icon.arrow}</span>
           {open ? 'Hide analysis' : 'See analysis'}
@@ -247,18 +247,18 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
         {open && (
           <div className="mt-3 space-y-3">
             {ad.why_winning.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.12)' }}>
-                <p className="text-xs font-black mb-2" style={{ color: '#21D19F' }}>Why it's working</p>
+              <div className="rounded-md p-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.12)' }}>
+                <p className="text-xs font-semibold mb-2" style={{ color: '#21D19F' }}>Why it's working</p>
                 {ad.why_winning.map((w, i) => (
-                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>— {w}</p>
+                  <p key={i} className="text-xs mb-1" style={{ color: '#8A8F98' }}>— {w}</p>
                 ))}
               </div>
             )}
             {ad.improvement_tips.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.12)' }}>
-                <p className="text-xs font-black mb-2" style={{ color: '#FBB724' }}>How to improve</p>
+              <div className="rounded-md p-3" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.12)' }}>
+                <p className="text-xs font-semibold mb-2" style={{ color: '#FBB724' }}>How to improve</p>
                 {ad.improvement_tips.map((t, i) => (
-                  <p key={i} className="text-xs mb-1" style={{ color: '#7B82A0' }}>— {t}</p>
+                  <p key={i} className="text-xs mb-1" style={{ color: '#8A8F98' }}>— {t}</p>
                 ))}
               </div>
             )}
@@ -268,16 +268,16 @@ function AdCard({ ad }: { ad: CreatorAdStat }) {
 
       <div className="px-5 py-3 flex items-center gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
         <div>
-          <span className="text-xs" style={{ color: '#484D6D' }}>Purchases: </span>
-          <span className="text-xs font-black" style={{ color: '#A78BFA' }}>{ad.purchases}</span>
+          <span className="text-xs" style={{ color: '#5C606C' }}>Purchases: </span>
+          <span className="text-xs font-semibold" style={{ color: '#5E6AD2' }}>{ad.purchases}</span>
         </div>
         <div>
-          <span className="text-xs" style={{ color: '#484D6D' }}>Revenue: </span>
-          <span className="text-xs font-black" style={{ color: '#21D19F' }}>{fmt$(ad.revenue)}</span>
+          <span className="text-xs" style={{ color: '#5C606C' }}>Revenue: </span>
+          <span className="text-xs font-semibold" style={{ color: '#21D19F' }}>{fmt$(ad.revenue)}</span>
         </div>
         <div className="ml-auto">
-          <span className="text-xs" style={{ color: '#484D6D' }}>Status: </span>
-          <span className="text-xs font-black" style={{ color: ad.status === 'ACTIVE' ? '#21D19F' : '#484D6D' }}>{ad.status}</span>
+          <span className="text-xs" style={{ color: '#5C606C' }}>Status: </span>
+          <span className="text-xs font-semibold" style={{ color: ad.status === 'ACTIVE' ? '#21D19F' : '#5C606C' }}>{ad.status}</span>
         </div>
       </div>
     </div>
@@ -297,13 +297,13 @@ function CompetitorPanel({ niche }: { niche: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
-        <div className="flex items-center gap-2 mb-1" style={{ color: '#A78BFA' }}>
+      <div className="rounded-md px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
+        <div className="flex items-center gap-2 mb-1" style={{ color: '#5E6AD2' }}>
           {Icon.pin}
-          <p className="text-xs font-black" style={{ color: '#A78BFA' }}>How to use this</p>
+          <p className="text-xs font-semibold" style={{ color: '#5E6AD2' }}>How to use this</p>
         </div>
-        <p className="text-xs leading-relaxed" style={{ color: '#7B82A0' }}>
-          Open a competitor, filter by <strong style={{ color: '#E8ECFF' }}>Video</strong>, sort by longest running.
+        <p className="text-xs leading-relaxed" style={{ color: '#8A8F98' }}>
+          Open a competitor, filter by <strong style={{ color: '#F4F5F8' }}>Video</strong>, sort by longest running.
           Any ad live 30+ days is profitable. Study the hook, the pacing, the offer. Then make your version — don't copy, just learn the pattern.
         </p>
       </div>
@@ -312,19 +312,19 @@ function CompetitorPanel({ niche }: { niche: string }) {
         {competitors.map(c => (
           <div
             key={c.name}
-            className="flex items-center justify-between px-4 py-3 rounded-xl"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="flex items-center justify-between px-4 py-3 rounded-md"
+            style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}
           >
-            <span className="font-black text-sm" style={{ color: '#E8ECFF' }}>{c.name}</span>
+            <span className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{c.name}</span>
             <div className="flex gap-2">
               <a href={c.url} target="_blank" rel="noopener noreferrer"
                 className="text-xs px-2.5 py-1 rounded-lg font-bold"
-                style={{ background: 'rgba(139,92,246,0.1)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.2)' }}>
+                style={{ background: 'rgba(139,92,246,0.1)', color: '#5E6AD2', border: '1px solid rgba(139,92,246,0.2)' }}>
                 All ads →
               </a>
               <a href={c.url.replace('ad_type=all', 'ad_type=all&media_type=video')} target="_blank" rel="noopener noreferrer"
                 className="text-xs px-2.5 py-1 rounded-lg font-bold"
-                style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}>
+                style={{ background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}>
                 Video →
               </a>
             </div>
@@ -342,12 +342,12 @@ function ScriptLab() {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
+      <div className="rounded-md px-5 py-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)' }}>
         <div className="flex items-center gap-2 mb-1">
-          {Icon.lightbulb && <span style={{ color: '#A78BFA' }}>{Icon.lightbulb}</span>}
-          <p className="text-xs font-black" style={{ color: '#A78BFA' }}>Scripts based on what's actually working</p>
+          {Icon.lightbulb && <span style={{ color: '#5E6AD2' }}>{Icon.lightbulb}</span>}
+          <p className="text-xs font-semibold" style={{ color: '#5E6AD2' }}>Scripts based on what's actually working</p>
         </div>
-        <p className="text-xs" style={{ color: '#7B82A0' }}>
+        <p className="text-xs" style={{ color: '#8A8F98' }}>
           Each angle is proven in health & wellness. Adapt them — change the product name, make it your voice, film it natural. Don't read it like a script.
         </p>
       </div>
@@ -357,38 +357,38 @@ function ScriptLab() {
           <button key={i} onClick={() => setSelected(i)}
             className="text-xs px-3 py-1.5 rounded-lg font-bold transition-all"
             style={selected === i
-              ? { background: 'rgba(139,92,246,0.15)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.3)' }
-              : { background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}>
+              ? { background: 'rgba(139,92,246,0.15)', color: '#5E6AD2', border: '1px solid rgba(139,92,246,0.3)' }
+              : { background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}>
             {s.angle}
           </button>
         ))}
       </div>
 
-      <div className="rounded-2xl p-6 space-y-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(139,92,246,0.2)' }}>
+      <div className="rounded-lg p-6 space-y-4" style={{ background: '#15161A', border: '1px solid rgba(139,92,246,0.2)' }}>
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#A78BFA' }}>ANGLE</p>
-          <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{script.angle}</p>
+          <p className="text-xs font-bold  mb-1" style={{ color: '#5E6AD2' }}>ANGLE</p>
+          <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{script.angle}</p>
         </div>
 
         {[
           { label: 'HOOK — first 3 sec', icon: Icon.hook, val: script.hook, color: '#EF4444' },
-          { label: 'BODY', icon: Icon.video, val: script.body, color: '#E8ECFF' },
+          { label: 'BODY', icon: Icon.video, val: script.body, color: '#F4F5F8' },
           { label: 'CTA', icon: Icon.arrow, val: script.cta, color: '#21D19F' },
         ].map(({ label, icon, val, color }) => (
           <div key={label}>
-            <div className="flex items-center gap-1.5 mb-1.5" style={{ color: '#484D6D' }}>
+            <div className="flex items-center gap-1.5 mb-1.5" style={{ color: '#5C606C' }}>
               {icon}
               <p className="text-xs font-bold">{label}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="rounded-md p-4" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}>
               <p className="text-sm leading-relaxed font-bold" style={{ color }}>{val}</p>
             </div>
           </div>
         ))}
 
-        <div className="rounded-xl p-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.12)' }}>
-          <p className="text-xs font-black mb-1" style={{ color: '#21D19F' }}>Why this works</p>
-          <p className="text-xs" style={{ color: '#7B82A0' }}>{script.why}</p>
+        <div className="rounded-md p-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.12)' }}>
+          <p className="text-xs font-semibold mb-1" style={{ color: '#21D19F' }}>Why this works</p>
+          <p className="text-xs" style={{ color: '#8A8F98' }}>{script.why}</p>
         </div>
       </div>
     </div>
@@ -398,14 +398,14 @@ function ScriptLab() {
 // ─── Empty state ──────────────────────────────────────────────────────────────
 function EmptyAds({ clientName, clientColor }: { clientName: string; clientColor: string }) {
   return (
-    <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+    <div className="rounded-lg p-10 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="flex justify-center mb-4" style={{ color: 'rgba(255,255,255,0.15)' }}>
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
         </svg>
       </div>
-      <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>No ads found for {clientName}</p>
-      <p className="text-xs max-w-xs mx-auto" style={{ color: '#7B82A0' }}>
+      <p className="font-semibold text-sm mb-2" style={{ color: '#F4F5F8' }}>No ads found for {clientName}</p>
+      <p className="text-xs max-w-xs mx-auto" style={{ color: '#8A8F98' }}>
         Ads with your name tag will appear here automatically once they go live in Meta.
       </p>
     </div>
@@ -431,7 +431,7 @@ function BrandFolder({
   const initial    = clientName.charAt(0).toUpperCase()
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${clientColor}22` }}>
+    <div className="rounded-lg overflow-hidden" style={{ background: '#15161A', border: `1px solid ${clientColor}22` }}>
 
       {/* Folder header — click to expand/collapse */}
       <button
@@ -441,7 +441,7 @@ function BrandFolder({
       >
         {/* Brand avatar */}
         <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg flex-shrink-0"
+          className="w-12 h-12 rounded-md flex items-center justify-center font-semibold text-base flex-shrink-0"
           style={{
             background: `linear-gradient(135deg, ${clientColor}22, ${clientColor}44)`,
             border: `1px solid ${clientColor}44`,
@@ -454,20 +454,20 @@ function BrandFolder({
         {/* Brand info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <p className="font-black text-base" style={{ color: '#E8ECFF' }}>{clientName}</p>
+            <p className="font-semibold text-base" style={{ color: '#F4F5F8' }}>{clientName}</p>
             {clientWebsite && (
-              <span className="text-xs" style={{ color: '#484D6D' }}>{clientWebsite}</span>
+              <span className="text-xs" style={{ color: '#5C606C' }}>{clientWebsite}</span>
             )}
           </div>
           <div className="flex items-center gap-4 flex-wrap">
             <span className="text-xs font-bold" style={{ color: clientColor }}>
               {ads.length} {ads.length === 1 ? 'ad' : 'ads'} matched
             </span>
-            <span className="text-xs" style={{ color: '#484D6D' }}>
+            <span className="text-xs" style={{ color: '#5C606C' }}>
               {activeAds.length} active
             </span>
             {totalSpend > 0 && (
-              <span className="text-xs" style={{ color: '#484D6D' }}>
+              <span className="text-xs" style={{ color: '#5C606C' }}>
                 {fmt$(totalSpend)} spend · {fmtR(overallRoas)} ROAS
               </span>
             )}
@@ -483,10 +483,10 @@ function BrandFolder({
         <div
           className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all"
           style={{
-            background: 'rgba(255,255,255,0.04)',
+            background: '#15161A',
             border: '1px solid rgba(255,255,255,0.08)',
             transform: open ? 'rotate(90deg)' : 'none',
-            color: '#484D6D',
+            color: '#5C606C',
           }}
         >
           {Icon.arrow}
@@ -556,38 +556,38 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, clientCol
       {data && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Total Spend',       val: fmt$(data.total_spend),         color: '#E8ECFF' },
+            { label: 'Total Spend',       val: fmt$(data.total_spend),         color: '#F4F5F8' },
             { label: 'Revenue Generated', val: fmt$(data.total_revenue),        color: '#21D19F' },
             { label: 'Overall ROAS',      val: fmtR(data.overall_roas),         color: data.overall_roas >= 2 ? '#21D19F' : data.overall_roas >= 1 ? '#FBB724' : '#EF4444' },
-            { label: 'Total Earned',      val: fmt$(data.earnings.total_earned), color: '#A78BFA' },
+            { label: 'Total Earned',      val: fmt$(data.earnings.total_earned), color: '#5E6AD2' },
           ].map(({ label, val, color }) => (
-            <div key={label} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <p className="text-xs mb-1" style={{ color: '#484D6D' }}>{label}</p>
-              <p className="text-xl font-black" style={{ color }}>{val}</p>
+            <div key={label} className="rounded-md p-4" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <p className="text-xs mb-1" style={{ color: '#5C606C' }}>{label}</p>
+              <p className="text-xl font-semibold" style={{ color }}>{val}</p>
             </div>
           ))}
         </div>
       )}
 
       {topAd && topAd.performance_tier === 'winner' && (
-        <div className="rounded-xl px-5 py-4 flex items-center gap-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.15)' }}>
+        <div className="rounded-md px-5 py-4 flex items-center gap-3" style={{ background: 'rgba(33,209,159,0.06)', border: '1px solid rgba(33,209,159,0.15)' }}>
           <span style={{ color: '#21D19F', flexShrink: 0 }}>{Icon.trophy}</span>
-          <p className="text-xs font-black" style={{ color: '#21D19F' }}>
-            Top performer: <span style={{ color: '#E8ECFF' }}>{topAd.name}</span> — {fmtR(topAd.roas)} ROAS, {fmtPct(topAd.ctr)} CTR. Make more content in this style.
+          <p className="text-xs font-semibold" style={{ color: '#21D19F' }}>
+            Top performer: <span style={{ color: '#F4F5F8' }}>{topAd.name}</span> — {fmtR(topAd.roas)} ROAS, {fmtPct(topAd.ctr)} CTR. Make more content in this style.
           </p>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex gap-1 p-1 rounded-md" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}>
         {TABS.map(t => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-black transition-all"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all"
             style={tab === t.id
-              ? { background: 'rgba(139,92,246,0.15)', color: '#A78BFA', border: '1px solid rgba(139,92,246,0.25)' }
-              : { color: '#7B82A0', border: '1px solid transparent' }}
+              ? { background: 'rgba(139,92,246,0.15)', color: '#5E6AD2', border: '1px solid rgba(139,92,246,0.25)' }
+              : { color: '#8A8F98', border: '1px solid transparent' }}
           >
             <span style={{ opacity: 0.8 }}>{t.icon}</span>
             <span className="hidden sm:inline">{t.label}</span>
@@ -596,15 +596,15 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, clientCol
       </div>
 
       {loading && (
-        <div className="rounded-2xl p-10 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-xs" style={{ color: '#484D6D' }}>Loading your data…</p>
+        <div className="rounded-lg p-10 flex items-center justify-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-xs" style={{ color: '#5C606C' }}>Loading your data…</p>
         </div>
       )}
 
       {!loading && tab === 'performance' && (
         <div className="space-y-4">
           {error && (
-            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
+            <div className="rounded-md px-4 py-3" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
               <p className="text-xs font-bold" style={{ color: '#EF4444' }}>{error}</p>
             </div>
           )}
@@ -624,27 +624,27 @@ export function CreatorDashboard({ creatorId, creatorName, clientName, clientCol
 
       {!loading && tab === 'earnings' && data && (
         <div className="space-y-6">
-          <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <p className="text-sm font-black mb-4" style={{ color: '#E8ECFF' }}>Current Earnings</p>
+          <div className="rounded-lg p-6" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p className="text-sm font-semibold mb-4" style={{ color: '#F4F5F8' }}>Current Earnings</p>
             <div className="space-y-3">
               {[
-                { label: `Base pay (${data.earnings.videos_delivered} videos × ${fmt$(ratePerVideo)})`, val: fmt$(data.earnings.base_earnings), color: '#E8ECFF' },
-                { label: `Purchase bonus (${data.earnings.total_purchases} purchases × ${fmt$(bonusPerPurchase)})`, val: fmt$(data.earnings.bonus_earnings), color: '#A78BFA' },
+                { label: `Base pay (${data.earnings.videos_delivered} videos × ${fmt$(ratePerVideo)})`, val: fmt$(data.earnings.base_earnings), color: '#F4F5F8' },
+                { label: `Purchase bonus (${data.earnings.total_purchases} purchases × ${fmt$(bonusPerPurchase)})`, val: fmt$(data.earnings.bonus_earnings), color: '#5E6AD2' },
               ].map(({ label, val, color }) => (
                 <div key={label} className="flex items-center justify-between py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <p className="text-sm" style={{ color: '#7B82A0' }}>{label}</p>
-                  <p className="text-sm font-black" style={{ color }}>{val}</p>
+                  <p className="text-sm" style={{ color: '#8A8F98' }}>{label}</p>
+                  <p className="text-sm font-semibold" style={{ color }}>{val}</p>
                 </div>
               ))}
               <div className="flex items-center justify-between pt-1">
-                <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>Total earned</p>
-                <p className="text-2xl font-black" style={{ color: '#A78BFA' }}>{fmt$(data.earnings.total_earned)}</p>
+                <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Total earned</p>
+                <p className="text-2xl font-semibold" style={{ color: '#5E6AD2' }}>{fmt$(data.earnings.total_earned)}</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <p className="text-sm font-black mb-4" style={{ color: '#E8ECFF' }}>Earnings Projection</p>
+          <div className="rounded-lg p-6" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p className="text-sm font-semibold mb-4" style={{ color: '#F4F5F8' }}>Earnings Projection</p>
             <ProjectionCalc
               ratePerVideo={ratePerVideo}
               bonusPerPurchase={bonusPerPurchase}

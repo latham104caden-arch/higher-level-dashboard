@@ -8,12 +8,12 @@ const R = 42
 
 const GOOD = [
   { label: 'ROAS', pts: 150, color: '#21D19F', dmg: 0 },
-  { label: 'CTR', pts: 100, color: '#45B69C', dmg: 0 },
-  { label: 'CPM↓', pts: 80, color: '#A0CFFF', dmg: 0 },
-  { label: 'SCALE', pts: 200, color: '#FFB800', dmg: 0 },
+  { label: 'CTR', pts: 100, color: '#21D19F', dmg: 0 },
+  { label: 'CPM↓', pts: 80, color: '#5E6AD2', dmg: 0 },
+  { label: 'SCALE', pts: 200, color: '#F59E0B', dmg: 0 },
   { label: '3x ROAS', pts: 175, color: '#21D19F', dmg: 0 },
-  { label: 'LEADS', pts: 120, color: '#45B69C', dmg: 0 },
-  { label: 'CONV%', pts: 90, color: '#A0CFFF', dmg: 0 },
+  { label: 'LEADS', pts: 120, color: '#21D19F', dmg: 0 },
+  { label: 'CONV%', pts: 90, color: '#5E6AD2', dmg: 0 },
 ]
 
 const BAD = [
@@ -320,23 +320,23 @@ export function MiniGame() {
           ctx.shadowColor = '#EF4444'; ctx.shadowBlur = 20
           ctx.fillText('OPPORTUNITY SCORE: 0', W / 2, H / 2 - 60)
           ctx.shadowBlur = 0
-          ctx.fillStyle = '#E8ECFF'
+          ctx.fillStyle = '#F4F5F8'
           ctx.font = 'bold 20px system-ui'
           ctx.fillText(`Score: ${st.score}`, W / 2, H / 2 - 18)
           if (st.score >= st.highScore && st.score > 0) {
-            ctx.fillStyle = '#FFB800'
+            ctx.fillStyle = '#F59E0B'
             ctx.font = 'bold 14px system-ui'
             ctx.fillText('NEW HIGH SCORE!', W / 2, H / 2 + 14)
           }
         } else {
-          ctx.fillStyle = '#E8ECFF'
+          ctx.fillStyle = '#F4F5F8'
           ctx.font = 'bold 28px system-ui'
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.shadowColor = '#21D19F'; ctx.shadowBlur = 20
           ctx.fillText('AD SLAYER', W / 2, H / 2 - 70)
           ctx.shadowBlur = 0
-          ctx.fillStyle = '#7B82A0'
+          ctx.fillStyle = '#8A8F98'
           ctx.font = '13px system-ui'
           ctx.fillText('Click green targets: ROAS  CTR  SCALE  3x ROAS', W / 2, H / 2 - 30)
           ctx.fillStyle = '#EF4444'
@@ -405,66 +405,46 @@ export function MiniGame() {
   }, [])
 
   const oppPct = ui.opp / MAX_OPP
-  const oppColor = oppPct > 0.6 ? '#21D19F' : oppPct > 0.3 ? '#F59E0B' : '#EF4444'
+  const oppColor = oppPct > 0.6 ? '#21D19F' : oppPct > 0.3 ? '#F59E0B' : '#F4F5F8'
 
   return (
-    <div
-      className="rounded-2xl overflow-hidden glass-accent mt-8"
-      style={{
-        background: 'rgba(255,255,255,0.03)',
-        backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255,255,255,0.07)',
-      }}
-    >
-      {/* Header */}
-      <div
-        className="px-7 py-5"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-      >
+    <div className="card overflow-hidden mt-8">
+      <div className="px-5 sm:px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>Ad Slayer</p>
-            <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>
+            <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>Ad Slayer</p>
+            <p className="text-xs mt-0.5" style={{ color: '#5C606C' }}>
               Shoot good metrics · avoid bad settings · don't miss
             </p>
           </div>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6">
             <div className="text-right">
-              <p className="text-xs mb-0.5" style={{ color: '#484D6D' }}>Score</p>
-              <p className="font-black text-2xl leading-none" style={{ color: '#21D19F' }}>{ui.score}</p>
+              <p className="text-xs mb-0.5" style={{ color: '#5C606C' }}>Score</p>
+              <p className="font-semibold text-xl leading-none tnum" style={{ color: '#21D19F' }}>{ui.score}</p>
             </div>
             <div className="text-right">
-              <p className="text-xs mb-0.5" style={{ color: '#484D6D' }}>Best</p>
-              <p className="font-black text-2xl leading-none" style={{ color: '#7B82A0' }}>{ui.best}</p>
+              <p className="text-xs mb-0.5" style={{ color: '#5C606C' }}>Best</p>
+              <p className="font-semibold text-xl leading-none tnum" style={{ color: '#8A8F98' }}>{ui.best}</p>
             </div>
           </div>
         </div>
 
-        {/* Opportunity score bar */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: oppColor }}>
+            <p className="text-xs font-medium" style={{ color: oppColor }}>
               Opportunity Score
             </p>
-            <p className="text-xs font-black" style={{ color: oppColor }}>{Math.round(ui.opp)}%</p>
+            <p className="text-xs font-medium tnum" style={{ color: oppColor }}>{Math.round(ui.opp)}%</p>
           </div>
-          <div
-            className="h-2 rounded-full overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.06)' }}
-          >
+          <div className="h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
             <div
               className="h-full rounded-full transition-all duration-300"
-              style={{
-                width: `${ui.opp}%`,
-                background: `linear-gradient(90deg, ${oppColor}, ${oppColor}99)`,
-                boxShadow: `0 0 8px ${oppColor}`,
-              }}
+              style={{ width: `${ui.opp}%`, background: oppColor }}
             />
           </div>
         </div>
       </div>
 
-      {/* Game canvas */}
       <div className="relative">
         <canvas
           ref={canvasRef}
@@ -479,22 +459,14 @@ export function MiniGame() {
           }}
         />
 
-        {/* Start / Restart button overlay */}
         {(ui.phase === 'idle' || ui.phase === 'dead') && (
           <div className="absolute inset-0 flex items-end justify-center pb-14 pointer-events-none">
             <button
-              className="pointer-events-auto font-black text-sm px-10 py-4 rounded-2xl transition-all duration-200"
-              style={{
-                background: 'linear-gradient(135deg, #21D19F, #45B69C)',
-                color: '#080B14',
-                boxShadow: '0 0 30px rgba(33,209,159,0.4), 0 8px 32px rgba(0,0,0,0.4)',
-                letterSpacing: '0.08em',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              className="pointer-events-auto font-medium text-sm px-6 py-2.5 rounded-md transition-colors"
+              style={{ background: '#5E6AD2', color: '#F4F5F8' }}
               onClick={startGame}
             >
-              {ui.phase === 'dead' ? '↺  RUN IT BACK' : '▶  START GAME'}
+              {ui.phase === 'dead' ? '↺ Run it back' : '▶ Start game'}
             </button>
           </div>
         )}

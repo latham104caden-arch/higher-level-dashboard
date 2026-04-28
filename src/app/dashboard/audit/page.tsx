@@ -9,72 +9,52 @@ export default async function AuditPage() {
   if (session.role === 'client') redirect('/client')
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-
-      <div className="page-content">
-        {/* Header */}
-        <header
-          className="px-6 py-4 sticky top-0 z-10"
-          style={{
-            background: 'rgba(8,11,20,0.85)',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-          }}
-        >
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
-                style={{
-                  background: 'linear-gradient(135deg, #21D19F22, #21D19F44)',
-                  border: '1px solid rgba(33,209,159,0.3)',
-                  color: '#21D19F',
-                }}
-              >
-                HL
-              </div>
-              <div>
-                <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>Higher Level</p>
-                <p className="text-xs" style={{ color: '#484D6D' }}>Agency Dashboard</p>
-              </div>
+    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
+      <header
+        className="px-6 py-4 sticky top-0 z-10"
+        style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+      >
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
+              style={{ background: 'rgba(94,106,210,0.12)', border: '1px solid rgba(94,106,210,0.25)', color: '#5E6AD2' }}
+            >
+              HL
             </div>
-            <nav className="flex items-center gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <Link
-                href="/dashboard"
-                className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
-                style={{ color: '#7B82A0', border: '1px solid transparent' }}
-              >
-                Clients
-              </Link>
-              <Link href="/dashboard/audit" className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>
-                Site Audit
-              </Link>
-              <Link href="/dashboard/library" className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ color: '#7B82A0', border: '1px solid transparent' }}>
-                Ad Library
-              </Link>
-              <Link href="/logout" className="px-4 py-1.5 rounded-lg text-xs font-bold ml-2" style={{ color: '#484D6D', border: '1px solid transparent' }}>
-                Sign out
-              </Link>
-            </nav>
+            <div>
+              <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Higher Level</p>
+              <p className="text-xs" style={{ color: '#5C606C' }}>Agency Dashboard</p>
+            </div>
           </div>
-        </header>
+          <nav className="flex items-center gap-0">
+            <Link href="/dashboard" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#8A8F98' }}>
+              Clients
+            </Link>
+            <Link href="/dashboard/audit" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ background: 'rgba(94,106,210,0.12)', color: '#F4F5F8' }}>
+              Site Audit
+            </Link>
+            <Link href="/dashboard/library" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#8A8F98' }}>
+              Ad Library
+            </Link>
+            <Link href="/logout" className="px-3 py-1.5 rounded-md text-sm font-medium ml-2" style={{ color: '#5C606C' }}>
+              Sign out
+            </Link>
+          </nav>
+        </div>
+      </header>
 
-        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
-          <div className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Agency Tools</p>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>Website & Funnel Audit</h1>
-            <p className="text-base" style={{ color: '#7B82A0' }}>
-              Paste any URL. Get a full breakdown of speed, SEO, conversion readiness, trust signals, tracking, and ad compatibility — with specific fixes ranked by impact.
-            </p>
-          </div>
+      <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14">
+        <div className="mb-10">
+          <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Agency Tools</p>
+          <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-2" style={{ color: '#F4F5F8' }}>Website & Funnel Audit</h1>
+          <p className="text-base" style={{ color: '#8A8F98' }}>
+            Paste any URL. Get a full breakdown of speed, SEO, conversion readiness, trust signals, tracking, and ad compatibility — with specific fixes ranked by impact.
+          </p>
+        </div>
 
-          <AuditTool />
-        </main>
-      </div>
+        <AuditTool />
+      </main>
     </div>
   )
 }

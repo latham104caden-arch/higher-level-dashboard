@@ -2,7 +2,7 @@ const SECTIONS = [
   {
     id: 'website',
     title: 'Build a Website That Books Jobs',
-    color: '#FFB800',
+    color: '#5E6AD2',
     stat: { value: '70%+', label: 'of local searches happen on phones — mobile-first is non-negotiable' },
     intro: 'Your website has one job: turn a visitor into a lead in under 30 seconds. Most local service websites fail this test. Here\'s how to fix it.',
     tips: [
@@ -32,7 +32,7 @@ const SECTIONS = [
   {
     id: 'followup',
     title: 'Speed to Lead & Follow-Up',
-    color: '#EF4444',
+    color: '#F59E0B',
     stat: { value: '391%', label: 'conversion increase when you call a lead within 1 minute of inquiry' },
     intro: 'The leads are coming in — the money is being lost in the follow-up. Fix this and your cost per booked job drops without spending an extra dollar on ads.',
     tips: [
@@ -47,7 +47,7 @@ const SECTIONS = [
   {
     id: 'sms',
     title: 'SMS Marketing for Local Businesses',
-    color: '#45B69C',
+    color: '#21D19F',
     stat: { value: '98%', label: 'SMS open rate — 90% read within 3 minutes vs 20% for email' },
     intro: 'For local businesses, SMS is your most powerful tool for rebooking past customers, following up on quotes, and getting reviews. Most of your competitors aren\'t using it.',
     tips: [
@@ -61,44 +61,42 @@ const SECTIONS = [
 
 export default function DemoGrowPage() {
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Growth Playbook</p>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>Grow Your Business</h1>
-            <p className="text-base max-w-xl" style={{ color: '#7B82A0' }}>The playbook local businesses use to turn ad spend into booked jobs — website, content, follow-up, and everything in between.</p>
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14 space-y-12 sm:space-y-16">
+      <div>
+        <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Growth Playbook</p>
+        <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-3" style={{ color: '#F4F5F8' }}>Grow Your Business</h1>
+        <p className="text-base max-w-xl" style={{ color: '#8A8F98' }}>The playbook local businesses use to turn ad spend into booked jobs — website, content, follow-up, and everything in between.</p>
+      </div>
+
+      {SECTIONS.map((section, si) => (
+        <section key={section.id} id={section.id}>
+          <div className="flex items-start gap-3 mb-6">
+            <div className="w-1 h-12 rounded-full flex-shrink-0 mt-1" style={{ background: section.color }} />
+            <div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight" style={{ color: '#F4F5F8' }}>{section.title}</h2>
+              <p className="text-sm mt-1" style={{ color: '#8A8F98' }}>{section.intro}</p>
+            </div>
           </div>
 
-          {SECTIONS.map((section, si) => (
-            <section key={section.id} id={section.id}>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-3 self-stretch rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${section.color}, ${section.color}44)` }} />
-                <div>
-                  <h2 className="text-2xl font-black tracking-tight" style={{ color: '#E8ECFF' }}>{section.title}</h2>
-                  <p className="text-sm mt-0.5" style={{ color: '#7B82A0' }}>{section.intro}</p>
-                </div>
-              </div>
+          <div className="card p-5 mb-5 flex items-baseline gap-4">
+            <p className="text-2xl sm:text-3xl font-semibold tracking-tight tnum" style={{ color: section.color }}>{section.stat.value}</p>
+            <p className="text-xs leading-relaxed" style={{ color: '#8A8F98' }}>{section.stat.label}</p>
+          </div>
 
-              <div className="rounded-2xl p-5 mb-6 relative overflow-hidden" style={{ background: section.color + '08', border: `1px solid ${section.color}20` }}>
-                <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full blur-2xl opacity-30" style={{ background: section.color }} />
-                <p className="text-3xl font-black mb-1" style={{ color: section.color }}>{section.stat.value}</p>
-                <p className="text-xs leading-relaxed" style={{ color: '#7B82A0' }}>{section.stat.label}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {section.tips.map((tip, ti) => (
+              <div key={ti} className="card p-5">
+                <p className="font-semibold text-sm mb-2" style={{ color: '#F4F5F8' }}>{tip.heading}</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>{tip.body}</p>
               </div>
+            ))}
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.tips.map((tip, ti) => (
-                  <div key={ti} className="rounded-2xl p-6 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}>
-                    <div className="absolute -top-3 -right-3 w-12 h-12 rounded-full blur-2xl opacity-15" style={{ background: section.color }} />
-                    <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>{tip.heading}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{tip.body}</p>
-                  </div>
-                ))}
-              </div>
-
-              {si < SECTIONS.length - 1 && (
-                <div className="mt-16" style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)' }} />
-              )}
-            </section>
-          ))}
+          {si < SECTIONS.length - 1 && (
+            <div className="mt-16 divider" />
+          )}
+        </section>
+      ))}
     </main>
   )
 }

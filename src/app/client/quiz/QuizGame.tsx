@@ -473,48 +473,35 @@ export function QuizGame({ clientType }: { clientType: string }) {
 
   return (
     <div className="space-y-4">
-      {/* Light header — no score, just position */}
       <div className="flex items-center justify-between mb-1">
-        <span
-          className="text-xs font-black px-2.5 py-1 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.05)', color: '#484D6D', border: '1px solid rgba(255,255,255,0.07)' }}
-        >
-          {q.tag}
-        </span>
-        <span className="text-xs" style={{ color: '#484D6D' }}>{seen} of {total}</span>
+        <span className="text-xs font-medium" style={{ color: '#5C606C' }}>{q.tag}</span>
+        <span className="text-xs tnum" style={{ color: '#5C606C' }}>{seen} of {total}</span>
       </div>
 
-      {/* Thin progress strip */}
       <div className="rounded-full overflow-hidden" style={{ height: '2px', background: 'rgba(255,255,255,0.05)' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${(seen / total) * 100}%`, background: 'rgba(33,209,159,0.5)' }}
+          style={{ width: `${(seen / total) * 100}%`, background: '#5E6AD2' }}
         />
       </div>
 
-      {/* Question card */}
-      <div
-        className="rounded-2xl p-7 relative overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
-      >
-        <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full blur-3xl opacity-08 pointer-events-none" style={{ background: '#21D19F' }} />
-        {q.tag && <span className="text-xs font-black px-2.5 py-1 rounded-full inline-block mb-4" style={{ background: 'rgba(33,209,159,0.1)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>{q.tag}</span>}
-        <p className="font-black text-lg leading-snug mb-6" style={{ color: '#E8ECFF' }}>{q.question}</p>
+      <div className="card p-6">
+        <p className="font-semibold text-lg leading-snug mb-6" style={{ color: '#F4F5F8' }}>{q.question}</p>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {q.options.map((option, idx) => {
-            let bg = 'rgba(255,255,255,0.04)'
+            let bg = '#15161A'
             let border = 'rgba(255,255,255,0.08)'
-            let color = '#E8ECFF'
+            let color = '#F4F5F8'
             let icon: string | null = null
 
             if (answered) {
               if (idx === q.correct) {
-                bg = 'rgba(33,209,159,0.1)'; border = 'rgba(33,209,159,0.35)'; color = '#21D19F'; icon = '✓'
+                bg = 'rgba(33,209,159,0.08)'; border = 'rgba(33,209,159,0.28)'; color = '#21D19F'; icon = '✓'
               } else if (idx === selected) {
-                bg = 'rgba(239,68,68,0.08)'; border = 'rgba(239,68,68,0.3)'; color = '#EF4444'; icon = '✗'
+                bg = 'rgba(245,158,11,0.06)'; border = 'rgba(245,158,11,0.24)'; color = '#F59E0B'; icon = '✗'
               } else {
-                color = '#484D6D'
+                color = '#5C606C'
               }
             }
 
@@ -523,55 +510,44 @@ export function QuizGame({ clientType }: { clientType: string }) {
                 key={idx}
                 onClick={() => handleSelect(idx)}
                 disabled={answered}
-                className="w-full text-left px-5 py-4 rounded-xl font-bold text-sm flex items-center justify-between transition-all duration-150"
+                className="w-full text-left px-4 py-3 rounded-md font-medium text-sm flex items-center justify-between transition-colors"
                 style={{ background: bg, border: `1px solid ${border}`, color, cursor: answered ? 'default' : 'pointer' }}
-                onMouseEnter={e => { if (!answered) e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-                onMouseLeave={e => { if (!answered) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
               >
                 <span>{option}</span>
-                {icon && <span className="text-sm font-black flex-shrink-0">{icon}</span>}
+                {icon && <span className="text-sm font-semibold flex-shrink-0">{icon}</span>}
               </button>
             )
           })}
         </div>
       </div>
 
-      {/* Explanation */}
       {answered && (
         <div
-          className="rounded-2xl p-6 space-y-3"
+          className="card p-5 space-y-3"
           style={{
-            background: isCorrect ? 'rgba(33,209,159,0.05)' : 'rgba(239,68,68,0.05)',
-            border: `1px solid ${isCorrect ? 'rgba(33,209,159,0.18)' : 'rgba(239,68,68,0.18)'}`,
+            background: isCorrect ? 'rgba(33,209,159,0.04)' : 'rgba(245,158,11,0.04)',
+            border: `1px solid ${isCorrect ? 'rgba(33,209,159,0.18)' : 'rgba(245,158,11,0.18)'}`,
           }}
         >
-          <p className="font-black text-sm" style={{ color: isCorrect ? '#21D19F' : '#EF4444' }}>
-            {isCorrect ? 'Correct!' : `The answer is: ${q.options[q.correct]}`}
+          <p className="font-semibold text-sm" style={{ color: isCorrect ? '#21D19F' : '#F59E0B' }}>
+            {isCorrect ? 'Correct' : `The answer is: ${q.options[q.correct]}`}
           </p>
-          <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{q.explanation}</p>
-          <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-xs" style={{ color: '#A0A4B8' }}>
+          <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>{q.explanation}</p>
+          <div className="rounded-md px-3 py-2" style={{ background: '#1A1B20', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <p className="text-xs" style={{ color: '#8A8F98' }}>
               {q.fact}
             </p>
           </div>
         </div>
       )}
 
-      {/* Next */}
       {answered && (
         <button
           onClick={handleNext}
-          className="w-full py-4 rounded-xl font-black text-sm tracking-wider transition-all duration-200"
-          style={{
-            background: 'linear-gradient(135deg, #21D19F, #45B69C)',
-            color: '#080B14',
-            letterSpacing: '0.06em',
-            boxShadow: '0 0 20px rgba(33,209,159,0.2)',
-          }}
-          onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
-          onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+          className="w-full py-3 rounded-md font-medium text-sm transition-colors"
+          style={{ background: '#5E6AD2', color: '#F4F5F8' }}
         >
-          {index + 1 >= queue.length ? 'SHUFFLE & KEEP GOING →' : 'NEXT →'}
+          {index + 1 >= queue.length ? 'Shuffle & keep going →' : 'Next →'}
         </button>
       )}
     </div>

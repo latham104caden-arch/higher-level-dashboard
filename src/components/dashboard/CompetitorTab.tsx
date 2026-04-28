@@ -88,101 +88,78 @@ export function CompetitorTab({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-5">
-      {/* Market Overview */}
       {market && (
-        <div
-          className="rounded-2xl p-6"
-          style={{
-            background: 'linear-gradient(135deg, rgba(72,77,109,0.4), rgba(20,23,40,0.8))',
-            border: '1px solid rgba(168,174,210,0.1)',
-            backdropFilter: 'blur(12px)',
-          }}
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: '#21D19F' }}>Market Overview</p>
+        <div className="card p-5 sm:p-6">
+          <p className="text-xs font-medium mb-4" style={{ color: '#5C606C' }}>Market Overview</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Market Size</p>
-              <p className="text-sm" style={{ color: '#D8DDEF' }}>{market.marketSize}</p>
+              <p className="text-xs font-medium mb-1" style={{ color: '#5C606C' }}>Market Size</p>
+              <p className="text-sm" style={{ color: '#F4F5F8' }}>{market.marketSize}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Trend</p>
-              <p className="text-sm" style={{ color: '#D8DDEF' }}>{market.trend}</p>
+              <p className="text-xs font-medium mb-1" style={{ color: '#5C606C' }}>Trend</p>
+              <p className="text-sm" style={{ color: '#F4F5F8' }}>{market.trend}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>White Space</p>
+              <p className="text-xs font-medium mb-1" style={{ color: '#5C606C' }}>White Space</p>
               <p className="text-sm font-medium" style={{ color: '#21D19F' }}>{market.whitespace}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#484D6D' }}>Biggest Gap to Exploit</p>
-              <p className="text-sm font-medium" style={{ color: '#45B69C' }}>{market.targetGap}</p>
+              <p className="text-xs font-medium mb-1" style={{ color: '#5C606C' }}>Biggest Gap to Exploit</p>
+              <p className="text-sm font-medium" style={{ color: '#5E6AD2' }}>{market.targetGap}</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Competitor Cards */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {competitors.map((comp, i) => (
-          <div
-            key={i}
-            className="rounded-2xl overflow-hidden"
-            style={{
-              background: 'rgba(20,23,40,0.8)',
-              border: '1px solid rgba(168,174,210,0.08)',
-              backdropFilter: 'blur(12px)',
-            }}
-          >
+          <div key={i} className="card overflow-hidden">
             <div
-              className="px-6 py-4 flex items-center justify-between"
-              style={{ borderBottom: '1px solid rgba(168,174,210,0.07)' }}
+              className="px-5 sm:px-6 py-4 flex items-center justify-between"
+              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
             >
               <div>
-                <h3 className="font-bold" style={{ color: '#D8DDEF' }}>{comp.name}</h3>
-                <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>{comp.url} · {comp.price}</p>
+                <h3 className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{comp.name}</h3>
+                <p className="text-xs mt-0.5" style={{ color: '#5C606C' }}>{comp.url} · {comp.price}</p>
               </div>
-              <span className="text-xs max-w-xs text-right italic" style={{ color: '#A0A4B8' }}>"{comp.positioning}"</span>
+              <span className="text-xs max-w-xs text-right italic" style={{ color: '#8A8F98' }}>"{comp.positioning}"</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x" style={{ borderColor: 'rgba(168,174,210,0.07)' }}>
-              {/* Strengths */}
-              <div className="px-6 py-4">
-                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#484D6D' }}>Strengths</p>
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              <div className="px-5 sm:px-6 py-4" style={{ borderRight: '1px solid rgba(255,255,255,0.04)' }}>
+                <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Strengths</p>
                 <ul className="space-y-2">
                   {comp.strengths.map((s: string, j: number) => (
-                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#A0A4B8' }}>
-                      <span style={{ color: '#484D6D' }}>•</span>{s}
+                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#8A8F98' }}>
+                      <span style={{ color: '#5C606C' }}>•</span>{s}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Weaknesses */}
-              <div className="px-6 py-4">
-                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#484D6D' }}>Weaknesses</p>
+              <div className="px-5 sm:px-6 py-4" style={{ borderRight: '1px solid rgba(255,255,255,0.04)' }}>
+                <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Weaknesses</p>
                 <ul className="space-y-2">
                   {comp.weaknesses.map((w: string, j: number) => (
-                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#EF4444' }}>
-                      <span style={{ color: 'rgba(239,68,68,0.4)' }}>•</span>{w}
+                    <li key={j} className="text-sm flex items-start gap-2" style={{ color: '#F59E0B' }}>
+                      <span style={{ color: 'rgba(245,158,11,0.5)' }}>•</span>{w}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Opportunity */}
-              <div
-                className="px-6 py-4"
-                style={{ background: 'rgba(33,209,159,0.04)' }}
-              >
-                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#21D19F' }}>Our Opportunity</p>
-                <p className="text-sm font-medium mb-4" style={{ color: '#45B69C' }}>{comp.opportunity}</p>
+              <div className="px-5 sm:px-6 py-4" style={{ background: 'rgba(33,209,159,0.03)' }}>
+                <p className="text-xs font-medium mb-3" style={{ color: '#21D19F' }}>Our Opportunity</p>
+                <p className="text-sm font-medium mb-4" style={{ color: '#21D19F' }}>{comp.opportunity}</p>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#484D6D' }}>Their Ad Angles</p>
+                  <p className="text-xs font-medium mb-2" style={{ color: '#5C606C' }}>Their Ad Angles</p>
                   <div className="flex flex-wrap gap-1.5">
                     {comp.adAngles.map((a: string, j: number) => (
                       <span
                         key={j}
-                        className="text-xs px-2.5 py-0.5 rounded-full"
-                        style={{ background: 'rgba(72,77,109,0.4)', color: '#A0A4B8', border: '1px solid rgba(168,174,210,0.1)' }}
+                        className="text-[10px] px-2 py-0.5 rounded font-medium"
+                        style={{ background: '#1A1B20', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}
                       >
                         {a}
                       </span>

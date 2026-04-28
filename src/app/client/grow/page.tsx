@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { CLIENTS } from '@/lib/clients'
-import { ClientNav } from '../ClientNav'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -11,7 +10,7 @@ const SECTIONS = {
       id: 'website',
       
       title: 'Build a Website That Actually Converts',
-      color: '#00C2FF',
+      color: '#5E6AD2',
       stat: { value: '35%', label: 'avg conversion lift from checkout optimization alone (Baymard Institute)' },
       intro: 'Your ads drive traffic. Your website either converts it or kills it. Most ecommerce stores leave 30–70% of their revenue on the table from avoidable friction.',
       tips: [
@@ -105,7 +104,7 @@ const SECTIONS = {
       id: 'sms',
       
       title: 'SMS Marketing',
-      color: '#45B69C',
+      color: '#21D19F',
       stat: { value: '98%', label: 'open rate — 90% read within 3 minutes (Omnisend 2025)' },
       intro: 'Email gets ignored. SMS gets read. If you\'re not building a text list alongside your email list, you\'re leaving your most valuable marketing channel empty.',
       tips: [
@@ -131,7 +130,7 @@ const SECTIONS = {
       id: 'email',
       
       title: 'Email Marketing',
-      color: '#A78BFA',
+      color: '#5E6AD2',
       stat: { value: '$42', label: 'returned for every $1 spent on email — highest ROI of any channel (Litmus)' },
       intro: 'Email is the only channel you own. Your Meta account can be shut down tomorrow — your email list is yours forever. Build it like your business depends on it, because it does.',
       tips: [
@@ -160,7 +159,7 @@ const SECTIONS = {
       id: 'website',
       
       title: 'Build a Website That Books Jobs',
-      color: '#FFB800',
+      color: '#5E6AD2',
       stat: { value: '70%+', label: 'of local searches happen on phones — mobile-first is non-negotiable' },
       intro: 'Your website has one job: turn a visitor into a lead in under 30 seconds. Most local service websites fail this test completely. Here\'s how to fix it.',
       tips: [
@@ -228,7 +227,7 @@ const SECTIONS = {
       id: 'followup',
       
       title: 'Speed to Lead & Follow-Up',
-      color: '#EF4444',
+      color: '#F59E0B',
       stat: { value: '391%', label: 'conversion increase when you call a lead within 1 minute of inquiry' },
       intro: 'This is the single biggest lever most local businesses ignore. The leads are coming in — the money is being lost in the follow-up. Fix this and your cost per booked job drops dramatically without spending a single extra dollar on ads.',
       tips: [
@@ -262,7 +261,7 @@ const SECTIONS = {
       id: 'sms',
       
       title: 'SMS Marketing for Local Businesses',
-      color: '#45B69C',
+      color: '#21D19F',
       stat: { value: '98%', label: 'SMS open rate — 90% read within 3 minutes vs 20% for email (Omnisend)' },
       intro: 'For local businesses, SMS is your most powerful tool for rebooking past customers, following up on quotes, and getting reviews. Most of your competitors aren\'t using it.',
       tips: [
@@ -288,7 +287,7 @@ const SECTIONS = {
       id: 'email',
       
       title: 'Email Marketing',
-      color: '#A78BFA',
+      color: '#5E6AD2',
       stat: { value: '$42', label: 'returned for every $1 spent on email — highest ROI of any channel (Litmus)' },
       intro: 'Email keeps you top of mind with past customers between jobs. A simple monthly email to your customer list is one of the highest-ROI things you can do.',
       tips: [
@@ -315,10 +314,9 @@ const SECTIONS = {
 
 function StatBadge({ value, label, color }: { value: string; label: string; color: string }) {
   return (
-    <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: color + '08', border: `1px solid ${color}20` }}>
-      <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full blur-2xl opacity-30" style={{ background: color }} />
-      <p className="text-3xl font-black mb-1" style={{ color }}>{value}</p>
-      <p className="text-xs leading-relaxed" style={{ color: '#7B82A0' }}>{label}</p>
+    <div className="card p-5 flex items-baseline gap-4">
+      <p className="text-2xl sm:text-3xl font-semibold tracking-tight tnum" style={{ color }}>{value}</p>
+      <p className="text-xs leading-relaxed" style={{ color: '#8A8F98' }}>{label}</p>
     </div>
   )
 }
@@ -334,71 +332,47 @@ export default async function GrowPage() {
   const sections = client.type === 'ecommerce' ? SECTIONS.ecommerce : SECTIONS.local
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14 space-y-16">
+      <div>
+        <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Growth Playbook</p>
+        <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-3" style={{ color: '#F4F5F8' }}>
+          {client.type === 'ecommerce' ? 'Scale Your Store' : 'Grow Your Business'}
+        </h1>
+        <p className="text-base max-w-xl" style={{ color: '#8A8F98' }}>
+          {client.type === 'ecommerce'
+            ? 'Real data, real tactics. Everything outside of your ads that determines whether your campaigns succeed or fail.'
+            : 'The playbook local businesses use to turn ad spend into booked jobs — website, content, follow-up, and everything in between.'}
+        </p>
+      </div>
 
-      <div className="page-content">
-        <ClientNav client={client} active="Grow" />
-
-        <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-16">
-          {/* Page header */}
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#21D19F' }}>— Growth Playbook</p>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3" style={{ color: '#E8ECFF' }}>
-              {client.type === 'ecommerce' ? 'Scale Your Store' : 'Grow Your Business'}
-            </h1>
-            <p className="text-base max-w-xl" style={{ color: '#7B82A0' }}>
-              {client.type === 'ecommerce'
-                ? 'Real data, real tactics. Everything outside of your ads that determines whether your campaigns succeed or fail.'
-                : 'The playbook local businesses use to turn ad spend into booked jobs — website, content, follow-up, and everything in between.'}
-            </p>
+      {sections.map((section, si) => (
+        <section key={section.id} id={section.id}>
+          <div className="flex items-start gap-3 mb-6">
+            <div className="w-1 h-12 rounded-full flex-shrink-0 mt-1" style={{ background: section.color }} />
+            <div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight" style={{ color: '#F4F5F8' }}>{section.title}</h2>
+              <p className="text-sm mt-1" style={{ color: '#8A8F98' }}>{section.intro}</p>
+            </div>
           </div>
 
-          {/* Sections */}
-          {sections.map((section, si) => (
-            <section key={section.id} id={section.id}>
-              {/* Section header */}
-              <div className="flex items-center gap-4 mb-8">
-                <div
-                  className="w-3 self-stretch rounded-full flex-shrink-0"
-                  style={{ background: `linear-gradient(180deg, ${section.color}, ${section.color}44)` }}
-                />
-                <div>
-                  <h2 className="text-2xl font-black tracking-tight" style={{ color: '#E8ECFF' }}>{section.title}</h2>
-                  <p className="text-sm mt-0.5" style={{ color: '#7B82A0' }}>{section.intro}</p>
-                </div>
-              </div>
+          <div className="mb-5">
+            <StatBadge value={section.stat.value} label={section.stat.label} color={section.color} />
+          </div>
 
-              {/* Stat */}
-              <div className="mb-6">
-                <StatBadge value={section.stat.value} label={section.stat.label} color={section.color} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {section.tips.map((tip, ti) => (
+              <div key={ti} className="card p-5">
+                <p className="font-semibold text-sm mb-2" style={{ color: '#F4F5F8' }}>{tip.heading}</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>{tip.body}</p>
               </div>
+            ))}
+          </div>
 
-              {/* Tips grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.tips.map((tip, ti) => (
-                  <div
-                    key={ti}
-                    className="rounded-2xl p-6 relative overflow-hidden"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
-                  >
-                    <div className="absolute -top-3 -right-3 w-12 h-12 rounded-full blur-2xl opacity-15" style={{ background: section.color }} />
-                    <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>{tip.heading}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{tip.body}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Divider between sections */}
-              {si < sections.length - 1 && (
-                <div className="mt-16" style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)' }} />
-              )}
-            </section>
-          ))}
-        </main>
-      </div>
-    </div>
+          {si < sections.length - 1 && (
+            <div className="mt-16 divider" />
+          )}
+        </section>
+      ))}
+    </main>
   )
 }

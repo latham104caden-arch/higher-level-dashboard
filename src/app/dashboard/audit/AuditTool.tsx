@@ -5,18 +5,18 @@ import type { AuditResult, Finding, BusinessType, DetectedElements } from '@/app
 
 const TYPE_CONFIG: Record<BusinessType, { label: string; color: string; desc: string }> = {
   ecommerce: { label: 'Ecommerce',      color: '#21D19F', desc: 'Product page, ATC, checkout, deals & offers' },
-  service:   { label: 'Local Service',  color: '#A0CFFF', desc: 'Lead form quality, local trust, response speed' },
-  saas:      { label: 'SaaS / Software',color: '#A78BFA', desc: 'Trial CTA, pricing clarity, demo flow' },
-  unknown:   { label: 'General',        color: '#A0A4B8', desc: 'General website audit' },
+  service:   { label: 'Local Service',  color: '#5E6AD2', desc: 'Lead form quality, local trust, response speed' },
+  saas:      { label: 'SaaS / Software',color: '#5E6AD2', desc: 'Trial CTA, pricing clarity, demo flow' },
+  unknown:   { label: 'General',        color: '#8A8F98', desc: 'General website audit' },
 }
 
 const CATEGORY_META: Record<string, { color: string }> = {
-  speed:       { color: '#A0CFFF' },
-  seo:         { color: '#45B69C' },
+  speed:       { color: '#5E6AD2' },
+  seo:         { color: '#21D19F' },
   conversion:  { color: '#21D19F' },
   trust:       { color: '#F59E0B' },
-  tracking:    { color: '#A78BFA' },
-  adReadiness: { color: '#F97316' },
+  tracking:    { color: '#5E6AD2' },
+  adReadiness: { color: '#F59E0B' },
 }
 
 // ── Layout Blueprint Components ───────────────────────────────────────────────
@@ -30,21 +30,21 @@ function BlueprintSection({
     pass:    { bg: 'rgba(33,209,159,0.06)',  border: 'rgba(33,209,159,0.2)',  badge: '#21D19F',  dot: '#21D19F' },
     warn:    { bg: 'rgba(245,158,11,0.06)',  border: 'rgba(245,158,11,0.2)',  badge: '#F59E0B',  dot: '#F59E0B' },
     fail:    { bg: 'rgba(239,68,68,0.06)',   border: 'rgba(239,68,68,0.2)',   badge: '#EF4444',  dot: '#EF4444' },
-    neutral: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.1)', badge: '#484D6D',  dot: '#484D6D' },
+    neutral: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.1)', badge: '#5C606C',  dot: '#5C606C' },
   }
   const c = colors[status]
   return (
-    <div className="rounded-xl p-4" style={{ background: c.bg, border: `1px solid ${c.border}` }}>
+    <div className="rounded-md p-4" style={{ background: c.bg, border: `1px solid ${c.border}` }}>
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.dot }} />
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>{label}</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>{label}</span>
         </div>
-        <span className="text-xs font-black px-2 py-0.5 rounded-full" style={{ background: `${c.badge}20`, color: c.badge }}>
+        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${c.badge}20`, color: c.badge }}>
           {status === 'pass' ? 'Found' : status === 'fail' ? 'Missing' : status === 'warn' ? 'Weak' : 'Optional'}
         </span>
       </div>
-      {tip && <p className="text-xs mt-1" style={{ color: '#7B82A0' }}>{tip}</p>}
+      {tip && <p className="text-xs mt-1" style={{ color: '#8A8F98' }}>{tip}</p>}
       {children}
     </div>
   )
@@ -60,16 +60,16 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
 
   return (
     <div className="space-y-2">
-      <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#484D6D' }}>
+      <p className="text-xs  font-bold mb-4" style={{ color: '#5C606C' }}>
         Recommended Service Business Page Layout — Top to Bottom
       </p>
 
       {/* 1. Hero */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(160,207,255,0.15)', color: '#A0CFFF' }}>SECTION 1</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Hero — Above the Fold</span>
-          <span className="text-xs ml-auto" style={{ color: '#484D6D' }}>Most critical section</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(160,207,255,0.15)', color: '#5E6AD2' }}>SECTION 1</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Hero — Above the Fold</span>
+          <span className="text-xs ml-auto" style={{ color: '#5C606C' }}>Most critical section</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Clear Headline" status={d.hasCTA ? 'pass' : 'fail'}
@@ -84,10 +84,10 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 2. Trust Bar */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Bar — Instant Credibility</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Trust Bar — Instant Credibility</span>
         </div>
         <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="Licensed & Insured" status={d.hasLicensed ? 'pass' : 'fail'}
@@ -100,10 +100,10 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 3. Services */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 3</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Services — What You Offer</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 3</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Services — What You Offer</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Service List with Icons" status="neutral"
@@ -114,18 +114,18 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 4. Lead Form */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#A78BFA' }}>SECTION 4</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Lead Form — The Money Section</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#5E6AD2' }}>SECTION 4</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Lead Form — The Money Section</span>
         </div>
         <div className="p-4 space-y-3">
           <BlueprintSection label="Quote / Contact Form" status={formStatus} tip={formTip} />
           <div className="grid grid-cols-3 gap-3">
             {['Name', 'Phone Number', 'Service Needed'].map((field, i) => (
-              <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <p className="text-xs font-bold" style={{ color: '#E8ECFF' }}>{field}</p>
-                <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>Required</p>
+              <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <p className="text-xs font-bold" style={{ color: '#F4F5F8' }}>{field}</p>
+                <p className="text-xs mt-0.5" style={{ color: '#5C606C' }}>Required</p>
               </div>
             ))}
           </div>
@@ -137,10 +137,10 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 5. Social Proof */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316' }}>SECTION 5</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof — Reviews & Work</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(249,115,22,0.15)', color: '#F59E0B' }}>SECTION 5</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Social Proof — Reviews & Work</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Customer Testimonials" status={d.hasReviews ? 'pass' : 'fail'}
@@ -155,10 +155,10 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 6. Secondary CTA */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 6</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Secondary CTA — Catch Scrollers</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 6</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Secondary CTA — Catch Scrollers</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Repeat CTA / Form" status={d.hasCTA ? 'pass' : 'fail'}
@@ -169,10 +169,10 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
       </div>
 
       {/* 7. Footer */}
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#A0A4B8' }}>FOOTER</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Footer — Contact & Trust</span>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="px-4 py-2 flex items-center gap-2" style={{ background: '#15161A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#8A8F98' }}>FOOTER</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Footer — Contact & Trust</span>
         </div>
         <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="NAP (Name, Address, Phone)" status={d.hasAddress && d.hasPhone ? 'pass' : 'warn'}
@@ -190,14 +190,14 @@ function ServiceLayoutBlueprint({ d }: { d: DetectedElements }) {
 function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
   return (
     <div className="space-y-2">
-      <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#484D6D' }}>
+      <p className="text-xs  font-bold mb-4" style={{ color: '#5C606C' }}>
         Recommended Ecommerce Product Page Layout — Top to Bottom
       </p>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 1</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Product Hero — Above the Fold</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 1</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Product Hero — Above the Fold</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Product Images (3+)" status="neutral" tip="Show every angle. Lifestyle + white background. First image determines ATC rate more than anything." />
@@ -210,10 +210,10 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Trust Signals Near ATC</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 2</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Trust Signals Near ATC</span>
         </div>
         <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <BlueprintSection label="Free Shipping" status={d.hasFreeShipping ? 'pass' : 'warn'} tip={d.hasFreeShipping ? 'Free shipping messaging found.' : '80% of buyers expect it. If you offer it, make it the first thing they see near the ATC button.'} />
@@ -222,10 +222,10 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#A78BFA' }}>SECTION 3</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof + Reviews</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#5E6AD2' }}>SECTION 3</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Social Proof + Reviews</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Customer Reviews (30+)" status={d.hasReviews ? 'pass' : 'fail'} tip={d.hasReviews ? 'Reviews found.' : 'Reviews are the single biggest driver of purchase decisions for cold traffic.'} />
@@ -233,10 +233,10 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#A0A4B8' }}>CHECKOUT</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Checkout Flow</span>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="px-4 py-2 flex items-center gap-2" style={{ background: '#15161A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#8A8F98' }}>CHECKOUT</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Checkout Flow</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Multiple Payment Options" status={d.hasPaymentOptions ? 'pass' : 'warn'} tip={d.hasPaymentOptions ? 'Payment options found.' : 'Add PayPal, Apple Pay, and Afterpay. Each reduces abandoned carts.'} />
@@ -250,14 +250,14 @@ function EcomLayoutBlueprint({ d }: { d: DetectedElements }) {
 function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
   return (
     <div className="space-y-2">
-      <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#484D6D' }}>
+      <p className="text-xs  font-bold mb-4" style={{ color: '#5C606C' }}>
         Recommended SaaS Landing Page Layout — Top to Bottom
       </p>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#A78BFA' }}>SECTION 1</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Hero — Value Prop + CTA</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(167,139,250,0.15)', color: '#5E6AD2' }}>SECTION 1</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Hero — Value Prop + CTA</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Free Trial CTA" status={d.hasFreeTrial ? 'pass' : 'fail'} tip={d.hasFreeTrial ? 'Free trial messaging found.' : '"Start free trial" is the highest-converting CTA for SaaS cold traffic.'} />
@@ -267,10 +267,10 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 2</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Social Proof + Logo Wall</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(33,209,159,0.15)', color: '#21D19F' }}>SECTION 2</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Social Proof + Logo Wall</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Customer Logo Wall" status={d.hasLogoWall ? 'pass' : 'warn'} tip={d.hasLogoWall ? 'Logo wall found.' : '"Trusted by 500+ companies" with logos is the fastest trust builder for SaaS.'} />
@@ -278,10 +278,10 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 3</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Features + How It Works</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>SECTION 3</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Features + How It Works</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Feature / Benefit List" status={d.hasFeatureList ? 'pass' : 'warn'} tip={d.hasFeatureList ? 'Feature list found.' : '3-column feature grid with icons. Lead with benefits not specs.'} />
@@ -289,10 +289,10 @@ function SaasLayoutBlueprint({ d }: { d: DetectedElements }) {
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span className="text-xs font-black px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#A0A4B8' }}>BOTTOM CTA</span>
-          <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>Pricing + Final CTA</span>
+      <div className="rounded-md overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="px-4 py-2 flex items-center gap-2" style={{ background: '#15161A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: 'rgba(160,164,184,0.15)', color: '#8A8F98' }}>BOTTOM CTA</span>
+          <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>Pricing + Final CTA</span>
         </div>
         <div className="p-4 grid grid-cols-2 gap-3">
           <BlueprintSection label="Pricing Section" status={d.hasPricing ? 'pass' : 'warn'} tip={d.hasPricing ? 'Pricing found.' : 'Transparent pricing pre-qualifies leads and builds trust.'} />
@@ -318,7 +318,7 @@ function ScoreRing({ score, grade, color }: { score: number; grade: string; colo
           style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
       </svg>
       <div className="flex flex-col items-center z-10">
-        <span className="text-4xl sm:text-5xl font-black leading-none" style={{ color }}>{grade}</span>
+        <span className="text-4xl sm:text-5xl font-semibold leading-none" style={{ color }}>{grade}</span>
         <span className="text-xs font-bold mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>{score}/100</span>
       </div>
     </div>
@@ -336,15 +336,15 @@ function FindingRow({ f, color }: { f: Finding; color: string }) {
 
   return (
     <div className="px-5 py-4 flex items-start gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-      <span className="text-xs font-black w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: s.bg, color: s.color }}>{s.icon}</span>
+      <span className="text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: s.bg, color: s.color }}>{s.icon}</span>
       <div className="flex-1">
         <div className="flex items-center justify-between mb-0.5">
-          <p className="text-sm font-bold" style={{ color: '#E8ECFF' }}>{f.label}</p>
+          <p className="text-sm font-bold" style={{ color: '#F4F5F8' }}>{f.label}</p>
           <span className="text-xs font-bold ml-3 flex-shrink-0" style={{ color: f.points === f.maxPoints ? color : f.points > 0 ? '#F59E0B' : '#EF4444' }}>
             {f.points}/{f.maxPoints}
           </span>
         </div>
-        <p className="text-xs leading-relaxed" style={{ color: '#7B82A0' }}>{f.detail}</p>
+        <p className="text-xs leading-relaxed" style={{ color: '#8A8F98' }}>{f.detail}</p>
         <div className="mt-1.5 flex gap-0.5">
           {Array.from({ length: Math.min(f.maxPoints, 20) }).map((_, i) => (
             <div key={i} className="h-1 flex-1 rounded-full" style={{ background: i < Math.min(f.points, 20) ? color : 'rgba(255,255,255,0.08)', maxWidth: 8 }} />
@@ -361,25 +361,25 @@ function CategoryCard({ categoryKey, score, label, description, findings, expand
   categoryKey: string; score: number; label: string; description: string
   findings: Finding[]; expanded: boolean; onToggle: () => void
 }) {
-  const { color } = CATEGORY_META[categoryKey] || { color: '#A0A4B8' }
+  const { color } = CATEGORY_META[categoryKey] || { color: '#8A8F98' }
   const passes = findings.filter(f => f.status === 'pass').length
   const fails = findings.filter(f => f.status === 'fail').length
   const warns = findings.filter(f => f.status === 'warn').length
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+    <div className="rounded-lg overflow-hidden" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="p-5 flex items-center gap-4 cursor-pointer" onClick={onToggle}>
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
+        <div className="w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
           <div className="w-3 h-3 rounded-full" style={{ background: color }} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-black text-sm mb-0.5" style={{ color: '#E8ECFF' }}>{label}</p>
-          <p className="text-xs mb-2" style={{ color: '#484D6D' }}>{description}</p>
+          <p className="font-semibold text-sm mb-0.5" style={{ color: '#F4F5F8' }}>{label}</p>
+          <p className="text-xs mb-2" style={{ color: '#5C606C' }}>{description}</p>
           <div className="flex items-center gap-3">
             <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
               <div className="h-1.5 rounded-full transition-all duration-700" style={{ width: `${score}%`, background: `linear-gradient(90deg, ${color}80, ${color})` }} />
             </div>
-            <span className="text-sm font-black flex-shrink-0" style={{ color }}>{score}</span>
+            <span className="text-sm font-semibold flex-shrink-0" style={{ color }}>{score}</span>
           </div>
           <div className="flex items-center gap-3 mt-1.5">
             {passes > 0 && <span className="text-xs" style={{ color: '#21D19F' }}>✓ {passes} pass</span>}
@@ -441,50 +441,50 @@ export default function AuditTool() {
   return (
     <div className="space-y-8">
       {/* URL Input */}
-      <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-        <p className="text-sm font-bold mb-3" style={{ color: '#E8ECFF' }}>Enter a website or landing page URL</p>
+      <div className="rounded-lg p-6" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <p className="text-sm font-bold mb-3" style={{ color: '#F4F5F8' }}>Enter a website or landing page URL</p>
         <div className="flex gap-3">
           <input
             type="text" value={url} onChange={e => setUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && runAudit()}
             placeholder="https://thehydrashop.com"
-            className="flex-1 px-4 py-3 rounded-xl text-sm font-bold outline-none"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#E8ECFF' }}
+            className="flex-1 px-4 py-3 rounded-md text-sm font-bold outline-none"
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#F4F5F8' }}
           />
           <button onClick={runAudit} disabled={loading || !url.trim()}
-            className="px-6 py-3 rounded-xl text-sm font-black transition-all"
+            className="px-6 py-3 rounded-md text-sm font-semibold transition-all"
             style={{ background: 'rgba(33,209,159,0.12)', border: '1px solid rgba(33,209,159,0.3)', color: '#21D19F', opacity: !url.trim() ? 0.4 : 1, cursor: loading || !url.trim() ? 'not-allowed' : 'pointer' }}>
             {loading ? 'Auditing…' : 'Audit Site →'}
           </button>
         </div>
-        <p className="text-xs mt-2" style={{ color: '#484D6D' }}>
+        <p className="text-xs mt-2" style={{ color: '#5C606C' }}>
           Auto-detects Ecommerce / Service / SaaS and runs a tailored audit. Takes 10–20 seconds.
         </p>
       </div>
 
       {/* Loading */}
       {loading && (
-        <div className="rounded-2xl p-10 flex flex-col items-center gap-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="rounded-lg p-10 flex flex-col items-center gap-5" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1">
             {['Fetching page', 'Detecting business type', 'Analyzing HTML', 'Running PageSpeed + screenshot', 'Scoring'].map((step, i) => (
               <div key={i} className="flex items-center gap-1.5">
                 {i > 0 && <span style={{ color: '#2A2F4A' }}>→</span>}
-                <span className="text-xs" style={{ color: '#484D6D' }}>{step}</span>
+                <span className="text-xs" style={{ color: '#5C606C' }}>{step}</span>
               </div>
             ))}
           </div>
           <div className="w-64 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
             <div className="h-1 rounded-full w-3/5" style={{ background: 'linear-gradient(90deg, #21D19F, #45B69C)', animation: 'pulse 1.5s ease-in-out infinite' }} />
           </div>
-          <p className="text-xs" style={{ color: '#484D6D' }}>Fetching PageSpeed score + mobile screenshot — takes 15–20 seconds</p>
+          <p className="text-xs" style={{ color: '#5C606C' }}>Fetching PageSpeed score + mobile screenshot — takes 15–20 seconds</p>
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="rounded-2xl p-6" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
+        <div className="rounded-lg p-6" style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)' }}>
           <p className="font-bold text-sm" style={{ color: '#EF4444' }}>Audit failed</p>
-          <p className="text-xs mt-1" style={{ color: '#7B82A0' }}>{error}</p>
+          <p className="text-xs mt-1" style={{ color: '#8A8F98' }}>{error}</p>
         </div>
       )}
 
@@ -493,24 +493,24 @@ export default function AuditTool() {
         <div className="space-y-6">
 
           {/* Overall Score Header */}
-          <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="rounded-lg p-7 relative overflow-hidden" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="absolute -top-12 -right-12 w-56 h-56 rounded-full blur-3xl opacity-8" style={{ background: result.gradeColor }} />
 
             {/* Type badge */}
             <div className="flex items-center gap-2 mb-6 relative">
-              <span className="text-xs font-black px-3 py-1.5 rounded-full flex items-center gap-2"
+              <span className="text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-2"
                 style={{ background: `${typeConf.color}15`, color: typeConf.color, border: `1px solid ${typeConf.color}30` }}>
                 {typeConf.label} Detected
               </span>
-              <span className="text-xs" style={{ color: '#484D6D' }}>{result.businessTypeConfidence} · {typeConf.desc}</span>
+              <span className="text-xs" style={{ color: '#5C606C' }}>{result.businessTypeConfidence} · {typeConf.desc}</span>
             </div>
 
             <div className="flex items-center gap-8 relative">
               <ScoreRing score={result.scores.overall} grade={result.grade} color={result.gradeColor} />
               <div className="flex-1">
-                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#484D6D' }}>Overall Score</p>
-                <h2 className="text-xl font-black mb-0.5 truncate" style={{ color: '#E8ECFF' }}>{result.pageTitle}</h2>
-                <p className="text-xs mb-4 truncate" style={{ color: '#484D6D' }}>{result.url}</p>
+                <p className="text-xs font-bold  mb-1" style={{ color: '#5C606C' }}>Overall Score</p>
+                <h2 className="text-xl font-semibold mb-0.5 truncate" style={{ color: '#F4F5F8' }}>{result.pageTitle}</h2>
+                <p className="text-xs mb-4 truncate" style={{ color: '#5C606C' }}>{result.url}</p>
                 <div className="grid grid-cols-3 gap-3">
                   {categoryOrder.map(key => {
                     const cat = result.categories[key]
@@ -523,8 +523,8 @@ export default function AuditTool() {
                         />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-0.5">
-                            <span className="text-xs truncate" style={{ color: '#7B82A0' }}>{cat.label}</span>
-                            <span className="text-xs font-black ml-1 flex-shrink-0" style={{ color: meta.color }}>{cat.score}</span>
+                            <span className="text-xs truncate" style={{ color: '#8A8F98' }}>{cat.label}</span>
+                            <span className="text-xs font-semibold ml-1 flex-shrink-0" style={{ color: meta.color }}>{cat.score}</span>
                           </div>
                           <div className="h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
                             <div className="h-1 rounded-full" style={{ width: `${cat.score}%`, background: meta.color }} />
@@ -539,7 +539,7 @@ export default function AuditTool() {
           </div>
 
           {/* Tab Nav */}
-          <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', width: 'fit-content' }}>
+          <div className="flex gap-1 p-1 rounded-md" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)', width: 'fit-content' }}>
             {[
               { id: 'scores' as ActiveTab, label: 'Scores' },
               { id: 'layout' as ActiveTab, label: 'Page Layout' },
@@ -549,7 +549,7 @@ export default function AuditTool() {
                 className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
                 style={activeTab === tab.id
                   ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                  : { color: '#7B82A0', border: '1px solid transparent' }}>
+                  : { color: '#8A8F98', border: '1px solid transparent' }}>
                 {tab.label}
               </button>
             ))}
@@ -560,18 +560,18 @@ export default function AuditTool() {
             <div className="space-y-5">
               {/* Priority Fixes */}
               {result.topFixes.length > 0 && (
-                <div className="rounded-2xl p-7" style={{ background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.12)' }}>
-                  <p className="font-black text-sm mb-4" style={{ color: '#EF4444' }}>Priority Fixes — Ranked by Impact</p>
+                <div className="rounded-lg p-7" style={{ background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.12)' }}>
+                  <p className="font-semibold text-sm mb-4" style={{ color: '#EF4444' }}>Priority Fixes — Ranked by Impact</p>
                   <div className="space-y-4">
                     {result.topFixes.map((fix, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <span className="text-xs font-black w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                          style={{ background: fix.priority === 1 ? 'rgba(239,68,68,0.2)' : fix.priority === 2 ? 'rgba(245,158,11,0.15)' : 'rgba(160,164,184,0.1)', color: fix.priority === 1 ? '#EF4444' : fix.priority === 2 ? '#F59E0B' : '#A0A4B8' }}>
+                        <span className="text-xs font-semibold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                          style={{ background: fix.priority === 1 ? 'rgba(239,68,68,0.2)' : fix.priority === 2 ? 'rgba(245,158,11,0.15)' : 'rgba(160,164,184,0.1)', color: fix.priority === 1 ? '#EF4444' : fix.priority === 2 ? '#F59E0B' : '#8A8F98' }}>
                           {i + 1}
                         </span>
                         <div>
-                          <p className="text-sm font-black" style={{ color: '#E8ECFF' }}>{fix.fix}</p>
-                          <p className="text-xs leading-relaxed mt-0.5" style={{ color: '#7B82A0' }}>{fix.impact}</p>
+                          <p className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>{fix.fix}</p>
+                          <p className="text-xs leading-relaxed mt-0.5" style={{ color: '#8A8F98' }}>{fix.impact}</p>
                         </div>
                       </div>
                     ))}
@@ -581,7 +581,7 @@ export default function AuditTool() {
 
               {/* Category Breakdown */}
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#484D6D' }}>{typeConf.label} Audit — Category Breakdown</p>
+                <p className="text-xs font-bold  mb-4" style={{ color: '#5C606C' }}>{typeConf.label} Audit — Category Breakdown</p>
                 <div className="space-y-3">
                   {categoryOrder.map(key => (
                     <CategoryCard key={key} categoryKey={key}
@@ -593,10 +593,10 @@ export default function AuditTool() {
               </div>
 
               {/* Ad Impact */}
-              <div className="rounded-2xl p-7" style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)' }}>
-                <p className="font-black text-sm mb-3" style={{ color: '#21D19F' }}>Should You Run Ads to This {typeConf.label} Site?</p>
+              <div className="rounded-lg p-7" style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)' }}>
+                <p className="font-semibold text-sm mb-3" style={{ color: '#21D19F' }}>Should You Run Ads to This {typeConf.label} Site?</p>
                 {result.scores.adReadiness >= 80 ? (
-                  <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>
                     <span style={{ color: '#21D19F', fontWeight: 700 }}>Yes — this site is ad-ready. </span>
                     {result.businessType === 'ecommerce' && 'Pixel installed, deals and trust signals in place, checkout is configured. Scale spend confidently.'}
                     {result.businessType === 'service' && 'Pixel installed, form is simple, trust signals are strong. Cold ad traffic should convert well here.'}
@@ -604,12 +604,12 @@ export default function AuditTool() {
                     {result.businessType === 'unknown' && 'Core requirements are in place. Run traffic and watch the data.'}
                   </p>
                 ) : result.scores.adReadiness >= 55 ? (
-                  <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>
                     <span style={{ color: '#F59E0B', fontWeight: 700 }}>Run carefully — fix priority issues first. </span>
                     Check the Page Layout tab to see exactly what sections need to be added or improved before scaling spend.
                   </p>
                 ) : (
-                  <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>
                     <span style={{ color: '#EF4444', fontWeight: 700 }}>Don&apos;t run ads to this page yet. </span>
                     Critical gaps will cause near-zero conversion. Fix the Priority Fixes and build out the Page Layout blueprint first.
                   </p>
@@ -625,9 +625,9 @@ export default function AuditTool() {
               {result.businessType === 'ecommerce' && <EcomLayoutBlueprint d={result.detectedElements} />}
               {result.businessType === 'saas' && <SaasLayoutBlueprint d={result.detectedElements} />}
               {result.businessType === 'unknown' && (
-                <div className="rounded-2xl p-8 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p className="font-black text-sm mb-2" style={{ color: '#E8ECFF' }}>Business type unclear</p>
-                  <p className="text-xs" style={{ color: '#7B82A0' }}>The audit couldn't determine if this is a service, ecommerce, or SaaS site. The layout blueprint will appear once a type is detected.</p>
+                <div className="rounded-lg p-8 text-center" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <p className="font-semibold text-sm mb-2" style={{ color: '#F4F5F8' }}>Business type unclear</p>
+                  <p className="text-xs" style={{ color: '#8A8F98' }}>The audit couldn't determine if this is a service, ecommerce, or SaaS site. The layout blueprint will appear once a type is detected.</p>
                 </div>
               )}
             </div>
@@ -636,20 +636,20 @@ export default function AuditTool() {
           {/* Screenshot Tab */}
           {activeTab === 'screenshot' && hasScreenshot && (
             <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="rounded-lg overflow-hidden" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                   <div>
-                    <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>Mobile Screenshot</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#484D6D' }}>Captured by Google PageSpeed — what a mobile visitor sees</p>
+                    <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Mobile Screenshot</p>
+                    <p className="text-xs mt-0.5" style={{ color: '#5C606C' }}>Captured by Google PageSpeed — what a mobile visitor sees</p>
                   </div>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'rgba(160,207,255,0.1)', color: '#A0CFFF', border: '1px solid rgba(160,207,255,0.2)' }}>
+                  <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'rgba(160,207,255,0.1)', color: '#5E6AD2', border: '1px solid rgba(160,207,255,0.2)' }}>
                     Mobile View
                   </span>
                 </div>
                 <div className="p-6 flex justify-center">
                   <div className="relative" style={{ maxWidth: 380 }}>
                     {/* Phone frame */}
-                    <div className="rounded-3xl overflow-hidden shadow-2xl" style={{ border: '2px solid rgba(255,255,255,0.12)', background: '#000' }}>
+                    <div className="rounded-lg overflow-hidden shadow-2xl" style={{ border: '2px solid rgba(255,255,255,0.12)', background: '#000' }}>
                       {/* Notch */}
                       <div className="flex justify-center pt-2 pb-1" style={{ background: '#111' }}>
                         <div className="w-20 h-5 rounded-full" style={{ background: '#1a1a1a' }} />
@@ -664,16 +664,16 @@ export default function AuditTool() {
                     {result.scores.conversion < 60 && (
                       <div className="absolute top-16 right-0 translate-x-full ml-3 w-40 pl-3">
                         <div className="rounded-lg p-2.5" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)' }}>
-                          <p className="text-xs font-black" style={{ color: '#EF4444' }}>Weak CTA area</p>
-                          <p className="text-xs mt-0.5" style={{ color: '#7B82A0' }}>Conversion needs work</p>
+                          <p className="text-xs font-semibold" style={{ color: '#EF4444' }}>Weak CTA area</p>
+                          <p className="text-xs mt-0.5" style={{ color: '#8A8F98' }}>Conversion needs work</p>
                         </div>
                       </div>
                     )}
                     {result.scores.trust < 60 && (
                       <div className="absolute bottom-24 right-0 translate-x-full ml-3 w-40 pl-3">
                         <div className="rounded-lg p-2.5" style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)' }}>
-                          <p className="text-xs font-black" style={{ color: '#F59E0B' }}>Missing trust signals</p>
-                          <p className="text-xs mt-0.5" style={{ color: '#7B82A0' }}>See Page Layout tab</p>
+                          <p className="text-xs font-semibold" style={{ color: '#F59E0B' }}>Missing trust signals</p>
+                          <p className="text-xs mt-0.5" style={{ color: '#8A8F98' }}>See Page Layout tab</p>
                         </div>
                       </div>
                     )}
@@ -683,8 +683,8 @@ export default function AuditTool() {
 
               {/* Visual notes */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p className="font-black text-sm mb-3" style={{ color: '#E8ECFF' }}>First Impression Checklist</p>
+                <div className="rounded-md p-5" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <p className="font-semibold text-sm mb-3" style={{ color: '#F4F5F8' }}>First Impression Checklist</p>
                   {[
                     { label: 'CTA visible without scrolling', status: result.detectedElements.hasCTA },
                     { label: 'Phone number easy to find', status: result.detectedElements.hasPhone },
@@ -698,12 +698,12 @@ export default function AuditTool() {
                         style={{ background: item.status ? 'rgba(33,209,159,0.15)' : 'rgba(239,68,68,0.15)', color: item.status ? '#21D19F' : '#EF4444' }}>
                         {item.status ? '✓' : '✗'}
                       </span>
-                      <span className="text-xs" style={{ color: item.status ? '#E8ECFF' : '#7B82A0' }}>{item.label}</span>
+                      <span className="text-xs" style={{ color: item.status ? '#F4F5F8' : '#8A8F98' }}>{item.label}</span>
                     </div>
                   ))}
                 </div>
-                <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p className="font-black text-sm mb-3" style={{ color: '#E8ECFF' }}>Performance at a Glance</p>
+                <div className="rounded-md p-5" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <p className="font-semibold text-sm mb-3" style={{ color: '#F4F5F8' }}>Performance at a Glance</p>
                   {[
                     { label: 'Speed Score', value: `${result.scores.speed}/100`, color: result.scores.speed >= 80 ? '#21D19F' : result.scores.speed >= 60 ? '#F59E0B' : '#EF4444' },
                     { label: 'SEO Score', value: `${result.scores.seo}/100`, color: result.scores.seo >= 80 ? '#21D19F' : result.scores.seo >= 60 ? '#F59E0B' : '#EF4444' },
@@ -713,8 +713,8 @@ export default function AuditTool() {
                     { label: 'Ad Readiness', value: `${result.scores.adReadiness}/100`, color: result.scores.adReadiness >= 80 ? '#21D19F' : result.scores.adReadiness >= 60 ? '#F59E0B' : '#EF4444' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between mb-2">
-                      <span className="text-xs" style={{ color: '#7B82A0' }}>{item.label}</span>
-                      <span className="text-xs font-black" style={{ color: item.color }}>{item.value}</span>
+                      <span className="text-xs" style={{ color: '#8A8F98' }}>{item.label}</span>
+                      <span className="text-xs font-semibold" style={{ color: item.color }}>{item.value}</span>
                     </div>
                   ))}
                 </div>

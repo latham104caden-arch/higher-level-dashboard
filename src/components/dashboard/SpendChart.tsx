@@ -27,25 +27,25 @@ export function SpendChart({ data, clientType, color }: SpendChartProps) {
       <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
         <defs>
           <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#6366F1" stopOpacity={0.15} />
-            <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+            <stop offset="5%" stopColor="#5E6AD2" stopOpacity={0.2} />
+            <stop offset="95%" stopColor="#5E6AD2" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={color} stopOpacity={0.15} />
-            <stop offset="95%" stopColor={color} stopOpacity={0} />
+            <stop offset="5%" stopColor="#21D19F" stopOpacity={0.2} />
+            <stop offset="95%" stopColor="#21D19F" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
-        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9CA3AF' }} tickLine={false} axisLine={false} />
-        <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v}`} />
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#5C606C' }} tickLine={false} axisLine={false} />
+        <YAxis tick={{ fontSize: 11, fill: '#5C606C' }} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v}`} />
         <Tooltip
-          contentStyle={{ borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 12 }}
+          contentStyle={{ borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', background: '#15161A', fontSize: 12, color: '#F4F5F8' }}
           formatter={(v: any) => [`$${parseFloat(v).toFixed(2)}`]}
         />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Area type="monotone" dataKey="Spend" stroke="#6366F1" strokeWidth={2} fill="url(#colorSpend)" dot={false} />
+        <Legend wrapperStyle={{ fontSize: 12, color: '#8A8F98' }} />
+        <Area type="monotone" dataKey="Spend" stroke="#5E6AD2" strokeWidth={2} fill="url(#colorSpend)" dot={false} />
         {clientType === 'ecommerce' && (
-          <Area type="monotone" dataKey="Revenue" stroke={color} strokeWidth={2} fill="url(#colorRevenue)" dot={false} />
+          <Area type="monotone" dataKey="Revenue" stroke="#21D19F" strokeWidth={2} fill="url(#colorRevenue)" dot={false} />
         )}
       </AreaChart>
     </ResponsiveContainer>

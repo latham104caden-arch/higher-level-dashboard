@@ -11,7 +11,7 @@ const CLIENT_INTEL = [
   },
   {
     client: 'Shine Bright Window Cleaning',
-    color: '#A0CFFF',
+    color: '#5E6AD2',
     competitors: ['Fish Window Cleaning', 'Window Genie', 'Squeegee Squad', 'Clear Choice'],
   },
 ]
@@ -57,7 +57,7 @@ function Chip({
       style={
         active
           ? { background: 'rgba(33,209,159,0.14)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.25)' }
-          : { background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }
+          : { background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }
       }
     >
       {label}
@@ -72,13 +72,13 @@ function LaunchButton({ href, label, sub }: { href: string; label: string; sub?:
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col gap-0.5 px-4 py-3 rounded-xl transition-all group"
-      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+      className="flex flex-col gap-0.5 px-4 py-3 rounded-md transition-all group"
+      style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}
     >
-      <span className="text-xs font-black group-hover:text-white transition-colors" style={{ color: '#E8ECFF' }}>
+      <span className="text-xs font-semibold group-hover:text-white transition-colors" style={{ color: '#F4F5F8' }}>
         {label} →
       </span>
-      {sub && <span className="text-xs" style={{ color: '#484D6D' }}>{sub}</span>}
+      {sub && <span className="text-xs" style={{ color: '#5C606C' }}>{sub}</span>}
     </a>
   )
 }
@@ -98,16 +98,16 @@ export default function AdLibraryTool() {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex gap-1 p-1 rounded-md w-fit" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}>
         {(['search', 'clients'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className="px-5 py-2 rounded-lg text-xs font-black transition-all capitalize"
+            className="px-5 py-2 rounded-lg text-xs font-semibold transition-all capitalize"
             style={
               activeTab === tab
                 ? { background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }
-                : { color: '#7B82A0', border: '1px solid transparent' }
+                : { color: '#8A8F98', border: '1px solid transparent' }
             }
           >
             {tab === 'search' ? 'Brand Search' : 'Client Intel'}
@@ -120,12 +120,12 @@ export default function AdLibraryTool() {
         <div className="space-y-5">
           {/* Search card */}
           <div
-            className="rounded-2xl p-6 space-y-4"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="rounded-lg p-6 space-y-4"
+            style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             <div>
-              <p className="text-sm font-black mb-1" style={{ color: '#E8ECFF' }}>Search any brand</p>
-              <p className="text-xs" style={{ color: '#7B82A0' }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: '#F4F5F8' }}>Search any brand</p>
+              <p className="text-xs" style={{ color: '#8A8F98' }}>
                 Type a brand name, pick your filters, and launch straight into Meta Ad Library with everything pre-filled.
               </p>
             </div>
@@ -142,18 +142,18 @@ export default function AdLibraryTool() {
                   }
                 }}
                 placeholder="e.g. Liquid IV, LMNT, Shine Bright..."
-                className="flex-1 px-4 py-3 rounded-xl text-sm font-bold outline-none"
+                className="flex-1 px-4 py-3 rounded-md text-sm font-bold outline-none"
                 style={{
                   background: 'rgba(255,255,255,0.06)',
                   border: '1px solid rgba(255,255,255,0.12)',
-                  color: '#E8ECFF',
+                  color: '#F4F5F8',
                 }}
               />
             </div>
 
             {/* Country filter */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold" style={{ color: '#484D6D' }}>Country:</span>
+              <span className="text-xs font-bold" style={{ color: '#5C606C' }}>Country:</span>
               {COUNTRIES.map(c => (
                 <Chip
                   key={c}
@@ -166,13 +166,13 @@ export default function AdLibraryTool() {
 
             {/* Quick brands */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold" style={{ color: '#484D6D' }}>Quick:</span>
+              <span className="text-xs font-bold" style={{ color: '#5C606C' }}>Quick:</span>
               {QUICK_BRANDS.map(q => (
                 <button
                   key={q}
                   onClick={() => setBrand(q)}
                   className="text-xs px-2.5 py-1 rounded-lg font-bold transition-all"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}
+                  style={{ background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   {q}
                 </button>
@@ -183,11 +183,11 @@ export default function AdLibraryTool() {
           {/* Launch options — only show when there's a brand */}
           {trimmed && (
             <div
-              className="rounded-2xl p-6 space-y-4"
+              className="rounded-lg p-6 space-y-4"
               style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.15)' }}
             >
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-sm font-black" style={{ color: '#21D19F' }}>
+                <span className="text-sm font-semibold" style={{ color: '#21D19F' }}>
                   Research "{trimmed}"
                 </span>
                 <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(33,209,159,0.12)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.2)' }}>
@@ -200,7 +200,7 @@ export default function AdLibraryTool() {
                 href={buildUrl(trimmed, country, 'all', 'active')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full px-5 py-4 rounded-xl font-black text-sm transition-all"
+                className="flex items-center justify-between w-full px-5 py-4 rounded-md font-semibold text-sm transition-all"
                 style={{ background: 'rgba(33,209,159,0.12)', border: '1px solid rgba(33,209,159,0.3)', color: '#21D19F' }}
               >
                 <span>Open All Active Ads for "{trimmed}"</span>
@@ -233,7 +233,7 @@ export default function AdLibraryTool() {
 
               {/* Multi-country row */}
               <div>
-                <p className="text-xs font-bold mb-2" style={{ color: '#484D6D' }}>Same search, other markets:</p>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5C606C' }}>Same search, other markets:</p>
                 <div className="flex gap-2 flex-wrap">
                   {COUNTRIES.filter(c => c !== country).map(c => (
                     <a
@@ -242,7 +242,7 @@ export default function AdLibraryTool() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs px-3 py-1.5 rounded-lg font-bold transition-all"
-                      style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}
+                      style={{ background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}
                     >
                       {COUNTRY_LABELS[c]} →
                     </a>
@@ -254,10 +254,10 @@ export default function AdLibraryTool() {
 
           {/* Strategy tip */}
           <div
-            className="rounded-2xl px-5 py-4"
+            className="rounded-lg px-5 py-4"
             style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <p className="text-xs font-black mb-2" style={{ color: '#484D6D' }}>What to look for</p>
+            <p className="text-xs font-semibold mb-2" style={{ color: '#5C606C' }}>What to look for</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
                 { label: 'Ads running 30+ days', tip: "If it's still live, it's converting. That angle works." },
@@ -265,8 +265,8 @@ export default function AdLibraryTool() {
                 { label: 'Offer structure', tip: 'Price point, CTA, discount — copy what\'s proven, not what sounds clever.' },
               ].map(({ label, tip }) => (
                 <div key={label} className="space-y-1">
-                  <p className="text-xs font-black" style={{ color: '#7B82A0' }}>{label}</p>
-                  <p className="text-xs" style={{ color: '#484D6D' }}>{tip}</p>
+                  <p className="text-xs font-semibold" style={{ color: '#8A8F98' }}>{label}</p>
+                  <p className="text-xs" style={{ color: '#5C606C' }}>{tip}</p>
                 </div>
               ))}
             </div>
@@ -280,14 +280,14 @@ export default function AdLibraryTool() {
           {CLIENT_INTEL.map(({ client, color, competitors }) => (
             <div
               key={client}
-              className="rounded-2xl p-6 space-y-4"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="rounded-lg p-6 space-y-4"
+              style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color }}>
+                <p className="text-xs font-bold  mb-1" style={{ color }}>
                   {client}
                 </p>
-                <p className="text-xs" style={{ color: '#484D6D' }}>
+                <p className="text-xs" style={{ color: '#5C606C' }}>
                   One-click competitor ad research — opens Meta Ad Library pre-filtered
                 </p>
               </div>
@@ -296,10 +296,10 @@ export default function AdLibraryTool() {
                 {competitors.map(comp => (
                   <div
                     key={comp}
-                    className="flex items-center justify-between px-4 py-3 rounded-xl"
-                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    className="flex items-center justify-between px-4 py-3 rounded-md"
+                    style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}
                   >
-                    <span className="text-sm font-black" style={{ color: '#E8ECFF' }}>{comp}</span>
+                    <span className="text-sm font-semibold" style={{ color: '#F4F5F8' }}>{comp}</span>
                     <div className="flex gap-2">
                       <a
                         href={buildUrl(comp, 'US', 'all', 'active')}
@@ -315,7 +315,7 @@ export default function AdLibraryTool() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs px-2.5 py-1 rounded-lg font-bold transition-all"
-                        style={{ background: 'rgba(255,255,255,0.04)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }}
+                        style={{ background: '#15161A', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }}
                       >
                         Video →
                       </a>
@@ -330,7 +330,7 @@ export default function AdLibraryTool() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-bold"
-                style={{ color: '#484D6D', textDecoration: 'underline' }}
+                style={{ color: '#5C606C', textDecoration: 'underline' }}
               >
                 Start with top competitor: {competitors[0]} →
               </a>
@@ -339,11 +339,11 @@ export default function AdLibraryTool() {
 
           {/* Tip */}
           <div
-            className="rounded-2xl px-5 py-4"
+            className="rounded-lg px-5 py-4"
             style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <p className="text-xs font-black mb-1" style={{ color: '#484D6D' }}>Research workflow</p>
-            <p className="text-xs leading-relaxed" style={{ color: '#484D6D' }}>
+            <p className="text-xs font-semibold mb-1" style={{ color: '#5C606C' }}>Research workflow</p>
+            <p className="text-xs leading-relaxed" style={{ color: '#5C606C' }}>
               Check each competitor, filter by Video, sort by longest running in the Meta Ad Library interface.
               Ads still live after 30+ days are profitable. Use those hooks, angles, and offers as inspiration — not copying.
             </p>

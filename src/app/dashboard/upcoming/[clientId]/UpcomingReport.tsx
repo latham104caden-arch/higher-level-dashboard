@@ -38,20 +38,20 @@ function OverviewTab({
     <div className="space-y-8">
       {/* Goals */}
       <div
-        className="rounded-2xl p-7"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+        className="rounded-lg p-7"
+        style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
       >
-        <p className="text-xs font-black uppercase tracking-widest mb-5" style={{ color: '#484D6D' }}>Campaign Goals</p>
+        <p className="text-xs font-semibold  mb-5" style={{ color: '#5C606C' }}>Campaign Goals</p>
         <ul className="space-y-4">
           {client.goals.map((goal, i) => (
             <li key={i} className="flex items-start gap-4">
               <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs flex-shrink-0 mt-0.5"
+                className="w-7 h-7 rounded-lg flex items-center justify-center font-medium text-xs flex-shrink-0 mt-0.5"
                 style={{ background: client.color + '18', border: `1px solid ${client.color}30`, color: client.color }}
               >
                 {i + 1}
               </div>
-              <p className="text-sm leading-relaxed pt-1" style={{ color: '#A0A4B8' }}>{goal}</p>
+              <p className="text-sm leading-relaxed pt-1" style={{ color: '#8A8F98' }}>{goal}</p>
             </li>
           ))}
         </ul>
@@ -59,12 +59,12 @@ function OverviewTab({
 
       {/* Checklist */}
       <div
-        className="rounded-2xl p-7"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+        className="rounded-lg p-7"
+        style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
       >
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-black uppercase tracking-widest" style={{ color: '#484D6D' }}>Pre-Launch Checklist</p>
-          <span className="text-xs font-black" style={{ color: allDone ? client.color : '#484D6D' }}>{progress}/{total}</span>
+          <p className="text-xs font-semibold " style={{ color: '#5C606C' }}>Pre-Launch Checklist</p>
+          <span className="text-xs font-semibold" style={{ color: allDone ? client.color : '#5C606C' }}>{progress}/{total}</span>
         </div>
 
         {/* Progress bar */}
@@ -102,7 +102,7 @@ function OverviewTab({
                   </div>
                   <span
                     className="text-sm font-bold transition-all duration-200"
-                    style={done ? { color: '#484D6D', textDecoration: 'line-through' } : { color: '#E8ECFF' }}
+                    style={done ? { color: '#5C606C', textDecoration: 'line-through' } : { color: '#F4F5F8' }}
                   >
                     {item.label}
                   </span>
@@ -114,10 +114,10 @@ function OverviewTab({
 
         {allDone && (
           <div
-            className="mt-6 rounded-xl px-4 py-3 text-center"
+            className="mt-6 rounded-md px-4 py-3 text-center"
             style={{ background: client.color + '10', border: `1px solid ${client.color}25` }}
           >
-            <p className="text-sm font-black" style={{ color: client.color }}>✓ All pre-launch tasks complete — ready to go live</p>
+            <p className="text-sm font-semibold" style={{ color: client.color }}>✓ All pre-launch tasks complete — ready to go live</p>
           </div>
         )}
       </div>
@@ -131,22 +131,22 @@ function MarketTab({ data, color }: { data: { summary: string; stats: { label: s
   return (
     <div className="space-y-6">
       <div
-        className="rounded-2xl p-7"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+        className="rounded-lg p-7"
+        style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
       >
-        <p className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: '#484D6D' }}>Market Overview</p>
-        <p className="text-sm leading-relaxed" style={{ color: '#7B82A0' }}>{data.summary}</p>
+        <p className="text-xs font-semibold  mb-4" style={{ color: '#5C606C' }}>Market Overview</p>
+        <p className="text-sm leading-relaxed" style={{ color: '#8A8F98' }}>{data.summary}</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {data.stats.map((s, i) => (
           <div
             key={i}
-            className="rounded-2xl p-5 relative overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+            className="rounded-lg p-5 relative overflow-hidden"
+            style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
           >
             <div className="absolute -top-3 -right-3 w-12 h-12 rounded-full blur-2xl opacity-20" style={{ background: color }} />
-            <p className="text-xs font-bold mb-2" style={{ color: '#484D6D' }}>{s.label}</p>
-            <p className="text-lg font-black" style={{ color: '#E8ECFF' }}>{s.value}</p>
+            <p className="text-xs font-bold mb-2" style={{ color: '#5C606C' }}>{s.label}</p>
+            <p className="text-lg font-semibold" style={{ color: '#F4F5F8' }}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -160,27 +160,27 @@ function CompetitorsTab({ data }: { data: { name: string; weakness: string }[] }
   return (
     <div className="space-y-4">
       <div
-        className="rounded-2xl p-5"
-        style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)', backdropFilter: 'blur(20px)' }}
+        className="rounded-lg p-5"
+        style={{ background: 'rgba(33,209,159,0.04)', border: '1px solid rgba(33,209,159,0.12)', }}
       >
-        <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: '#21D19F' }}>The Opportunity</p>
-        <p className="text-sm" style={{ color: '#7B82A0' }}>
+        <p className="text-xs font-semibold  mb-1" style={{ color: '#21D19F' }}>The Opportunity</p>
+        <p className="text-sm" style={{ color: '#8A8F98' }}>
           Every competitor below has a gap. The goal is to identify which gap aligns with this client's strengths and make it the core of our ads.
         </p>
       </div>
       {data.map((c, i) => (
         <div
           key={i}
-          className="rounded-2xl p-6"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+          className="rounded-lg p-6"
+          style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
         >
           <div className="flex items-start justify-between gap-4 flex-wrap">
-            <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{c.name}</p>
+            <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{c.name}</p>
             <span className="text-xs px-2.5 py-1 rounded-full font-bold" style={{ background: 'rgba(239,68,68,0.08)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)' }}>
               Gap
             </span>
           </div>
-          <p className="text-sm leading-relaxed mt-2" style={{ color: '#7B82A0' }}>{c.weakness}</p>
+          <p className="text-sm leading-relaxed mt-2" style={{ color: '#8A8F98' }}>{c.weakness}</p>
         </div>
       ))}
     </div>
@@ -198,25 +198,25 @@ function AnglesTab({ data, color }: {
       {data.map((a, i) => (
         <div
           key={i}
-          className="rounded-2xl p-6"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+          className="rounded-lg p-6"
+          style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
         >
           <div className="flex items-center gap-3 mb-3">
             <span
-              className="text-xs font-black px-2.5 py-1 rounded-full"
+              className="text-xs font-semibold px-2.5 py-1 rounded-full"
               style={{ background: a.color + '18', color: a.color, border: `1px solid ${a.color}30` }}
             >
               {a.type}
             </span>
-            <p className="font-black text-sm" style={{ color: '#E8ECFF' }}>{a.name}</p>
+            <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{a.name}</p>
           </div>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#7B82A0' }}>{a.description}</p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: '#8A8F98' }}>{a.description}</p>
           <div
-            className="rounded-xl px-5 py-4"
+            className="rounded-md px-5 py-4"
             style={{ background: color + '08', border: `1px solid ${color}20` }}
           >
-            <p className="text-xs font-black uppercase tracking-widest mb-1.5" style={{ color: color + 'aa' }}>Hook</p>
-            <p className="text-sm font-bold italic" style={{ color: '#E8ECFF' }}>{a.hook}</p>
+            <p className="text-xs font-semibold  mb-1.5" style={{ color: color + 'aa' }}>Hook</p>
+            <p className="text-sm font-bold italic" style={{ color: '#F4F5F8' }}>{a.hook}</p>
           </div>
         </div>
       ))}
@@ -241,36 +241,36 @@ function CopyTab({ data, policyNote }: {
   return (
     <div className="space-y-5">
       {policyNote && (
-        <div className="rounded-2xl px-5 py-4" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
+        <div className="rounded-lg px-5 py-4" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
           <p className="text-sm leading-relaxed" style={{ color: '#F59E0B' }}>{policyNote}</p>
         </div>
       )}
       {data.map((c, i) => (
         <div
           key={i}
-          className="rounded-2xl p-6"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}
+          className="rounded-lg p-6"
+          style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)', }}
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-black uppercase tracking-widest" style={{ color: '#484D6D' }}>{c.type}</span>
+            <span className="text-xs font-semibold " style={{ color: '#5C606C' }}>{c.type}</span>
             <button
               onClick={() => copyText(i, `${c.headline}\n\n${c.body}\n\nCTA: ${c.cta}`)}
-              className="text-xs font-black px-3 py-1.5 rounded-lg transition-all"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
               style={copied === i
                 ? { background: 'rgba(33,209,159,0.15)', color: '#21D19F', border: '1px solid rgba(33,209,159,0.3)' }
-                : { background: 'rgba(255,255,255,0.05)', color: '#7B82A0', border: '1px solid rgba(255,255,255,0.08)' }
+                : { background: 'rgba(255,255,255,0.05)', color: '#8A8F98', border: '1px solid rgba(255,255,255,0.08)' }
               }
             >
               {copied === i ? '✓ Copied' : 'Copy'}
             </button>
           </div>
-          <p className="font-black text-base mb-3" style={{ color: '#E8ECFF' }}>{c.headline}</p>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#7B82A0' }}>{c.body}</p>
+          <p className="font-semibold text-base mb-3" style={{ color: '#F4F5F8' }}>{c.headline}</p>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: '#8A8F98' }}>{c.body}</p>
           <div
-            className="rounded-xl px-4 py-2.5 inline-block"
+            className="rounded-md px-4 py-2.5 inline-block"
             style={{ background: 'rgba(33,209,159,0.08)', border: '1px solid rgba(33,209,159,0.2)' }}
           >
-            <p className="text-xs font-black" style={{ color: '#21D19F' }}>CTA: {c.cta}</p>
+            <p className="text-xs font-semibold" style={{ color: '#21D19F' }}>CTA: {c.cta}</p>
           </div>
         </div>
       ))}
@@ -306,37 +306,19 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen" style={{ background: '#080B14' }}>
-      <div className="bg-grid" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-
-      {/* Ghost initial */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-end pr-8 opacity-100">
-        <span className="ghost-text" style={{ fontSize: '28vw', position: 'absolute', right: '-2vw', bottom: '-4vw' }}>
-          {client.initial}
-        </span>
-      </div>
-
-      <div className="page-content">
-        {/* Header */}
+    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
         <header
           className="px-6 py-4 sticky top-0 z-20"
-          style={{
-            background: 'rgba(8,11,20,0.85)',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-          }}
+          style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
         >
           <div className="max-w-5xl mx-auto flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-4">
-              <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#484D6D' }}>
+              <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#5C606C' }}>
                 ← Back
               </Link>
               <div className="w-px h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm"
+                className="w-9 h-9 rounded-md flex items-center justify-center font-semibold text-sm"
                 style={{
                   background: `linear-gradient(135deg, ${client.color}22, ${client.color}44)`,
                   border: `1px solid ${client.color}44`,
@@ -346,15 +328,15 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
                 {client.initial}
               </div>
               <div>
-                <p className="font-black text-sm tracking-tight" style={{ color: '#E8ECFF' }}>{client.name}</p>
-                <p className="text-xs" style={{ color: '#484D6D' }}>{client.type} · Pre-Launch Brief</p>
+                <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>{client.name}</p>
+                <p className="text-xs" style={{ color: '#5C606C' }}>{client.type} · Pre-Launch Brief</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               {/* Progress pill */}
               <span
-                className="text-xs font-black px-3 py-1.5 rounded-full"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full"
                 style={allDone
                   ? { background: client.color + '18', color: client.color, border: `1px solid ${client.color}30` }
                   : { background: 'rgba(255,180,0,0.08)', color: '#F59E0B', border: '1px solid rgba(255,180,0,0.2)' }
@@ -365,8 +347,8 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
 
               {/* Tab bar */}
               <div
-                className="flex gap-1 p-1 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                className="flex gap-1 p-1 rounded-md"
+                style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.06)' }}
               >
                 {TABS.map(t => (
                   <button
@@ -375,7 +357,7 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
                     className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                     style={activeTab === t.value
                       ? { background: client.color + '18', color: client.color, border: `1px solid ${client.color}30` }
-                      : { color: '#7B82A0', border: '1px solid transparent' }
+                      : { color: '#8A8F98', border: '1px solid transparent' }
                     }
                   >
                     {t.label}
@@ -389,13 +371,13 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
         <main className="max-w-5xl mx-auto px-4 sm:px-8 py-10 space-y-6">
           {/* Page title */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: client.color }}>
+            <p className="text-xs font-bold  mb-2" style={{ color: client.color }}>
               — {TABS.find(t => t.value === activeTab)?.label}
             </p>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2" style={{ color: '#E8ECFF' }}>
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2" style={{ color: '#F4F5F8' }}>
               {client.name}
             </h1>
-            <p className="text-base" style={{ color: '#7B82A0' }}>
+            <p className="text-base" style={{ color: '#8A8F98' }}>
               {activeTab === 'overview' && 'Launch goals and pre-launch checklist.'}
               {activeTab === 'market' && 'Market size, trends, and where the money is.'}
               {activeTab === 'competitors' && 'Who you\'re up against and where their gaps are.'}
@@ -421,7 +403,6 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
             <CopyTab data={research.copy} policyNote={research.policyNote} />
           )}
         </main>
-      </div>
     </div>
   )
 }

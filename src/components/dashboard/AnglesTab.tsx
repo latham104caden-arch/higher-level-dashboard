@@ -137,9 +137,9 @@ const ANGLES: Record<string, any[]> = {
 }
 
 const PRIORITY_STYLE: Record<string, { bg: string; color: string; border: string }> = {
-  HIGH: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'rgba(239,68,68,0.25)' },
-  MEDIUM: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: 'rgba(245,158,11,0.25)' },
-  LOW: { bg: 'rgba(72,77,109,0.3)', color: '#A0A4B8', border: 'rgba(168,174,210,0.15)' },
+  HIGH: { bg: 'rgba(245,158,11,0.08)', color: '#F59E0B', border: 'rgba(245,158,11,0.2)' },
+  MEDIUM: { bg: 'rgba(94,106,210,0.08)', color: '#5E6AD2', border: 'rgba(94,106,210,0.2)' },
+  LOW: { bg: '#1A1B20', color: '#8A8F98', border: 'rgba(255,255,255,0.08)' },
 }
 
 export function AnglesTab({ clientId, ads }: { clientId: string; ads: any[] }) {
@@ -157,126 +157,109 @@ export function AnglesTab({ clientId, ads }: { clientId: string; ads: any[] }) {
 
   return (
     <div className="space-y-5">
-      {/* Live signal callout */}
       {(toKill.length > 0 || toScale.length > 0) && (
-        <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#484D6D' }}>Live Signals — Act Now</p>
+        <div className="card p-5">
+          <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Live Signals — Act Now</p>
           <div className="space-y-2">
             {toScale.map((ad, i) => (
-              <p key={i} className="text-sm font-bold" style={{ color: '#21D19F' }}>
-                🟢 <span style={{ color: '#E8ECFF' }}>{ad.ad_name}</span> is proving its angle — {fmtX(getRoas(ad))} ROAS. Scale the budget before frequency kills it.
+              <p key={i} className="text-sm" style={{ color: '#21D19F' }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full mr-2" style={{ background: '#21D19F' }} />
+                <span style={{ color: '#F4F5F8', fontWeight: 600 }}>{ad.ad_name}</span> is proving its angle — {fmtX(getRoas(ad))} ROAS. Scale the budget before frequency kills it.
               </p>
             ))}
             {toKill.map((ad, i) => (
-              <p key={i} className="text-sm font-bold" style={{ color: '#EF4444' }}>
-                🔴 <span style={{ color: '#E8ECFF' }}>{ad.ad_name}</span> has spent {fmtCurrency(parseFloat(ad.spend || 0))} with no return. The angle isn't landing — pull it.
+              <p key={i} className="text-sm" style={{ color: '#F59E0B' }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full mr-2" style={{ background: '#F59E0B' }} />
+                <span style={{ color: '#F4F5F8', fontWeight: 600 }}>{ad.ad_name}</span> has spent {fmtCurrency(parseFloat(ad.spend || 0))} with no return. The angle isn't landing — pull it.
               </p>
             ))}
           </div>
         </div>
       )}
 
-      {/* What's Working */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div
-          className="rounded-2xl p-5"
-          style={{ background: 'rgba(20,23,40,0.8)', border: '1px solid rgba(168,174,210,0.08)', backdropFilter: 'blur(12px)' }}
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: '#484D6D' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="card p-5">
+          <p className="text-xs font-medium mb-4" style={{ color: '#5C606C' }}>
             Top CTR — Angles Stopping the Scroll
           </p>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {topByCtr.length > 0 ? topByCtr.map((ad, i) => (
               <div key={i} className="flex items-center justify-between">
-                <p className="text-sm font-medium truncate max-w-[200px]" style={{ color: '#D8DDEF' }}>{ad.ad_name}</p>
-                <span className="text-sm font-bold" style={{ color: '#45B69C' }}>{fmtPct(parseFloat(ad.ctr || 0))}</span>
+                <p className="text-sm font-medium truncate max-w-[200px]" style={{ color: '#F4F5F8' }}>{ad.ad_name}</p>
+                <span className="text-sm font-semibold tnum" style={{ color: '#21D19F' }}>{fmtPct(parseFloat(ad.ctr || 0))}</span>
               </div>
             )) : (
-              <p className="text-sm" style={{ color: '#484D6D' }}>No data yet</p>
+              <p className="text-sm" style={{ color: '#5C606C' }}>No data yet</p>
             )}
           </div>
         </div>
 
-        <div
-          className="rounded-2xl p-5"
-          style={{ background: 'rgba(20,23,40,0.8)', border: '1px solid rgba(168,174,210,0.08)', backdropFilter: 'blur(12px)' }}
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: '#484D6D' }}>
+        <div className="card p-5">
+          <p className="text-xs font-medium mb-4" style={{ color: '#5C606C' }}>
             Top ROAS — Angles That Convert
           </p>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {topByRoas.length > 0 ? topByRoas.map((ad, i) => (
               <div key={i} className="flex items-center justify-between">
-                <p className="text-sm font-medium truncate max-w-[200px]" style={{ color: '#D8DDEF' }}>{ad.ad_name}</p>
-                <span className="text-sm font-bold" style={{ color: '#21D19F' }}>{fmtX(getRoas(ad))}</span>
+                <p className="text-sm font-medium truncate max-w-[200px]" style={{ color: '#F4F5F8' }}>{ad.ad_name}</p>
+                <span className="text-sm font-semibold tnum" style={{ color: '#21D19F' }}>{fmtX(getRoas(ad))}</span>
               </div>
             )) : (
-              <p className="text-sm" style={{ color: '#484D6D' }}>No conversion data yet</p>
+              <p className="text-sm" style={{ color: '#5C606C' }}>No conversion data yet</p>
             )}
           </div>
         </div>
       </div>
 
-      {/* New Angles */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-bold" style={{ color: '#D8DDEF' }}>Recommended New Angles</h3>
-          <p className="text-xs" style={{ color: '#484D6D' }}>Based on your data + competitor gaps</p>
+          <h3 className="font-semibold text-base" style={{ color: '#F4F5F8' }}>Recommended New Angles</h3>
+          <p className="text-xs" style={{ color: '#5C606C' }}>Based on your data + competitor gaps</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {angles.map((angle, i) => {
             const ps = PRIORITY_STYLE[angle.priority] || PRIORITY_STYLE.LOW
             return (
-              <div
-                key={i}
-                className="rounded-2xl overflow-hidden"
-                style={{ background: 'rgba(20,23,40,0.8)', border: '1px solid rgba(168,174,210,0.08)', backdropFilter: 'blur(12px)' }}
-              >
-                {/* Angle header */}
+              <div key={i} className="card overflow-hidden">
                 <div
-                  className="px-6 py-4 flex items-center gap-3"
-                  style={{ borderBottom: '1px solid rgba(168,174,210,0.07)' }}
+                  className="px-5 sm:px-6 py-4 flex items-center gap-3"
+                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
                 >
                   <span
-                    className="text-xs font-bold px-2.5 py-1 rounded-full"
+                    className="text-[10px] font-medium px-2 py-0.5 rounded"
                     style={{ background: ps.bg, color: ps.color, border: `1px solid ${ps.border}` }}
                   >
                     {angle.priority}
                   </span>
-                  <h4 className="font-bold" style={{ color: '#D8DDEF' }}>{angle.angle}</h4>
+                  <h4 className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>{angle.angle}</h4>
                 </div>
 
-                <div
-                  className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
-                  style={{ borderColor: 'rgba(168,174,210,0.07)' }}
-                >
-                  {/* Left: rationale */}
-                  <div className="px-6 py-5 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="px-5 sm:px-6 py-5 space-y-4" style={{ borderRight: '1px solid rgba(255,255,255,0.04)' }}>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#484D6D' }}>Why This Angle</p>
-                      <p className="text-sm" style={{ color: '#A0A4B8' }}>{angle.rationale}</p>
+                      <p className="text-xs font-medium mb-1.5" style={{ color: '#5C606C' }}>Why This Angle</p>
+                      <p className="text-sm" style={{ color: '#8A8F98' }}>{angle.rationale}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#484D6D' }}>Why Now</p>
-                      <p className="text-sm font-medium" style={{ color: '#45B69C' }}>{angle.whyNow}</p>
+                      <p className="text-xs font-medium mb-1.5" style={{ color: '#5C606C' }}>Why Now</p>
+                      <p className="text-sm font-medium" style={{ color: '#5E6AD2' }}>{angle.whyNow}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#484D6D' }}>Competitor Gap</p>
+                      <p className="text-xs font-medium mb-1.5" style={{ color: '#5C606C' }}>Competitor Gap</p>
                       <p className="text-sm font-medium" style={{ color: '#21D19F' }}>{angle.competitorGap}</p>
                     </div>
                   </div>
 
-                  {/* Right: hooks + format */}
-                  <div className="px-6 py-5 space-y-4">
+                  <div className="px-5 sm:px-6 py-5 space-y-4">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#484D6D' }}>Hook Variations</p>
+                      <p className="text-xs font-medium mb-2" style={{ color: '#5C606C' }}>Hook Variations</p>
                       <div className="space-y-2">
                         {angle.hooks.map((h: string, j: number) => (
                           <div
                             key={j}
-                            className="rounded-xl px-4 py-2.5 text-sm italic"
-                            style={{ background: 'rgba(72,77,109,0.2)', color: '#D8DDEF', border: '1px solid rgba(168,174,210,0.06)' }}
+                            className="rounded-md px-3 py-2 text-sm italic"
+                            style={{ background: '#1A1B20', color: '#F4F5F8', border: '1px solid rgba(255,255,255,0.06)' }}
                           >
                             "{h}"
                           </div>
@@ -284,8 +267,8 @@ export function AnglesTab({ clientId, ads }: { clientId: string; ads: any[] }) {
                       </div>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#484D6D' }}>Best Format</p>
-                      <p className="text-sm" style={{ color: '#A0A4B8' }}>{angle.format}</p>
+                      <p className="text-xs font-medium mb-1.5" style={{ color: '#5C606C' }}>Best Format</p>
+                      <p className="text-sm" style={{ color: '#8A8F98' }}>{angle.format}</p>
                     </div>
                   </div>
                 </div>
