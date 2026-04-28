@@ -60,7 +60,7 @@ const changeArrow = (d: Direction) => (d === 'up' ? '↑' : d === 'down' ? '↓'
 
 export default function DemoDashboardPage() {
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14 space-y-12">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-16 space-y-12">
       <div>
         <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Last 30 days</p>
         <Greeting />

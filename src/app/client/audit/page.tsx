@@ -12,7 +12,7 @@ export default async function ClientAuditPage() {
   if (!client) redirect('/')
 
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-16">
       <div className="mb-10">
         <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Website Health</p>
         <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-2" style={{ color: '#F4F5F8' }}>Site Audit</h1>

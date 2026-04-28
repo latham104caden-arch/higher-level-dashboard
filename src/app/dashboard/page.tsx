@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   if (session.role === 'client') redirect('/client')
 
   return (
-    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       <div className="mb-12">
         <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Agency View</p>
         <h1 className="font-serif italic text-4xl sm:text-5xl tracking-tight mb-3" style={{ color: '#F4F5F8' }}>

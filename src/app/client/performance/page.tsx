@@ -16,7 +16,7 @@ export default async function ClientPerformancePage() {
   try { campaigns = await getCampaignInsights(client.accountId, 'last_30d') } catch {}
 
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14 space-y-8">
+    <main className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-16 space-y-8">
       <div>
         <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Last 30 days</p>
         <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-2" style={{ color: '#F4F5F8' }}>Campaign Performance</h1>

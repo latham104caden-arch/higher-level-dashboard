@@ -45,7 +45,7 @@ export default async function CreatorDashboardPage() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8 sm:py-14">
+      <main className="max-w-5xl mx-auto px-6 py-10 sm:py-16">
         <div className="mb-10">
           <p className="text-xs font-medium mb-3" style={{ color: '#5C606C' }}>Creator Portal</p>
           <h1 className="font-serif italic text-3xl sm:text-4xl tracking-tight mb-2" style={{ color: '#F4F5F8' }}>
