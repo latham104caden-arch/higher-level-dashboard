@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { promises as fs } from 'fs'
 import path from 'path'
-import { AdminNav } from '../AdminNav'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,10 +22,7 @@ export default async function OnboardingSubmissionsPage() {
   const submissions = await getSubmissions()
 
   return (
-    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
-      <AdminNav />
-
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-3xl font-semibold mb-2" style={{ color: '#F4F5F8' }}>Onboarding Submissions</h1>
@@ -53,8 +49,7 @@ export default async function OnboardingSubmissionsPage() {
               ))}
             </div>
           )}
-        </main>
-    </div>
+    </main>
   )
 }
 

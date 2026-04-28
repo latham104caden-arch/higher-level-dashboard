@@ -306,7 +306,7 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
+    <>
         <header
           className="px-6 py-4 sticky top-0 z-20"
           style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
@@ -403,6 +403,6 @@ export function UpcomingReport({ client }: { client: UpcomingClient }) {
             <CopyTab data={research.copy} policyNote={research.policyNote} />
           )}
         </main>
-    </div>
+    </>
   )
 }

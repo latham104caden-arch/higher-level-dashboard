@@ -113,7 +113,7 @@ export function ClientReport({ client }: { client: Client }) {
       ]
 
   return (
-    <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
+    <>
       <header
         className="px-4 sm:px-6 py-3 sticky top-0 z-20"
         style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
@@ -355,6 +355,6 @@ export function ClientReport({ client }: { client: Client }) {
           </>
         )}
       </main>
-    </div>
+    </>
   )
 }
