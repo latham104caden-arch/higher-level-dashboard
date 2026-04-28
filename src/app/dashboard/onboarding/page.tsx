@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { promises as fs } from 'fs'
 import path from 'path'
-import Link from 'next/link'
+import { AdminNav } from '../AdminNav'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,30 +24,9 @@ export default async function OnboardingSubmissionsPage() {
 
   return (
     <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
-      <header className="px-6 py-4 sticky top-0 z-10"
-        style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
-              style={{ background: 'rgba(94,106,210,0.12)', border: '1px solid rgba(94,106,210,0.25)', color: '#5E6AD2' }}>
-              HL
-            </div>
-            <span className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Higher Level</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="text-sm font-medium" style={{ color: '#8A8F98' }}>
-              ← Dashboard
-            </Link>
-            <a href="/onboarding" target="_blank"
-              className="px-3 py-1.5 rounded-md text-sm font-medium"
-              style={{ background: '#5E6AD2', color: '#F4F5F8' }}>
-              View Form →
-            </a>
-          </div>
-        </div>
-      </header>
+      <AdminNav />
 
-        <main className="max-w-6xl mx-auto px-6 py-8">
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-3xl font-semibold mb-2" style={{ color: '#F4F5F8' }}>Onboarding Submissions</h1>

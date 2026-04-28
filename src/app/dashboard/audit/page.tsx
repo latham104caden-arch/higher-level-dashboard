@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import Link from 'next/link'
+import { AdminNav } from '../AdminNav'
 import AuditTool from './AuditTool'
 
 export default async function AuditPage() {
@@ -10,39 +10,7 @@ export default async function AuditPage() {
 
   return (
     <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
-      <header
-        className="px-6 py-4 sticky top-0 z-10"
-        style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-      >
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
-              style={{ background: 'rgba(94,106,210,0.12)', border: '1px solid rgba(94,106,210,0.25)', color: '#5E6AD2' }}
-            >
-              HL
-            </div>
-            <div>
-              <p className="font-semibold text-sm" style={{ color: '#F4F5F8' }}>Higher Level</p>
-              <p className="text-xs" style={{ color: '#5C606C' }}>Agency Dashboard</p>
-            </div>
-          </div>
-          <nav className="flex items-center gap-0">
-            <Link href="/dashboard" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#8A8F98' }}>
-              Clients
-            </Link>
-            <Link href="/dashboard/audit" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ background: 'rgba(94,106,210,0.12)', color: '#F4F5F8' }}>
-              Site Audit
-            </Link>
-            <Link href="/dashboard/library" className="px-3 py-1.5 rounded-md text-sm font-medium" style={{ color: '#8A8F98' }}>
-              Ad Library
-            </Link>
-            <Link href="/logout" className="px-3 py-1.5 rounded-md text-sm font-medium ml-2" style={{ color: '#5C606C' }}>
-              Sign out
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <AdminNav />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-14">
         <div className="mb-10">
