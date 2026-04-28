@@ -115,35 +115,30 @@ export function ClientReport({ client }: { client: Client }) {
   return (
     <div className="min-h-screen" style={{ background: '#0B0C0F' }}>
       <header
-        className="px-6 py-4 sticky top-0 z-20"
+        className="px-4 sm:px-6 py-3 sticky top-0 z-20"
         style={{ background: '#0B0C0F', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
       >
-        <div className="max-w-7xl mx-auto px-2 flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-xs transition-colors" style={{ color: '#8A8F98' }}>
-              ← Back
-            </Link>
-            <div className="w-px h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
-            <div
-              className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs"
-              style={{
-                background: '#1A1B20',
-                border: '1px solid rgba(255,255,255,0.08)',
-                color: '#F4F5F8',
-              }}
-            >
-              {client.name.charAt(0)}
+        <div className="max-w-7xl mx-auto space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <Link href="/dashboard" className="text-xs flex-shrink-0" style={{ color: '#8A8F98' }}>
+                ← Back
+              </Link>
+              <div className="w-px h-4 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }} />
+              <div
+                className="w-8 h-8 rounded-md flex items-center justify-center font-semibold text-xs flex-shrink-0"
+                style={{ background: '#1A1B20', border: '1px solid rgba(255,255,255,0.08)', color: '#F4F5F8' }}
+              >
+                {client.name.charAt(0)}
+              </div>
+              <div className="min-w-0">
+                <p className="font-semibold text-sm tracking-tight truncate" style={{ color: '#F4F5F8' }}>{client.name}</p>
+                <p className="text-xs font-mono tnum truncate" style={{ color: '#5C606C' }}>{client.accountId}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-semibold text-sm tracking-tight" style={{ color: '#F4F5F8' }}>{client.name}</p>
-              <p className="text-xs font-mono tnum" style={{ color: '#5C606C' }}>{client.accountId}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {lastUpdated && (
-                <span className="text-xs" style={{ color: '#5C606C' }}>
+                <span className="text-xs hidden sm:inline" style={{ color: '#5C606C' }}>
                   {refreshing ? 'Refreshing…' : `Updated ${lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
                 </span>
               )}
@@ -163,13 +158,15 @@ export function ClientReport({ client }: { client: Client }) {
                 </svg>
               </button>
             </div>
+          </div>
 
-            <div className="flex gap-0">
+          <div className="flex items-center gap-3 overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6" style={{ scrollbarWidth: 'none' }}>
+            <div className="flex gap-0 flex-shrink-0">
               {TABS.map(t => (
                 <button
                   key={t.value}
                   onClick={() => setActiveTab(t.value)}
-                  className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
+                  className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap"
                   style={activeTab === t.value
                     ? { background: 'rgba(94,106,210,0.12)', color: '#F4F5F8' }
                     : { color: '#8A8F98' }
@@ -181,12 +178,12 @@ export function ClientReport({ client }: { client: Client }) {
             </div>
 
             {(activeTab === 'overview' || activeTab === 'decisions') && (
-              <div className="flex gap-0 p-0.5 rounded-md" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="flex gap-0 p-0.5 rounded-md flex-shrink-0" style={{ background: '#15161A', border: '1px solid rgba(255,255,255,0.08)' }}>
                 {PRESETS.map(p => (
                   <button
                     key={p.value}
                     onClick={() => setDatePreset(p.value)}
-                    className="px-2.5 py-1 rounded text-xs font-medium transition-colors tnum"
+                    className="px-2.5 py-1 rounded text-xs font-medium transition-colors tnum whitespace-nowrap"
                     style={datePreset === p.value
                       ? { background: '#1A1B20', color: '#F4F5F8' }
                       : { color: '#8A8F98' }
