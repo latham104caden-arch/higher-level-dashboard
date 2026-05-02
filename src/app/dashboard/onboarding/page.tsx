@@ -1,18 +1,41 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { supabaseAdmin } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
 async function getSubmissions() {
-  try {
-    const file = path.join(process.cwd(), 'src/data/submissions.json')
-    const data = await fs.readFile(file, 'utf-8')
-    return JSON.parse(data)
-  } catch {
+  const { data, error } = await supabaseAdmin
+    .from('onboarding_submissions')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Failed to load submissions:', error)
     return []
   }
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    submittedAt: row.created_at,
+    businessName: row.business_name,
+    legalName: row.legal_name,
+    mainService: row.main_service,
+    serviceForAds: row.service_for_ads,
+    website: row.website,
+    targetArea: row.target_area,
+    phone: row.phone,
+    hasRunAds: row.has_run_ads,
+    adPlatforms: row.ad_platforms || [],
+    hasAdAccount: row.has_ad_account,
+    adAccountId: row.ad_account_id,
+    avgJobPrice: row.avg_job_price,
+    jobsPerWeek: row.jobs_per_week,
+    monthlyBudget: row.monthly_budget,
+    hearAboutUs: row.hear_about_us,
+    videoWatched1: row.video_watched_1,
+    videoWatched2: row.video_watched_2,
+  }))
 }
 
 export default async function OnboardingSubmissionsPage() {
