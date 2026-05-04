@@ -39,6 +39,19 @@ export const CREATORS: Record<string, Creator> = {
     niche: 'Health & Wellness',
     joinedDate: '2025-01-01',
   },
+  kk: {
+    id: 'kk',
+    name: 'KK',
+    handle: '@kk_ugc',
+    password: process.env.KK_PASSWORD || 'KKCreator2026',
+    clientId: 'hydra',
+    accountId: 'act_1185800722983394',
+    nameTag: '[KK]',
+    ratePerVideo: 150,
+    bonusPerPurchase: 3,
+    niche: 'Health & Wellness',
+    joinedDate: '2026-05-04',
+  },
 }
 
 export type CreatorId = keyof typeof CREATORS
