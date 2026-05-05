@@ -21,6 +21,17 @@ export const CLIENTS = {
     website: 'shinebrightokc.com',
     password: process.env.SHINEBRIGHT_PASSWORD || 'ShineBright2026',
   },
+  randlebrothers: {
+    id: 'randlebrothers',
+    name: 'Randle Brothers',
+    accountId: '',
+    type: 'local',
+    color: '#FF6B47',
+    metric: 'CPL',
+    conversionType: 'lead',
+    website: '',
+    password: process.env.RANDLEBROTHERS_PASSWORD || 'RandleBrothers2026',
+  },
 }
 
 export type ClientId = keyof typeof CLIENTS
