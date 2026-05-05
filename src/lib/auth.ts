@@ -2,10 +2,18 @@ import { cookies } from 'next/headers'
 import { CLIENTS } from './clients'
 import { CREATORS } from './creators'
 
+export type AgencyUserId = 'caden' | 'hunter'
+
 export type Session = {
   role: 'agency' | 'client' | 'creator' | 'demo'
   clientId?: string
   creatorId?: string
+  userId?: AgencyUserId
+}
+
+export const AGENCY_USERS: Record<AgencyUserId, { name: string }> = {
+  caden: { name: 'Caden' },
+  hunter: { name: 'Hunter' },
 }
 
 export async function getSession(): Promise<Session | null> {
@@ -25,13 +33,14 @@ export function createSessionToken(session: Session): string {
 }
 
 export function validateLogin(password: string): Session | null {
-  const agencyPasswords = [
-    process.env.AGENCY_PASSWORD,
-    'cadenlatham',
-    'hunterlatham',
-  ].filter(Boolean) as string[]
-  if (agencyPasswords.includes(password)) {
-    return { role: 'agency' }
+  if (password === 'cadenlatham') {
+    return { role: 'agency', userId: 'caden' }
+  }
+  if (password === 'hunterlatham') {
+    return { role: 'agency', userId: 'hunter' }
+  }
+  if (process.env.AGENCY_PASSWORD && password === process.env.AGENCY_PASSWORD) {
+    return { role: 'agency', userId: 'caden' }
   }
   if (password === (process.env.DEMO_PASSWORD || 'Preview2026')) {
     return { role: 'demo' }
