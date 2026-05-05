@@ -5,8 +5,9 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const LINKS = [
-  { href: '/dashboard', label: 'Clients', match: (p: string) => p === '/dashboard' || (p.startsWith('/dashboard/') && !p.startsWith('/dashboard/audit') && !p.startsWith('/dashboard/library') && !p.startsWith('/dashboard/onboarding') && !p.startsWith('/dashboard/daily')) },
+  { href: '/dashboard', label: 'Clients', match: (p: string) => p === '/dashboard' || (p.startsWith('/dashboard/') && !p.startsWith('/dashboard/audit') && !p.startsWith('/dashboard/library') && !p.startsWith('/dashboard/onboarding') && !p.startsWith('/dashboard/daily') && !p.startsWith('/dashboard/contracts')) },
   { href: '/dashboard/daily', label: 'Daily', match: (p: string) => p.startsWith('/dashboard/daily') },
+  { href: '/dashboard/contracts', label: 'Contracts', match: (p: string) => p.startsWith('/dashboard/contracts') },
   { href: '/dashboard/audit', label: 'Site Audit', match: (p: string) => p.startsWith('/dashboard/audit') },
   { href: '/dashboard/library', label: 'Ad Library', match: (p: string) => p.startsWith('/dashboard/library') },
   { href: '/dashboard/onboarding', label: 'Onboarding', match: (p: string) => p.startsWith('/dashboard/onboarding') },
