@@ -30,7 +30,7 @@ export const CLIENTS = {
     metric: 'CPL',
     conversionType: 'lead',
     website: 'randlebrothers.com',
-    password: process.env.RANDLEBROTHERS_PASSWORD || 'RandleBrothers2026',
+    password: process.env.RANDLEBROTHERS_PASSWORD || 'RandleBros',
   },
 }
 
