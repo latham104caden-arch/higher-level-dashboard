@@ -23,13 +23,13 @@ export const CLIENTS = {
   },
   randlebrothers: {
     id: 'randlebrothers',
-    name: 'Randle Brothers',
-    accountId: '',
+    name: 'Randle Brothers Seed & Spray',
+    accountId: 'act_606173706603182',
     type: 'local',
     color: '#FF6B47',
     metric: 'CPL',
     conversionType: 'lead',
-    website: '',
+    website: 'randlebrothers.com',
     password: process.env.RANDLEBROTHERS_PASSWORD || 'RandleBrothers2026',
   },
 }
