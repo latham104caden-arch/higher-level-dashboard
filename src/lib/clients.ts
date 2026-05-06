@@ -23,7 +23,7 @@ export const CLIENTS = {
   },
   randlebrothers: {
     id: 'randlebrothers',
-    name: 'Randle Brothers Seed & Spray',
+    name: 'Randle Brothers Pressure Washing',
     accountId: 'act_1016501707405384',
     type: 'local',
     color: '#FF6B47',
