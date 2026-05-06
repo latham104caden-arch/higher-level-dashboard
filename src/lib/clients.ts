@@ -24,7 +24,7 @@ export const CLIENTS = {
   randlebrothers: {
     id: 'randlebrothers',
     name: 'Randle Brothers Seed & Spray',
-    accountId: 'act_606173706603182',
+    accountId: 'act_1016501707405384',
     type: 'local',
     color: '#FF6B47',
     metric: 'CPL',
