@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import { CLIENTS } from '@/lib/clients'
+import { getActiveClients, getInactiveClients } from '@/lib/clients'
 import { ClientCards } from './ClientCards'
 import { MiniGame } from './MiniGame'
 import { UpcomingCampaigns } from './UpcomingCampaigns'
@@ -9,6 +9,9 @@ export default async function DashboardPage() {
   const session = await getSession()
   if (!session) redirect('/')
   if (session.role === 'client') redirect('/client')
+
+  const activeClients = getActiveClients()
+  const inactiveClients = getInactiveClients()
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
@@ -22,7 +25,25 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <ClientCards clients={Object.values(CLIENTS)} />
+      <ClientCards clients={activeClients} />
+
+      {inactiveClients.length > 0 && (
+        <section className="mt-16">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium mb-2" style={{ color: '#5C606C' }}>Archive</p>
+              <h2 className="font-serif italic text-2xl sm:text-3xl tracking-tight mb-1" style={{ color: '#B8BBC2' }}>
+                Past Clients
+              </h2>
+              <p className="text-sm" style={{ color: '#8A8F98' }}>
+                {inactiveClients.length} inactive {inactiveClients.length === 1 ? 'account' : 'accounts'} · historical data only
+              </p>
+            </div>
+          </div>
+          <ClientCards clients={inactiveClients} />
+        </section>
+      )}
+
       <UpcomingCampaigns />
       <MiniGame />
     </main>
